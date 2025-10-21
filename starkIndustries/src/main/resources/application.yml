@@ -1,0 +1,108 @@
+spring:
+  application:
+    name: stark-industries-security-system
+
+  # Configuración para permitir referencias circulares
+  main:
+    allow-circular-references: true
+
+  # Configuración de base de datos H2
+  datasource:
+    url: jdbc:h2:mem:securitydb;MODE=MYSQL
+    driver-class-name: org.h2.Driver
+    username: stark
+    password: jarvis2024
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
+        globally_quoted_identifiers: true
+
+  # Configuración de email (ejemplo con Gmail)
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${EMAIL_USERNAME:security@starkindustries.com}
+    password: ${EMAIL_PASSWORD:changeme}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  # Configuración de tareas asíncronas
+  task:
+    execution:
+      pool:
+        core-size: 10
+        max-size: 50
+        queue-capacity: 100
+      thread-name-prefix: stark-async-
+
+# Configuración de Spring Actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus,loggers,threaddump,httpexchanges
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+
+# Configuración de logging
+logging:
+  level:
+    com.starkindustries: DEBUG
+    org.springframework.security: INFO
+    org.springframework.web: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/stark-security.log
+
+# Configuración personalizada del sistema
+security:
+  jwt:
+    secret: ${JWT_SECRET:StarkIndustriesSecureSecretKeyForJWTTokenGeneration2024}
+    expiration: 86400000 # 24 horas
+
+  sensor:
+    motion:
+      threshold: 5
+      alert-delay: 2000
+    temperature:
+      min: 15.0
+      max: 30.0
+      alert-delay: 1000
+    access:
+      max-failed-attempts: 3
+      lockout-duration: 300000 # 5 minutos
+
+# Configuración del sistema de sensores
+stark:
+  sensors:
+    simulation:
+      enabled: true   # activada por defecto para ver la gráfica moverse
+    concurrent:
+      thread-pool-size: 20
+      queue-capacity: 200

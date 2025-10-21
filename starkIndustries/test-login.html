@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Login</title>
+</head>
+<body>
+    <h1>Test de Login</h1>
+    <input type="text" id="username" value="admin" placeholder="Usuario">
+    <input type="password" id="password" value="admin123" placeholder="Contraseña">
+    <button onclick="testLogin()">Login</button>
+    <div id="result"></div>
+
+    <script>
+        async function testLogin() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const resultDiv = document.getElementById('result');
+
+            resultDiv.innerHTML = '<p>Enviando petición...</p>';
+            console.log('Intentando login con:', username, password);
+
+            try {
+                const response = await fetch('http://localhost:8080/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+
+                console.log('Response status:', response.status);
+                console.log('Response headers:', response.headers);
+
+                const responseText = await response.text();
+                console.log('Response text:', responseText);
+
+                if (response.ok) {
+                    resultDiv.innerHTML = `<p style="color: green;">✓ Login exitoso!</p><pre>${responseText}</pre>`;
+                } else {
+                    resultDiv.innerHTML = `<p style="color: red;">✗ Error ${response.status}</p><pre>${responseText}</pre>`;
+                }
+            } catch (error) {
+                console.error('Error completo:', error);
+                resultDiv.innerHTML = `<p style="color: red;">✗ Error de conexión: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
+
