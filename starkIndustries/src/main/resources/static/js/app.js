@@ -1,4 +1,3 @@
-// Lógica principal de la aplicación (separada)
 (function() {
   let token = null;
   let stompClient = null;
@@ -411,23 +410,25 @@
     document.getElementById('accessEvents').textContent = t.ACCESS || 0;
     document.getElementById('criticalEvents').textContent = critical;
 
-    // Threads activos n/m (m = maxPoolSize | corePoolSize | poolSize)
-    const now = Date.now();
-    const activeNow = Number(stats.activeThreads || 0);
-    const tp = stats.threadPool || {};
-    const maxSize = Number(tp.maxPoolSize || 0);
-    const coreSize = Number(tp.corePoolSize || 0);
-    const poolSize = Number(tp.poolSize || 0);
-    const capacity = maxSize > 0 ? maxSize : (coreSize > 0 ? coreSize : poolSize);
+    const activeThreadsEl = document.getElementById('activeThreads');
+    if (activeThreadsEl) {
+      const now = Date.now();
+      const activeNow = Number(stats.activeThreads || 0);
+      const tp = stats.threadPool || {};
+      const maxSize = Number(tp.maxPoolSize || 0);
+      const coreSize = Number(tp.corePoolSize || 0);
+      const poolSize = Number(tp.poolSize || 0);
+      const capacity = maxSize > 0 ? maxSize : (coreSize > 0 ? coreSize : poolSize);
 
-    if (!isNaN(activeNow) && activeNow > 0) {
-      lastActiveThreads = activeNow;
-      lastActiveTs = now;
+      if (!isNaN(activeNow) && activeNow > 0) {
+        lastActiveThreads = activeNow;
+        lastActiveTs = now;
+      }
+      const withinWindow = (now - lastActiveTs) < 5000;
+      const displayActive = activeNow > 0 ? activeNow : (withinWindow ? lastActiveThreads : 0);
+
+      activeThreadsEl.textContent = `${displayActive}/${capacity || 0}`;
     }
-    const withinWindow = (now - lastActiveTs) < 5000;
-    const displayActive = activeNow > 0 ? activeNow : (withinWindow ? lastActiveThreads : 0);
-
-    document.getElementById('activeThreads').textContent = `${displayActive}/${capacity || 0}`;
   }
 
   // Expone logout para el botón del header
