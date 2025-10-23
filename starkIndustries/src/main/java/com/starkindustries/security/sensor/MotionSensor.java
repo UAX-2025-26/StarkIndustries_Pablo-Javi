@@ -21,11 +21,23 @@ public class MotionSensor implements Sensor {
     @Value("${security.sensor.motion.threshold:5}")
     private int threshold;
 
+    @Value("${security.sensor.motion.threshold.high:9}")
+    private int highThreshold;
+
     private final Random random = new Random();
     private final String[] locations = {
         "Entrada Principal", "Laboratorio", "Bóveda",
         "Sala de Servidores", "Oficina Ejecutiva", "Pasillo Norte"
     };
+
+    // Estado de simulación: tasa de detecciones por minuto
+    private double currentRate = 1.8; // baseline un poco más alto
+    private boolean spikeActive = false;
+    private double spikeTarget = 0;
+    private double spikeStep = 0;
+
+    // Histeresis para alertas: contar excedencias consecutivas
+    private int consecutiveHigh = 0;
 
     @Override
     public SensorEvent processEvent(SensorEvent event) {
@@ -33,7 +45,6 @@ public class MotionSensor implements Sensor {
 
         log.debug("Procesando evento de movimiento en: {}", event.getLocation());
 
-        // Simular procesamiento (análisis de patrones, correlación, etc.)
         try {
             Thread.sleep(random.nextInt(100) + 50);
         } catch (InterruptedException e) {
@@ -53,7 +64,14 @@ public class MotionSensor implements Sensor {
 
     @Override
     public boolean requiresAlert(Double value) {
-        return value >= threshold;
+        // Incrementar contador si supera el umbral estándar
+        if (value >= threshold) {
+            consecutiveHigh++;
+        } else if (consecutiveHigh > 0) {
+            consecutiveHigh--;
+        }
+        // Alertar si supera el umbral alto o si sostiene sobre el umbral estándar por 3 ticks
+        return value >= highThreshold || consecutiveHigh >= 3;
     }
 
     @Override
@@ -63,11 +81,47 @@ public class MotionSensor implements Sensor {
 
     @Override
     public SensorEvent simulateEvent() {
+        // Iniciar pico un poco más a menudo
+        if (!spikeActive && random.nextDouble() < 0.02) { // 2% de prob.
+            spikeActive = true;
+            // pico objetivo más alto
+            spikeTarget = 8 + random.nextDouble() * 6; // 8..14
+            // paso gradual más rápido
+            spikeStep = 0.8 + random.nextDouble() * 0.6; // 0.8..1.4 por tick
+        }
+
+        if (spikeActive) {
+            double next = currentRate + spikeStep;
+            if (next >= spikeTarget) {
+                currentRate = spikeTarget;
+                // chance de finalizar pico y empezar a decaer
+                if (random.nextDouble() < 0.25) {
+                    spikeActive = false;
+                }
+            } else {
+                currentRate = next;
+            }
+        } else {
+            // random walk suave hacia valores algo más altos (objetivo ~2.0)
+            double drift = (2.0 - currentRate) * 0.12; // tendencia a ~2.0
+            double noise = (random.nextGaussian()) * 0.20; // ruido moderado
+            currentRate += drift + noise;
+        }
+
+        // Decaimiento suave si venimos de pico y no está activo
+        if (!spikeActive && currentRate > 2.0) {
+            currentRate -= 0.2 + random.nextDouble() * 0.2; // decae menos para mantener valores algo altos
+        }
+
+        // Clamp y discretización ligera
+        currentRate = Math.max(0, Math.min(14, currentRate));
+        double value = Math.round(currentRate); // entero natural
+
         return SensorEvent.builder()
                 .sensorType(SensorType.MOTION)
                 .sensorId("MOTION-" + UUID.randomUUID().toString().substring(0, 8))
                 .location(locations[random.nextInt(locations.length)])
-                .value((double) random.nextInt(15))
+                .value(value)
                 .unit("detecciones/min")
                 .description("Movimiento detectado por sensor infrarrojo")
                 .timestamp(LocalDateTime.now())
@@ -75,4 +129,3 @@ public class MotionSensor implements Sensor {
                 .build();
     }
 }
-

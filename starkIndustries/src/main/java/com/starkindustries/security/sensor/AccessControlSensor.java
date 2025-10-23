@@ -27,6 +27,10 @@ public class AccessControlSensor implements Sensor {
         "Reactor Arc - Acceso Restringido", "Sala de Control Central", "Armería"
     };
 
+    // Estado de simulación para ráfagas de ataques
+    private boolean attackBurstActive = false;
+    private int burstTicksRemaining = 0;
+
     @Override
     public SensorEvent processEvent(SensorEvent event) {
         long startTime = System.currentTimeMillis();
@@ -70,12 +74,32 @@ public class AccessControlSensor implements Sensor {
 
     @Override
     public SensorEvent simulateEvent() {
-        // 80% accesos exitosos, 20% fallidos
-        int failedAttempts = random.nextDouble() < 0.8 ? 0 : random.nextInt(5);
+        // Activar ráfaga rara vez (p ~ 0.5%) si no está activa
+        if (!attackBurstActive && random.nextDouble() < 0.005) {
+            attackBurstActive = true;
+            burstTicksRemaining = 2 + random.nextInt(4); // dura 2..5 ticks
+        }
+
+        int failedAttempts;
+        if (attackBurstActive) {
+            // Durante la ráfaga: 2..6 intentos fallidos, decreciendo suavemente
+            failedAttempts = 2 + random.nextInt(5); // 2..6
+            burstTicksRemaining--;
+            if (burstTicksRemaining <= 0 || random.nextDouble() < 0.2) {
+                attackBurstActive = false; // terminar ráfaga
+            }
+        } else {
+            // Fuera de ráfaga: 95% éxito, 5% fallos leves (1..2)
+            if (random.nextDouble() < 0.95) {
+                failedAttempts = 0;
+            } else {
+                failedAttempts = 1 + random.nextInt(2); // 1..2
+            }
+        }
 
         String description = failedAttempts == 0
             ? "Acceso autorizado - Credenciales válidas"
-            : "Acceso denegado - Credenciales inválidas (Intento " + failedAttempts + ")";
+            : "Acceso denegado - Credenciales inválidas (Intentos: " + failedAttempts + ")";
 
         return SensorEvent.builder()
                 .sensorType(SensorType.ACCESS)

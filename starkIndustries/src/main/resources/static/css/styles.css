@@ -75,18 +75,30 @@ body {
 .card h3 { margin: 0 0 12px; font-size: 16px; }
 .span-2 { grid-column: span 2; }
 
+/* Tarjetas más compactas para métricas */
+.card.compact { padding: 12px 12px 8px; }
+.card.compact h3 { margin: 0 0 8px; }
+.card.compact .metric { padding: 6px 0; }
+.card.compact .metric:last-child { padding-bottom: 0; }
+
 .metric { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); }
 .metric:last-child { border-bottom: none; }
 .metric-value { font-weight: 700; }
 
-.alerts-container { max-height: 360px; overflow: auto; display: grid; gap: 8px; }
-.alert-item { border: 1px solid var(--border); padding: 12px; border-radius: 6px; background: #fafafa; }
+/* Alertas más compactas */
+.alerts-container { max-height: 360px; overflow: auto; display: grid; gap: 4px; }
+.alert-item { border: 1px solid var(--border); padding: 8px; border-radius: 6px; background: #fafafa; margin: 0; }
 .alert-item.critical { border-color: #222; background: #f5f5f5; }
 .alert-item.high { border-color: #444; background: #f7f7f7; }
 .alert-item.medium { border-color: #666; background: #f9f9f9; }
 .muted { color: var(--muted); }
 
-.chart-frame { position: relative; height: 280px; }
+/* Ajuste de gráficos al contenedor y sin hueco inferior + pequeño margen inferior */
+.chart-frame { position: relative; height: 220px; margin-bottom: 12px; }
+.chart-frame canvas { display: block; width: 100% !important; height: 100% !important; }
+
+/* Pie de página */
+.footer { border-top: 1px solid var(--border); color: var(--muted); padding: 16px 0; margin-top: 16px; }
+.footer .footer-inner { max-width: 1200px; margin: 0 auto; padding: 0 16px; text-align: center; }
 
 .hidden { display: none; }
-

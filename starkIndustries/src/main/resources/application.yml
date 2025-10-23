@@ -61,9 +61,6 @@ management:
     health:
       show-details: always
   metrics:
-    export:
-      prometheus:
-        enabled: true
     distribution:
       percentiles-histogram:
         http.server.requests: true
@@ -89,6 +86,7 @@ security:
   sensor:
     motion:
       threshold: 5
+      threshold.high: 9
       alert-delay: 2000
     temperature:
       min: 15.0
@@ -98,11 +96,20 @@ security:
       max-failed-attempts: 3
       lockout-duration: 300000 # 5 minutos
 
+  alerts:
+    cooldown-ms: 180000 # 3 minutos de enfriamiento por tipo+ubicación
+
 # Configuración del sistema de sensores
 stark:
   sensors:
     simulation:
       enabled: true   # activada por defecto para ver la gráfica moverse
+      events:
+        min: 1
+        max: 3
+      high-load:
+        enabled: false
+        batch-size: 15
     concurrent:
       thread-pool-size: 20
       queue-capacity: 200

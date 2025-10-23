@@ -5,12 +5,15 @@ import com.starkindustries.security.model.SensorEvent;
 import com.starkindustries.security.repository.SecurityAlertRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Servicio para gestión de alertas de seguridad
@@ -24,11 +27,26 @@ public class AlertService {
     private final SecurityAlertRepository alertRepository;
     private final NotificationService notificationService;
 
+    // Rate limiting por clave (tipo@ubicación)
+    private final Map<String, Long> lastAlertByKey = new ConcurrentHashMap<>();
+
+    @Value("${security.alerts.cooldown-ms:120000}")
+    private long alertsCooldownMs; // por defecto 2 minutos
+
     /**
      * Crea una alerta a partir de un evento crítico de sensor
      */
     @Async("alertExecutor")
     public CompletableFuture<SecurityAlert> createAlertFromEvent(SensorEvent event) {
+        String key = event.getSensorType().name() + "@" + String.valueOf(event.getLocation());
+        long now = System.currentTimeMillis();
+        Long last = lastAlertByKey.get(key);
+        if (last != null && (now - last) < alertsCooldownMs) {
+            log.info("Rate limit: omitiendo alerta repetida para {} ({} ms restantes)", key, alertsCooldownMs - (now - last));
+            return CompletableFuture.completedFuture(null);
+        }
+        lastAlertByKey.put(key, now);
+
         log.warn("Creando alerta de seguridad para evento crítico: {} en {}",
                  event.getSensorType(), event.getLocation());
 
@@ -121,4 +139,3 @@ public class AlertService {
         );
     }
 }
-

@@ -77,14 +77,14 @@
 
 <main id="dashboardSection" class="hidden">
     <section class="grid">
-        <article class="card">
+        <article class="card compact">
             <h3>Estadísticas</h3>
             <div class="metric"><span>Eventos Procesados</span><span id="totalEvents" class="metric-value">0</span></div>
             <div class="metric"><span>Eventos Críticos</span><span id="criticalEvents" class="metric-value">0</span></div>
             <div class="metric"><span>Alertas Activas</span><span id="activeAlerts" class="metric-value">0</span></div>
         </article>
 
-        <article class="card">
+        <article class="card compact">
             <h3>Sensores por Tipo</h3>
             <div class="metric"><span>Movimiento</span><span id="motionEvents" class="metric-value">0</span></div>
             <div class="metric"><span>Temperatura</span><span id="tempEvents" class="metric-value">0</span></div>
@@ -101,27 +101,33 @@
 
     <section class="grid">
         <article class="card">
-            <h3>🌡️ Temperaturas</h3>
+            <h3>Temperaturas</h3>
             <div class="chart-frame">
                 <canvas id="temperatureChart"></canvas>
             </div>
         </article>
 
         <article class="card">
-            <h3>👤 Movimiento</h3>
+            <h3>Movimiento</h3>
             <div class="chart-frame">
                 <canvas id="motionChart"></canvas>
             </div>
         </article>
 
         <article class="card">
-            <h3>🔐 Accesos</h3>
+            <h3>Accesos</h3>
             <div class="chart-frame">
                 <canvas id="accessChart"></canvas>
             </div>
         </article>
     </section>
 </main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <span>© 2025 Stark Industries · Sistema de Seguridad</span>
+  </div>
+</footer>
 
 <script src="js/app.js"></script>
 </body>

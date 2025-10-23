@@ -122,7 +122,7 @@ function startSampling() {
         }
         if (tempVal != null) addRealtimePoint(temperatureChart, tempVal, now);
 
-        // Movimiento: suma de detecciones en ventana
+        // Movimiento: usar directamente la suma real del intervalo
         addRealtimePoint(motionChart, motionSum, now);
 
         // Accesos: suma de eventos ponderados en ventana
@@ -180,6 +180,50 @@ function addRealtimePoint(chart, value, ts = Date.now()) {
     chart.update('none');
 }
 
+function baseChartOptions(suggestedMaxY) {
+    return {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: 'nearest', intersect: false },
+        animation: false,
+        layout: { padding: { top: 4, right: 4, bottom: 2, left: 0 } },
+        scales: {
+            x: {
+                type: "realtime",
+                realtime: { delay: 2000, duration: 60000, frameRate: 30 },
+                ticks: { padding: 2 },
+                grid: { display: false }
+            },
+            y: {
+                beginAtZero: true,
+                suggestedMax: suggestedMaxY,
+                ticks: { padding: 2 },
+                grid: { color: 'rgba(0,0,0,0.06)' }
+            }
+        },
+        plugins: {
+            legend: { display: false },
+            tooltip: {
+                enabled: true,
+                mode: 'nearest',
+                intersect: false,
+                displayColors: false,
+                callbacks: {
+                    // Muestra sólo el valor con la unidad apropiada por gráfico
+                    label: function(ctx) {
+                        const id = ctx.chart && ctx.chart.canvas && ctx.chart.canvas.id;
+                        const y = ctx.parsed && typeof ctx.parsed.y === 'number' ? ctx.parsed.y : ctx.parsed;
+                        if (id === 'temperatureChart') return `${(Number(y) || 0).toFixed(1)} °C`;
+                        if (id === 'motionChart') return `${Math.round(Number(y) || 0)} detecciones/min`;
+                        if (id === 'accessChart') return `${Math.round(Number(y) || 0)} intentos`;
+                        return `${y}`;
+                    }
+                }
+            }
+        }
+    };
+}
+
 function initTemperatureChart() {
     const ctx = document.getElementById("temperatureChart").getContext("2d");
     temperatureChart = new Chart(ctx, {
@@ -190,22 +234,16 @@ function initTemperatureChart() {
                 borderColor: "#ff4d4d",
                 backgroundColor: "rgba(255,77,77,0.15)",
                 borderWidth: 2,
-                pointRadius: 3, // mostrar puntos visibles
+                pointRadius: 2,
+                pointHoverRadius: 4,
+                pointHitRadius: 8,
                 pointBackgroundColor: "#ff4d4d",
                 tension: 0.25,
                 showLine: true,
                 data: []
             }]
         },
-        options: {
-            interaction: { intersect: false },
-            animation: false,
-            scales: {
-                x: { type: "realtime", realtime: { delay: 2000, duration: 60000, frameRate: 30 } },
-                y: { beginAtZero: true, suggestedMax: 60 },
-            },
-            plugins: { legend: { labels: { color: '#fff' } } }
-        },
+        options: baseChartOptions(60),
     });
 }
 
@@ -223,15 +261,7 @@ function initMotionChart() {
                 data: []
             }]
         },
-        options: {
-            interaction: { intersect: false },
-            animation: false,
-            scales: {
-                x: { type: "realtime", realtime: { delay: 2000, duration: 60000, frameRate: 30 } },
-                y: { beginAtZero: true, suggestedMax: 20 },
-            },
-            plugins: { legend: { labels: { color: '#fff' } } }
-        },
+        options: baseChartOptions(24),
     });
 }
 
@@ -249,14 +279,6 @@ function initAccessChart() {
                 data: []
             }]
         },
-        options: {
-            interaction: { intersect: false },
-            animation: false,
-            scales: {
-                x: { type: "realtime", realtime: { delay: 2000, duration: 60000, frameRate: 30 } },
-                y: { beginAtZero: true, suggestedMax: 5 },
-            },
-            plugins: { legend: { labels: { color: '#fff' } } }
-        },
+        options: baseChartOptions(5),
     });
 }

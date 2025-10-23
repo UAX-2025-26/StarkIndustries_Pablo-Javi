@@ -31,6 +31,18 @@ public class SensorSimulationService {
     @Value("${stark.sensors.simulation.enabled:false}")
     private boolean simulationEnabled;
 
+    @Value("${stark.sensors.simulation.events.min:1}")
+    private int minEvents;
+
+    @Value("${stark.sensors.simulation.events.max:3}")
+    private int maxEvents;
+
+    @Value("${stark.sensors.simulation.high-load.enabled:false}")
+    private boolean highLoadEnabled;
+
+    @Value("${stark.sensors.simulation.high-load.batch-size:15}")
+    private int highLoadBatchSize;
+
     /**
      * Genera eventos de sensores cada 5 segundos
      */
@@ -40,8 +52,8 @@ public class SensorSimulationService {
             return;
         }
 
-        // Generar entre 3 y 8 eventos simultáneos
-        int eventCount = random.nextInt(6) + 3;
+        int span = Math.max(1, (maxEvents - minEvents + 1));
+        int eventCount = minEvents + random.nextInt(span);
         List<SensorEvent> events = new ArrayList<>();
 
         log.debug("Generando {} eventos de sensores simultáneos", eventCount);
@@ -62,14 +74,14 @@ public class SensorSimulationService {
      */
     @Scheduled(fixedRate = 30000) // Cada 30 segundos
     public void simulateHighLoad() {
-        if (!simulationEnabled) {
+        if (!simulationEnabled || !highLoadEnabled) {
             return;
         }
 
-        log.info("🔥 Simulando alta carga - Generando 50 eventos concurrentes");
+        log.info("🔥 Simulando alta carga - Generando {} eventos concurrentes", highLoadBatchSize);
 
         List<SensorEvent> events = new ArrayList<>();
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < highLoadBatchSize; i++) {
             Sensor sensor = getRandomSensor();
             events.add(sensor.simulateEvent());
         }
@@ -81,8 +93,9 @@ public class SensorSimulationService {
     public void onApplicationReady() {
         log.info("✅ Sistema de simulación de sensores iniciado (enabled={})", simulationEnabled);
         if (simulationEnabled) {
-            log.info("   - Eventos normales: cada 5 segundos");
-            log.info("   - Ráfagas de alta carga: cada 30 segundos");
+            log.info("   - Eventos normales: cada 5 segundos ({}-{} eventos por ciclo)", minEvents, maxEvents);
+            log.info("   - Ráfagas de alta carga: {} (batch: {})",
+                    highLoadEnabled ? "habilitadas" : "deshabilitadas", highLoadBatchSize);
         } else {
             log.info("   - Simulación deshabilitada por configuración");
         }
