@@ -34,8 +34,8 @@ public class StatsBroadcastService {
         this.sensorExecutor = sensorExecutor;
     }
 
-    // Publica cada 2 segundos
-    @Scheduled(fixedRate = 2000, initialDelay = 2000)
+    // Publica cada 5 segundos
+    @Scheduled(fixedRate = 5000, initialDelay = 5000)
     public void broadcastStats() {
         try {
             Map<String, Object> snapshot = new HashMap<>();

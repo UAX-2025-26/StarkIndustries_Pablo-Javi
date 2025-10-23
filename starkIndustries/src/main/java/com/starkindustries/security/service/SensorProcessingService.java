@@ -96,6 +96,9 @@ public class SensorProcessingService {
             messagingTemplate.convertAndSend("/topic/stats", snapshot);
             log.debug("Evento enviado a WebSocket: /topic/stats -> {}", snapshot);
 
+            // Publicar el evento individual para gráficos en tiempo real (temperatura, movimiento, accesos)
+            broadcastEvent(processedEvent);
+
             if (processedEvent.getCritical()) {
                 alertService.createAlertFromEvent(processedEvent);
             }
@@ -186,5 +189,31 @@ public class SensorProcessingService {
         Map<SensorType, Long> stats = new ConcurrentHashMap<>();
         criticalCounters.forEach((type, counter) -> stats.put(type, counter.get()));
         return stats;
+    }
+
+    // --- Nuevos métodos auxiliares ---
+    /**
+     * Publica el evento procesado en tópicos WebSocket específicos y genérico.
+     */
+    private void broadcastEvent(SensorEvent processedEvent) {
+        try {
+            Map<String, Object> payload = new HashMap<>();
+            payload.put("type", processedEvent.getSensorType().name());
+            payload.put("sensorId", processedEvent.getSensorId());
+            payload.put("location", processedEvent.getLocation());
+            payload.put("value", processedEvent.getValue());
+            payload.put("unit", processedEvent.getUnit());
+            payload.put("critical", processedEvent.getCritical());
+            payload.put("timestamp", processedEvent.getTimestamp());
+
+            // Tópico específico por tipo: /topic/sensors/temperature | motion | access
+            String typeTopic = "/topic/sensors/" + processedEvent.getSensorType().name().toLowerCase();
+            messagingTemplate.convertAndSend(typeTopic, payload);
+
+            // Tópico agregado para quien quiera todos los eventos
+            messagingTemplate.convertAndSend("/topic/sensors/events", payload);
+        } catch (Exception ex) {
+            log.debug("No se pudo publicar evento individual por WS: {}", ex.getMessage());
+        }
     }
 }

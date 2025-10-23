@@ -32,9 +32,9 @@ public class SensorSimulationService {
     private boolean simulationEnabled;
 
     /**
-     * Genera eventos de sensores cada 3 segundos
+     * Genera eventos de sensores cada 5 segundos
      */
-    @Scheduled(fixedRate = 3000)
+    @Scheduled(fixedRate = 5000)
     public void simulateSensorEvents() {
         if (!simulationEnabled) {
             return;
@@ -81,7 +81,7 @@ public class SensorSimulationService {
     public void onApplicationReady() {
         log.info("✅ Sistema de simulación de sensores iniciado (enabled={})", simulationEnabled);
         if (simulationEnabled) {
-            log.info("   - Eventos normales: cada 3 segundos");
+            log.info("   - Eventos normales: cada 5 segundos");
             log.info("   - Ráfagas de alta carga: cada 30 segundos");
         } else {
             log.info("   - Simulación deshabilitada por configuración");

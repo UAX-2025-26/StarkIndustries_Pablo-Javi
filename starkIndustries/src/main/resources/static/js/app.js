@@ -1,436 +1,262 @@
-(function() {
-  let token = null;
-  let stompClient = null;
-  let eventsChart = null;
-  let temperatureChart = null;
-  let motionChart = null;
-  let accessChart = null;
-  let statsTimer = null;
-  let alertsTimer = null;
-  let tempTimer = null;
-  let motionTimer = null;
-  let accessTimer = null;
+let stompClient = null;
+let temperatureChart, motionChart, accessChart;
+let prevTotals = { MOTION: 0, TEMPERATURE: 0, ACCESS: 0 };
 
-  // Para suavizar la métrica de threads activos
-  let lastActiveThreads = 0;
-  let lastActiveTs = 0;
+// Buffers para muestreo a 5s
+const SAMPLE_INTERVAL_MS = 5000;
+let sampleTimer = null;
+let tempBuffer = [];
+let lastTempValue = null;
+let motionSum = 0;
+let accessSum = 0;
 
-  document.addEventListener('DOMContentLoaded', () => {
-    const loginBtn = document.getElementById('loginBtnSubmit');
-    if (loginBtn) loginBtn.addEventListener('click', login);
-  });
+document.getElementById("loginBtnSubmit").addEventListener("click", login);
 
-  async function login() {
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    const errorBox = document.getElementById('loginError');
+function login() {
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const errorDiv = document.getElementById("loginError");
 
-    errorBox.textContent = '';
-
-    try {
-      const res = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
-      });
-
-      if (!res.ok) {
-        const txt = await res.text();
-        errorBox.textContent = res.status === 401 ? 'Credenciales inválidas' : `Error ${res.status}: ${txt}`;
-        return;
-      }
-
-      const data = await res.json();
-      token = data.token;
-      document.getElementById('loginSection').classList.add('hidden');
-      document.getElementById('dashboardSection').classList.remove('hidden');
-      document.getElementById('logoutContainer').classList.remove('hidden');
-
-      initDashboard();
-    } catch (e) {
-      errorBox.textContent = 'Error de conexión con el servidor.';
-      console.error(e);
+    if (
+        (username === "admin" && password === "admin123") ||
+        (username === "jarvis" && password === "jarvis123")
+    ) {
+        document.getElementById("loginSection").classList.add("hidden");
+        document.getElementById("dashboardSection").classList.remove("hidden");
+        document.getElementById("logoutContainer").classList.remove("hidden");
+        initDashboard();
+    } else {
+        errorDiv.textContent = "Credenciales incorrectas";
     }
-  }
+}
 
-  async function logout() {
-    try {
-      await fetch('/api/auth/logout', {
-        method: 'POST',
-        headers: token ? { 'Authorization': `Bearer ${token}` } : {}
-      });
-    } catch {}
+function logout() {
+    document.getElementById("loginSection").classList.remove("hidden");
+    document.getElementById("dashboardSection").classList.add("hidden");
+    document.getElementById("logoutContainer").classList.add("hidden");
+    if (stompClient) stompClient.deactivate();
+    // Limpiar muestreador y buffers
+    if (sampleTimer) { clearInterval(sampleTimer); sampleTimer = null; }
+    tempBuffer = []; lastTempValue = null; motionSum = 0; accessSum = 0;
+}
 
-    try { if (stompClient) stompClient.disconnect(() => {}); } catch {}
-    stompClient = null;
-
-    if (statsTimer) clearInterval(statsTimer);
-    if (alertsTimer) clearInterval(alertsTimer);
-    if (tempTimer) clearInterval(tempTimer);
-    if (motionTimer) clearInterval(motionTimer);
-    if (accessTimer) clearInterval(accessTimer);
-
-    token = null;
-    document.getElementById('dashboardSection').classList.add('hidden');
-    document.getElementById('loginSection').classList.remove('hidden');
-    document.getElementById('logoutContainer').classList.add('hidden');
-  }
-
-  function initDashboard() {
+function initDashboard() {
     initTemperatureChart();
     initMotionChart();
     initAccessChart();
     connectWebSocket();
-    loadStatistics();
-    loadActiveAlerts();
-    loadRecentTemperatures();
-    loadRecentMotion();
-    loadRecentAccess();
+}
 
-    statsTimer = setInterval(loadStatistics, 5000);
-    alertsTimer = setInterval(loadActiveAlerts, 5000);
-    tempTimer = setInterval(loadRecentTemperatures, 5000);
-    motionTimer = setInterval(loadRecentMotion, 5000);
-    accessTimer = setInterval(loadRecentAccess, 5000);
-  }
+function connectWebSocket() {
+    const socket = new SockJS("/ws");
+    const StompLib = window.StompJs || window.Stomp;
 
-  function initTemperatureChart() {
-    const ctx = document.getElementById('temperatureChart').getContext('2d');
-    temperatureChart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: [],
-        datasets: [{
-          label: 'Temperatura (°C)',
-          data: [],
-          borderColor: '#111',
-          backgroundColor: 'rgba(0,0,0,0.05)',
-          tension: 0.2,
-          pointRadius: 3,
-          pointBackgroundColor: '#111'
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: { beginAtZero: false, grid: { color: '#eee' } },
-          x: { grid: { display: false } }
+    stompClient = new StompLib.Client({
+        webSocketFactory: () => socket,
+        onConnect: () => {
+            console.log("✅ WebSocket conectado");
+
+            // Snapshot de métricas (totales y críticos)
+            stompClient.subscribe("/topic/stats", (msg) => {
+                const stats = JSON.parse(msg.body);
+                updateMetrics(stats);
+            });
+
+            // Alertas
+            stompClient.subscribe("/topic/alerts", (msg) => {
+                const alert = JSON.parse(msg.body);
+                displayAlert(alert);
+            });
+
+            // Eventos individuales por tipo: acumular para muestreo cada 5s
+            stompClient.subscribe("/topic/sensors/temperature", (msg) => {
+                try {
+                    const ev = JSON.parse(msg.body);
+                    const val = Number(ev.value);
+                    if (!Number.isNaN(val)) {
+                        tempBuffer.push(val);
+                        lastTempValue = val;
+                    }
+                } catch (_) {}
+            });
+
+            stompClient.subscribe("/topic/sensors/motion", (msg) => {
+                try {
+                    const ev = JSON.parse(msg.body);
+                    const val = Number(ev.value);
+                    if (!Number.isNaN(val)) motionSum += val;
+                } catch (_) {}
+            });
+
+            stompClient.subscribe("/topic/sensors/access", (msg) => {
+                try {
+                    const ev = JSON.parse(msg.body);
+                    // Para accesos: éxito=1 (value 0), fallos = N intentos
+                    const raw = Number(ev.value);
+                    const val = Number.isNaN(raw) ? 0 : (raw === 0 ? 1 : raw);
+                    accessSum += val;
+                } catch (_) {}
+            });
+
+            // Iniciar muestreo a 5s
+            startSampling();
         },
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            callbacks: {
-              label: (ctx) => `${ctx.parsed.y.toFixed(1)} °C`
-            }
-          }
-        }
-      }
-    });
-  }
-
-  function initMotionChart() {
-    const ctx = document.getElementById('motionChart').getContext('2d');
-    motionChart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: [],
-        datasets: [{
-          label: 'Detecciones',
-          data: [],
-          backgroundColor: '#555',
-          borderColor: '#333',
-          borderWidth: 1
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: { beginAtZero: true, grid: { color: '#eee' } },
-          x: { grid: { display: false } }
-        },
-        plugins: {
-          legend: { display: false }
-        }
-      }
-    });
-  }
-
-  function initAccessChart() {
-    const ctx = document.getElementById('accessChart').getContext('2d');
-    accessChart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: [],
-        datasets: [{
-          label: 'Intentos',
-          data: [],
-          backgroundColor: '#999',
-          borderColor: '#777',
-          borderWidth: 1
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: { beginAtZero: true, grid: { color: '#eee' } },
-          x: { grid: { display: false } }
-        },
-        plugins: {
-          legend: { display: false }
-        }
-      }
-    });
-  }
-
-  function connectWebSocket() {
-    const socket = new SockJS('/ws');
-    // @stomp/stompjs v5 usa una API diferente
-    const StompJs = window.StompJs || window;
-    stompClient = new StompJs.Client({
-      webSocketFactory: () => socket,
-      onConnect: (frame) => {
-        console.log('✅ WebSocket conectado');
-
-        stompClient.subscribe('/topic/stats', (msg) => {
-          try {
-            const snapshot = JSON.parse(msg.body);
-            console.log('📊 Stats recibidas:', snapshot);
-            const normalized = normalizeStats(snapshot);
-            updateMetrics(normalized);
-          } catch (e) { console.error('WS stats parse error', e); }
-        });
-
-        stompClient.subscribe('/topic/alerts', (msg) => {
-          try {
-            const alert = JSON.parse(msg.body);
-            console.log('🚨 Alerta recibida:', alert);
-            displayAlert(alert);
-          } catch (e) { console.error('WS alert parse error', e); }
-        });
-
-        try {
-          stompClient.publish({
-            destination: '/app/stats/request',
-            body: 'init'
-          });
-        } catch (e) {
-          console.error('Error solicitando stats:', e);
-        }
-      },
-      onStompError: (frame) => {
-        console.error('❌ STOMP error:', frame);
-      },
-      onWebSocketError: (err) => {
-        console.error('❌ WebSocket error:', err);
-      }
+        onStompError: (frame) => console.error("❌ STOMP error:", frame),
+        onWebSocketError: (err) => console.error("❌ WebSocket error:", err),
     });
 
     stompClient.activate();
-  }
+}
 
-  async function loadStatistics() {
-    try {
-      const res = await fetch('/api/sensors/statistics', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      if (!res.ok) {
-        console.warn('Stats HTTP error:', res.status);
-        return;
-      }
-      const stats = await res.json();
-      console.log('📊 Stats HTTP:', stats);
-      const normalized = normalizeStats(stats);
-      updateMetrics(normalized);
-    } catch (e) {
-      console.error('Error cargando stats:', e);
-    }
-  }
+function startSampling() {
+    if (sampleTimer) { clearInterval(sampleTimer); }
+    sampleTimer = setInterval(() => {
+        const now = Date.now();
+        // Temperatura: media del intervalo, si no hubo lecturas usar última conocida
+        let tempVal;
+        if (tempBuffer.length > 0) {
+            const sum = tempBuffer.reduce((a, b) => a + b, 0);
+            tempVal = sum / tempBuffer.length;
+        } else if (lastTempValue != null) {
+            tempVal = lastTempValue;
+        }
+        if (tempVal != null) addRealtimePoint(temperatureChart, tempVal, now);
 
-  async function loadActiveAlerts() {
-    try {
-      const res = await fetch('/api/alerts/active', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      if (!res.ok) return;
-      const alerts = await res.json();
-      const container = document.getElementById('alertsContainer');
-      container.innerHTML = '';
-      if (!alerts || alerts.length === 0) {
-        container.innerHTML = '<p class="muted">Esperando eventos...</p>';
-        document.getElementById('activeAlerts').textContent = 0;
-        return;
-      }
-      document.getElementById('activeAlerts').textContent = alerts.length;
-      alerts.slice(0, 10).forEach(displayAlert);
-    } catch (e) { console.error(e); }
-  }
+        // Movimiento: suma de detecciones en ventana
+        addRealtimePoint(motionChart, motionSum, now);
 
-  function displayAlert(alert) {
-    const container = document.getElementById('alertsContainer');
-    const level = (alert.level || '').toString().toLowerCase();
-    const title = alert.title || 'Alerta de Seguridad';
-    const location = alert.location || '-';
-    const ts = alert.timestamp || alert.createdAt || new Date().toISOString();
-    const message = alert.message || alert.description || '';
+        // Accesos: suma de eventos ponderados en ventana
+        addRealtimePoint(accessChart, accessSum, now);
 
-    const el = document.createElement('div');
-    el.className = `alert-item ${level}`;
-    el.innerHTML = `<strong>${title}</strong><br><small>${location} - ${new Date(ts).toLocaleString()}</small><br>${message}`;
-    container.insertBefore(el, container.firstChild);
+        // Reset buffers
+        tempBuffer = [];
+        motionSum = 0;
+        accessSum = 0;
+    }, SAMPLE_INTERVAL_MS);
+}
 
-    while (container.children.length > 10) container.removeChild(container.lastChild);
-  }
+function updateMetrics(stats) {
+    // stats viene como { totalEvents: {MOTION: n, TEMPERATURE: n, ACCESS: n}, criticalEvents: {...}, ... }
+    const totalMap = (stats && stats.totalEvents) || {};
+    const criticalMap = (stats && stats.criticalEvents) || {};
 
-  async function loadRecentTemperatures() {
-    try {
-      const url = '/api/sensors/temperatures/recent?minutes=120&limit=50&criticalOnly=false';
-      const res = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
-      if (!res.ok) return;
-      const data = await res.json();
-      updateTemperatureChart(data);
-    } catch (e) { console.error(e); }
-  }
+    const sumValues = (obj) => Object.values(obj || {}).reduce((a, b) => a + (Number(b) || 0), 0);
 
-  async function loadRecentMotion() {
-    try {
-      const url = '/api/sensors/motion/recent?minutes=120&limit=50';
-      const res = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
-      if (!res.ok) return;
-      const data = await res.json();
-      updateMotionChart(data);
-    } catch (e) { console.error(e); }
-  }
+    // Totales globales
+    document.getElementById("totalEvents").textContent = sumValues(totalMap);
+    document.getElementById("criticalEvents").textContent = sumValues(criticalMap);
 
-  async function loadRecentAccess() {
-    try {
-      const url = '/api/sensors/access/recent?minutes=120&limit=50';
-      const res = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
-      if (!res.ok) return;
-      const data = await res.json();
-      updateAccessChart(data);
-    } catch (e) { console.error(e); }
-  }
+    // Por tipo (acumulados)
+    const motionTotal = totalMap.MOTION ?? 0;
+    const tempTotal = totalMap.TEMPERATURE ?? 0;
+    const accessTotal = totalMap.ACCESS ?? 0;
 
-  function updateTemperatureChart(series) {
-    if (!temperatureChart || !series || series.length === 0) return;
-    const labels = series.map(p => new Date(p.timestamp).toLocaleTimeString());
-    const values = series.map(p => Number(p.value || 0));
+    document.getElementById("motionEvents").textContent = motionTotal;
+    document.getElementById("tempEvents").textContent = tempTotal;
+    document.getElementById("accessEvents").textContent = accessTotal;
 
-    temperatureChart.data.labels = labels;
-    temperatureChart.data.datasets[0].data = values;
-    const unit = (series && series[0] && series[0].unit) ? series[0].unit : '°C';
-    temperatureChart.data.datasets[0].label = `Temperatura (${unit})`;
-    temperatureChart.update();
-  }
+    prevTotals = { MOTION: motionTotal, TEMPERATURE: tempTotal, ACCESS: accessTotal };
+}
 
-  function updateMotionChart(series) {
-    if (!motionChart || !series || series.length === 0) return;
-    const labels = series.map(p => new Date(p.timestamp).toLocaleTimeString());
-    const values = series.map(p => Number(p.value || 0));
+function displayAlert(alert) {
+    const container = document.getElementById("alertsContainer");
+    const p = document.createElement("p");
 
-    motionChart.data.labels = labels;
-    motionChart.data.datasets[0].data = values;
-    motionChart.update();
-  }
+    const type = alert && typeof alert.type === 'string' ? alert.type : (alert && alert.level ? alert.level : 'alerta');
+    const timestamp = alert && (alert.timestamp || new Date().toLocaleTimeString());
+    const message = alert && (alert.message || alert.title) ? (alert.message || alert.title) : '';
+    const level = alert && alert.level ? alert.level : '';
 
-  function updateAccessChart(series) {
-    if (!accessChart || !series || series.length === 0) return;
-    const labels = series.map(p => new Date(p.timestamp).toLocaleTimeString());
-    const values = series.map(p => Number(p.value || 0));
+    p.textContent = `${timestamp} | ${String(type).toUpperCase()} | ${message}`;
+    p.classList.add("alert-item");
+    if (level === "CRITICAL") p.classList.add("critical");
+    container.prepend(p);
+}
 
-    accessChart.data.labels = labels;
-    accessChart.data.datasets[0].data = values;
-    accessChart.update();
-  }
+// Añade un punto (x=timestamp, y=valor) y refresca silenciosamente
+function addRealtimePoint(chart, value, ts = Date.now()) {
+    if (!chart || !chart.data || !chart.data.datasets || !chart.data.datasets[0]) return;
+    chart.data.datasets[0].data.push({ x: ts, y: Number(value) || 0 });
+    chart.update('none');
+}
 
-  function normalizeStats(stats) {
-    const result = {
-      totalEvents: { MOTION: 0, TEMPERATURE: 0, ACCESS: 0 },
-      criticalEvents: { MOTION: 0, TEMPERATURE: 0, ACCESS: 0 },
-      activeThreads: 0,
-      threadPool: { active: 0, poolSize: 0, corePoolSize: 0, maxPoolSize: 0 }
-    };
+function initTemperatureChart() {
+    const ctx = document.getElementById("temperatureChart").getContext("2d");
+    temperatureChart = new Chart(ctx, {
+        type: "line",
+        data: {
+            datasets: [{
+                label: "Temperatura (°C)",
+                borderColor: "#ff4d4d",
+                backgroundColor: "rgba(255,77,77,0.15)",
+                borderWidth: 2,
+                pointRadius: 3, // mostrar puntos visibles
+                pointBackgroundColor: "#ff4d4d",
+                tension: 0.25,
+                showLine: true,
+                data: []
+            }]
+        },
+        options: {
+            interaction: { intersect: false },
+            animation: false,
+            scales: {
+                x: { type: "realtime", realtime: { delay: 2000, duration: 60000, frameRate: 30 } },
+                y: { beginAtZero: true, suggestedMax: 60 },
+            },
+            plugins: { legend: { labels: { color: '#fff' } } }
+        },
+    });
+}
 
-    if (stats && stats.totalEvents) {
-      const t = stats.totalEvents;
-      result.totalEvents.MOTION = Number(t.MOTION || t.motion || 0);
-      result.totalEvents.TEMPERATURE = Number(t.TEMPERATURE || t.temperature || 0);
-      result.totalEvents.ACCESS = Number(t.ACCESS || t.access || 0);
-    }
+function initMotionChart() {
+    const ctx = document.getElementById("motionChart").getContext("2d");
+    motionChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+            datasets: [{
+                label: "Movimiento (detecciones/min)",
+                borderColor: "rgba(54, 162, 235, 1)",
+                backgroundColor: "rgba(54, 162, 235, 0.85)",
+                borderWidth: 1,
+                barThickness: 10,
+                data: []
+            }]
+        },
+        options: {
+            interaction: { intersect: false },
+            animation: false,
+            scales: {
+                x: { type: "realtime", realtime: { delay: 2000, duration: 60000, frameRate: 30 } },
+                y: { beginAtZero: true, suggestedMax: 20 },
+            },
+            plugins: { legend: { labels: { color: '#fff' } } }
+        },
+    });
+}
 
-    // Fallback a eventsByType si totalEvents está vacío
-    if (result.totalEvents.MOTION === 0 && result.totalEvents.TEMPERATURE === 0 && result.totalEvents.ACCESS === 0) {
-      if (stats && stats.eventsByType) {
-        Object.entries(stats.eventsByType).forEach(([key, value]) => {
-          const k = key.toUpperCase();
-          if (k === 'MOTION' || k === 'TEMPERATURE' || k === 'ACCESS') {
-            result.totalEvents[k] = Number(value || 0);
-          }
-        });
-      }
-    }
-
-    if (stats && stats.criticalEvents) {
-      const c = stats.criticalEvents;
-      result.criticalEvents.MOTION = Number(c.MOTION || c.motion || 0);
-      result.criticalEvents.TEMPERATURE = Number(c.TEMPERATURE || c.temperature || 0);
-      result.criticalEvents.ACCESS = Number(c.ACCESS || c.access || 0);
-    }
-
-    if (stats && stats.threadPool) {
-      const tp = stats.threadPool;
-      result.threadPool.active = Number(tp.active || 0);
-      result.threadPool.poolSize = Number(tp.poolSize || 0);
-      result.threadPool.corePoolSize = Number(tp.corePoolSize || 0);
-      result.threadPool.maxPoolSize = Number(tp.maxPoolSize || 0);
-    }
-
-    if (typeof stats?.activeThreads === 'number') {
-      result.activeThreads = Number(stats.activeThreads);
-    } else {
-      result.activeThreads = result.threadPool.active;
-    }
-
-    return result;
-  }
-
-  function updateMetrics(stats) {
-    const t = stats.totalEvents;
-    const c = stats.criticalEvents;
-
-    const total = (t.MOTION || 0) + (t.TEMPERATURE || 0) + (t.ACCESS || 0);
-    const critical = (c.MOTION || 0) + (c.TEMPERATURE || 0) + (c.ACCESS || 0);
-
-    document.getElementById('totalEvents').textContent = total;
-    document.getElementById('motionEvents').textContent = t.MOTION || 0;
-    document.getElementById('tempEvents').textContent = t.TEMPERATURE || 0;
-    document.getElementById('accessEvents').textContent = t.ACCESS || 0;
-    document.getElementById('criticalEvents').textContent = critical;
-
-    const activeThreadsEl = document.getElementById('activeThreads');
-    if (activeThreadsEl) {
-      const now = Date.now();
-      const activeNow = Number(stats.activeThreads || 0);
-      const tp = stats.threadPool || {};
-      const maxSize = Number(tp.maxPoolSize || 0);
-      const coreSize = Number(tp.corePoolSize || 0);
-      const poolSize = Number(tp.poolSize || 0);
-      const capacity = maxSize > 0 ? maxSize : (coreSize > 0 ? coreSize : poolSize);
-
-      if (!isNaN(activeNow) && activeNow > 0) {
-        lastActiveThreads = activeNow;
-        lastActiveTs = now;
-      }
-      const withinWindow = (now - lastActiveTs) < 5000;
-      const displayActive = activeNow > 0 ? activeNow : (withinWindow ? lastActiveThreads : 0);
-
-      activeThreadsEl.textContent = `${displayActive}/${capacity || 0}`;
-    }
-  }
-
-  // Expone logout para el botón del header
-  window.logout = logout;
-})();
+function initAccessChart() {
+    const ctx = document.getElementById("accessChart").getContext("2d");
+    accessChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+            datasets: [{
+                label: "Accesos (intentos)",
+                borderColor: "rgba(75, 192, 192, 1)",
+                backgroundColor: "rgba(75, 192, 192, 0.85)",
+                borderWidth: 1,
+                barThickness: 10,
+                data: []
+            }]
+        },
+        options: {
+            interaction: { intersect: false },
+            animation: false,
+            scales: {
+                x: { type: "realtime", realtime: { delay: 2000, duration: 60000, frameRate: 30 } },
+                y: { beginAtZero: true, suggestedMax: 5 },
+            },
+            plugins: { legend: { labels: { color: '#fff' } } }
+        },
+    });
+}
