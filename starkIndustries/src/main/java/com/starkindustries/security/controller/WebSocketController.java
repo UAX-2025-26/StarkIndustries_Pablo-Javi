@@ -58,21 +58,6 @@ public class WebSocketController {
             snapshot.put("totalEvents", total);
             snapshot.put("criticalEvents", critical);
 
-            // Métricas de hilos
-            try {
-                Map<String, Object> threadPool = new HashMap<>();
-                threadPool.put("active", sensorExecutor.getActiveCount());
-                threadPool.put("poolSize", sensorExecutor.getPoolSize());
-                threadPool.put("corePoolSize", sensorExecutor.getCorePoolSize());
-                threadPool.put("maxPoolSize", sensorExecutor.getMaxPoolSize());
-                snapshot.put("activeThreads", sensorExecutor.getActiveCount());
-                snapshot.put("threadPool", threadPool);
-            } catch (Exception e) {
-                log.trace("No se pudieron obtener métricas de hilos: {}", e.getMessage());
-            }
-
-            messagingTemplate.convertAndSend("/topic/stats", snapshot);
-            log.debug("Snapshot de estadísticas enviado por petición del cliente");
         } catch (Exception e) {
             log.warn("No se pudo enviar snapshot solicitado: {}", e.getMessage());
         }

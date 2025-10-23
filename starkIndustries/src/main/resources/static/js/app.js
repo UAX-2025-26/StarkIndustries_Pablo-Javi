@@ -45,7 +45,6 @@
       token = data.token;
       document.getElementById('loginSection').classList.add('hidden');
       document.getElementById('dashboardSection').classList.remove('hidden');
-      document.getElementById('logoutContainer').classList.remove('hidden');
 
       initDashboard();
     } catch (e) {
@@ -54,28 +53,6 @@
     }
   }
 
-  async function logout() {
-    try {
-      await fetch('/api/auth/logout', {
-        method: 'POST',
-        headers: token ? { 'Authorization': `Bearer ${token}` } : {}
-      });
-    } catch {}
-
-    try { if (stompClient) stompClient.disconnect(() => {}); } catch {}
-    stompClient = null;
-
-    if (statsTimer) clearInterval(statsTimer);
-    if (alertsTimer) clearInterval(alertsTimer);
-    if (tempTimer) clearInterval(tempTimer);
-    if (motionTimer) clearInterval(motionTimer);
-    if (accessTimer) clearInterval(accessTimer);
-
-    token = null;
-    document.getElementById('dashboardSection').classList.add('hidden');
-    document.getElementById('loginSection').classList.remove('hidden');
-    document.getElementById('logoutContainer').classList.add('hidden');
-  }
 
   function initDashboard() {
     initTemperatureChart();
