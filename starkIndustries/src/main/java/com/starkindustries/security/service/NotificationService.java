@@ -12,9 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Servicio de notificaciones en tiempo real (WebSocket y Email)
- */
+// Notificaciones por WebSocket y email
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -23,23 +21,14 @@ public class NotificationService {
     private final SimpMessagingTemplate messagingTemplate;
     private final JavaMailSender mailSender;
 
-    /**
-     * Envía notificaciones por múltiples canales de forma asíncrona
-     */
     @Async("notificationExecutor")
     public void sendAlertNotifications(SecurityAlert alert) {
         log.info("Enviando notificaciones para alerta: {}", alert.getId());
-
-        // WebSocket - Notificación en tiempo real
         sendWebSocketNotification(alert);
-
-        // Email - Para alertas críticas
         if (alert.getLevel() == SecurityAlert.AlertLevel.CRITICAL ||
             alert.getLevel() == SecurityAlert.AlertLevel.HIGH) {
             sendEmailNotification(alert);
         }
-
-        // Simular notificación push a móviles
         sendMobileNotification(alert);
     }
 
@@ -52,13 +41,8 @@ public class NotificationService {
             notification.put("message", alert.getMessage());
             notification.put("location", alert.getLocation());
             notification.put("timestamp", alert.getCreatedAt());
-
-            // Enviar a todos los suscriptores
             messagingTemplate.convertAndSend("/topic/alerts", notification);
-
-            // Enviar a canal específico por nivel
             messagingTemplate.convertAndSend("/topic/alerts/" + alert.getLevel(), notification);
-
             log.info("Notificación WebSocket enviada: Alerta {}", alert.getId());
         } catch (Exception e) {
             log.error("Error enviando notificación WebSocket", e);
@@ -94,7 +78,6 @@ public class NotificationService {
                 alert.getSensorId(),
                 alert.getCreatedAt()
             ));
-
             mailSender.send(message);
             log.info("Email de alerta enviado para: Alerta {}", alert.getId());
         } catch (Exception e) {
@@ -103,14 +86,10 @@ public class NotificationService {
     }
 
     private void sendMobileNotification(SecurityAlert alert) {
-        // Simulación de notificación push (placeholder)
-        log.info("📱 Notificación PUSH simulada enviada: {} - {}",
+        log.info("Notificación PUSH simulada enviada: {} - {}",
                  alert.getTitle(), alert.getLocation());
     }
 
-    /**
-     * Envía evento genérico por WebSocket
-     */
     public void sendEventNotification(String topic, Object payload) {
         try {
             messagingTemplate.convertAndSend(topic, payload);

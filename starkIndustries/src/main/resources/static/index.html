@@ -4,84 +4,129 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stark Industries - Security Dashboard</title>
-    <!-- Librerías desde CDN (más confiable que WebJars) -->
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@5/bundles/stomp.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
-    <!-- Estilos minimalistas -->
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3/build/global/luxon.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-streaming@2.0.0"></script>
+    <script>
+        (function registerStreaming(){
+            try {
+                if (!window.Chart) {
+                    console.warn('Chart.js no está disponible aún, no se registra el plugin');
+                    return;
+                }
+                const candidates = [
+                    window['chartjs-plugin-streaming'],
+                    window.chartjsPluginStreaming,
+                    window.ChartStreaming,
+                    window.ChartStreamingPlugin,
+                ].filter(Boolean);
+                let registered = false;
+                for (const mod of candidates) {
+                    const scale = mod.RealTimeScale || mod.realtimeScale || window.RealTimeScale;
+                    const plugin = mod.StreamingPlugin || mod.default || mod;
+                    try {
+                        if (scale) window.Chart.register(scale);
+                        if (plugin) window.Chart.register(plugin);
+                        console.log('chartjs-plugin-streaming registrado');
+                        registered = true;
+                        break;
+                    } catch (e) {
+                        console.warn('Falló el registro del plugin/escala de streaming:', e);
+                    }
+                }
+                if (!registered) {
+                    const hasRealtime = !!(window.Chart.registry && window.Chart.registry.getScale && window.Chart.registry.getScale('realtime'));
+                    if (!hasRealtime) console.warn('No se pudo registrar chartjs-plugin-streaming');
+                    else console.log('Escala realtime ya estaba registrada');
+                }
+            } catch (e) {
+                console.warn('Excepción registrando chartjs-plugin-streaming:', e);
+            }
+        })();
+    </script>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" type="image/svg+xml" href="/images/favicon.svg" />
 </head>
 <body>
-    <header class="header">
-        <div class="brand">
-            <div class="brand-mark"></div>
-            <h1>STARK INDUSTRIES</h1>
-        </div>
-        <div class="subtitle">Sistema de Seguridad v1.0</div>
-    </header>
+<header class="header">
+    <div class="brand">
+        <div class="brand-mark"></div>
+        <h1>STARK INDUSTRIES</h1>
+    </div>
+    <div class="subtitle">Sistema de Seguridad v1.0</div>
+    <div id="logoutContainer" class="logout hidden">
+        <button id="logoutBtn" onclick="logout()" class="btn btn-danger">Cerrar sesión</button>
+    </div>
+</header>
 
-    <!-- Login -->
-    <section id="loginSection" class="login-section">
-        <h2>Acceso</h2>
-        <label for="username">Usuario</label>
-        <input type="text" id="username" value="admin" placeholder="Usuario">
-        <label for="password">Contraseña</label>
-        <input type="password" id="password" value="admin123" placeholder="Contraseña">
-        <button id="loginBtnSubmit" class="btn btn-primary">Iniciar sesión</button>
-        <div id="loginError" class="help error"></div>
-        <div class="help">Usuarios: admin/admin123 · jarvis/jarvis123</div>
+<section id="loginSection" class="login-section">
+    <h2>Acceso</h2>
+    <label for="username">Usuario</label>
+    <input type="text" id="username" value="admin" placeholder="Usuario">
+    <label for="password">Contraseña</label>
+    <input type="password" id="password" value="admin123" placeholder="Contraseña">
+    <button id="loginBtnSubmit" class="btn btn-primary">Iniciar sesión</button>
+    <div id="loginError" class="help error"></div>
+    <div class="help">Usuarios: admin/admin123 · jarvis/jarvis123</div>
+</section>
+
+<main id="dashboardSection" class="hidden">
+    <section class="grid">
+        <article class="card compact">
+            <h3>Estadísticas</h3>
+            <div class="metric"><span>Eventos Procesados</span><span id="totalEvents" class="metric-value">0</span></div>
+            <div class="metric"><span>Eventos Críticos</span><span id="criticalEvents" class="metric-value">0</span></div>
+            <div class="metric"><span>Alertas Activas</span><span id="activeAlerts" class="metric-value">0</span></div>
+        </article>
+
+        <article class="card compact">
+            <h3>Sensores por Tipo</h3>
+            <div class="metric"><span>Movimiento</span><span id="motionEvents" class="metric-value">0</span></div>
+            <div class="metric"><span>Temperatura</span><span id="tempEvents" class="metric-value">0</span></div>
+            <div class="metric"><span>Acceso</span><span id="accessEvents" class="metric-value">0</span></div>
+        </article>
+
+        <article class="card span-2">
+            <h3>Alertas</h3>
+            <div id="alertsContainer" class="alerts-container">
+                <p class="muted">Esperando eventos...</p>
+            </div>
+        </article>
     </section>
 
-    <!-- Dashboard -->
-    <main id="dashboardSection" class="hidden">
-        <section class="grid">
-            <article class="card">
-                <h3>Estadísticas</h3>
-                <div class="metric"><span>Eventos Procesados</span><span id="totalEvents" class="metric-value">0</span></div>
-                <div class="metric"><span>Eventos Críticos</span><span id="criticalEvents" class="metric-value">0</span></div>
-                <div class="metric"><span>Alertas Activas</span><span id="activeAlerts" class="metric-value">0</span></div>
-            </article>
+    <section class="grid">
+        <article class="card">
+            <h3>Temperaturas</h3>
+            <div class="chart-frame">
+                <canvas id="temperatureChart"></canvas>
+            </div>
+        </article>
 
-            <article class="card">
-                <h3>Sensores por Tipo</h3>
-                <div class="metric"><span>Movimiento</span><span id="motionEvents" class="metric-value">0</span></div>
-                <div class="metric"><span>Temperatura</span><span id="tempEvents" class="metric-value">0</span></div>
-                <div class="metric"><span>Acceso</span><span id="accessEvents" class="metric-value">0</span></div>
-            </article>
+        <article class="card">
+            <h3>Movimiento</h3>
+            <div class="chart-frame">
+                <canvas id="motionChart"></canvas>
+            </div>
+        </article>
 
-            <article class="card span-2">
-                <h3>Alertas</h3>
-                <div id="alertsContainer" class="alerts-container">
-                    <p class="muted">Esperando eventos...</p>
-                </div>
-            </article>
-        </section>
+        <article class="card">
+            <h3>Accesos</h3>
+            <div class="chart-frame">
+                <canvas id="accessChart"></canvas>
+            </div>
+        </article>
+    </section>
+</main>
 
-        <section class="grid">
-            <article class="card">
-                <h3>🌡️ Temperaturas</h3>
-                <div class="chart-frame">
-                    <canvas id="temperatureChart"></canvas>
-                </div>
-            </article>
+<footer class="footer">
+  <div class="footer-inner">
+    <span>© 2025 Stark Industries · Sistema de Seguridad</span>
+  </div>
+</footer>
 
-            <article class="card">
-                <h3>👤 Movimiento</h3>
-                <div class="chart-frame">
-                    <canvas id="motionChart"></canvas>
-                </div>
-            </article>
-
-            <article class="card">
-                <h3>🔐 Accesos</h3>
-                <div class="chart-frame">
-                    <canvas id="accessChart"></canvas>
-                </div>
-            </article>
-        </section>
-    </main>
-
-    <!-- Lógica de la app -->
-    <script src="js/app.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>

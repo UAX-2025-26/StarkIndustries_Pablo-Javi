@@ -1,8 +1,6 @@
 package com.starkindustries.security.model;
 
-/**
- * Enumeración de tipos de sensores soportados por el sistema
- */
+// Tipos de sensores
 public enum SensorType {
     MOTION("Sensor de Movimiento"),
     TEMPERATURE("Sensor de Temperatura"),
@@ -18,4 +16,3 @@ public enum SensorType {
         return description;
     }
 }
-

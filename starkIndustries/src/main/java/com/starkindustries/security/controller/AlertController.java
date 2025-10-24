@@ -13,9 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Controlador REST para gestión de alertas de seguridad
- */
+// Endpoints de alertas
 @RestController
 @RequestMapping("/api/alerts")
 @RequiredArgsConstructor
@@ -24,27 +22,18 @@ public class AlertController {
     private final AlertService alertService;
     private final SecurityAlertRepository alertRepository;
 
-    /**
-     * Obtiene todas las alertas activas (no resueltas)
-     */
     @GetMapping("/active")
     @PreAuthorize("hasAnyRole('ADMIN', 'AUTHORIZED_USER')")
     public ResponseEntity<List<SecurityAlert>> getActiveAlerts() {
         return ResponseEntity.ok(alertService.getActiveAlerts());
     }
 
-    /**
-     * Obtiene alertas priorizadas por nivel de severidad
-     */
     @GetMapping("/prioritized")
     @PreAuthorize("hasAnyRole('ADMIN', 'AUTHORIZED_USER')")
     public ResponseEntity<List<SecurityAlert>> getAlertsPrioritized() {
         return ResponseEntity.ok(alertService.getAlertsPrioritized());
     }
 
-    /**
-     * Obtiene alertas por nivel
-     */
     @GetMapping("/level/{level}")
     @PreAuthorize("hasAnyRole('ADMIN', 'AUTHORIZED_USER')")
     public ResponseEntity<List<SecurityAlert>> getAlertsByLevel(
@@ -55,9 +44,6 @@ public class AlertController {
                 .toList());
     }
 
-    /**
-     * Reconoce una alerta
-     */
     @PutMapping("/{id}/acknowledge")
     @PreAuthorize("hasAnyRole('ADMIN', 'AUTHORIZED_USER')")
     public ResponseEntity<SecurityAlert> acknowledgeAlert(
@@ -69,9 +55,6 @@ public class AlertController {
         );
     }
 
-    /**
-     * Resuelve una alerta
-     */
     @PutMapping("/{id}/resolve")
     @PreAuthorize("hasAnyRole('ADMIN', 'AUTHORIZED_USER')")
     public ResponseEntity<SecurityAlert> resolveAlert(
@@ -83,24 +66,19 @@ public class AlertController {
         );
     }
 
-    /**
-     * Endpoint de diagnóstico para verificar el estado de las alertas
-     */
+    // Diagnóstico rápido del estado de alertas
     @GetMapping("/diagnostics")
     @PreAuthorize("hasAnyRole('ADMIN', 'AUTHORIZED_USER')")
     public ResponseEntity<Map<String, Object>> getDiagnostics() {
         Map<String, Object> diagnostics = new HashMap<>();
 
-        // Total de alertas
         long totalAlerts = alertRepository.count();
         diagnostics.put("totalAlertsInDatabase", totalAlerts);
 
-        // Alertas activas
         List<SecurityAlert> activeAlerts = alertRepository.findByResolvedFalse();
         diagnostics.put("activeAlertsCount", activeAlerts.size());
         diagnostics.put("activeAlerts", activeAlerts);
 
-        // Alertas por nivel
         Map<String, Long> alertsByLevel = new HashMap<>();
         for (SecurityAlert.AlertLevel level : SecurityAlert.AlertLevel.values()) {
             long count = alertRepository.countUnresolvedByLevel(level);

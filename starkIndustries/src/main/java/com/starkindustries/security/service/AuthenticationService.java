@@ -16,9 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-/**
- * Servicio de autenticación que gestiona login, logout y generación de tokens JWT
- */
+// Login, logout y emisión de JWT
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -33,7 +31,6 @@ public class AuthenticationService {
         final String username = request.username();
 
         try {
-            // Autenticar credenciales con el AuthenticationManager
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             username,
@@ -41,7 +38,6 @@ public class AuthenticationService {
                     )
             );
 
-            // Construir token y obtener entidad de usuario
             UserDetails principal = (UserDetails) authentication.getPrincipal();
             User user;
             if (principal instanceof User) {
@@ -53,7 +49,6 @@ public class AuthenticationService {
             String jwtToken = jwtService.generateToken(principal);
             userService.resetFailedAttempts(user);
 
-            // Registrar acceso exitoso
             accessLogService.logAccess(
                     username,
                     ipAddress,
@@ -72,7 +67,6 @@ public class AuthenticationService {
                     .build();
 
         } catch (LockedException e) {
-            // Cuenta bloqueada
             accessLogService.logAccess(
                     username,
                     ipAddress,
@@ -83,13 +77,10 @@ public class AuthenticationService {
             log.warn("Cuenta bloqueada para usuario: {}", username);
             throw new ResponseStatusException(HttpStatus.LOCKED, "Cuenta bloqueada debido a múltiples intentos fallidos");
         } catch (BadCredentialsException e) {
-            // Credenciales inválidas
             try {
                 User user = userService.getUserByUsername(username);
                 userService.increaseFailedAttempts(user);
-            } catch (Exception ignored) {
-                // Usuario inexistente u otro error: no se incrementan intentos
-            }
+            } catch (Exception ignored) {}
 
             accessLogService.logAccess(
                     username,
@@ -102,7 +93,6 @@ public class AuthenticationService {
             log.warn("Intento de autenticación fallido (credenciales) para usuario: {}", username);
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Credenciales inválidas");
         } catch (AuthenticationException e) {
-            // Cualquier otro problema de autenticación
             accessLogService.logAccess(
                     username,
                     ipAddress,
@@ -113,7 +103,6 @@ public class AuthenticationService {
             log.warn("Error de autenticación para usuario {}: {}", username, e.getMessage());
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No autorizado");
         } catch (Exception e) {
-            // Error inesperado
             accessLogService.logAccess(
                     username,
                     ipAddress,
@@ -137,7 +126,6 @@ public class AuthenticationService {
         log.info("Logout registrado para usuario: {}", username);
     }
 
-    // DTOs
     public record AuthenticationRequest(String username, String password) {}
 
     @lombok.Builder

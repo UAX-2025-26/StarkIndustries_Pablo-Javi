@@ -8,9 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/**
- * Repositorio para gestionar alertas de seguridad
- */
+// Repositorio de alertas
 @Repository
 public interface SecurityAlertRepository extends JpaRepository<SecurityAlert, Long> {
 
@@ -26,4 +24,3 @@ public interface SecurityAlertRepository extends JpaRepository<SecurityAlert, Lo
     @Query("SELECT sa FROM SecurityAlert sa WHERE sa.resolved = false ORDER BY sa.level DESC, sa.createdAt DESC")
     List<SecurityAlert> findActiveAlertsPrioritized();
 }
-

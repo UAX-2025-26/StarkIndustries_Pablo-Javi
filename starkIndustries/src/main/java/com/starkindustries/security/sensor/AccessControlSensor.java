@@ -10,10 +10,7 @@ import java.time.LocalDateTime;
 import java.util.Random;
 import java.util.UUID;
 
-/**
- * Bean gestionado por Spring para control de acceso
- * Gestiona intentos de acceso mediante tarjetas, biometría o códigos
- */
+// Control de acceso
 @Component("accessSensor")
 @Slf4j
 public class AccessControlSensor implements Sensor {
@@ -27,13 +24,15 @@ public class AccessControlSensor implements Sensor {
         "Reactor Arc - Acceso Restringido", "Sala de Control Central", "Armería"
     };
 
+    private boolean attackBurstActive = false;
+    private int burstTicksRemaining = 0;
+
     @Override
     public SensorEvent processEvent(SensorEvent event) {
         long startTime = System.currentTimeMillis();
 
         log.debug("Procesando intento de acceso en: {}", event.getLocation());
 
-        // Simular procesamiento (validación biométrica, verificación de credenciales)
         try {
             Thread.sleep(random.nextInt(120) + 60);
         } catch (InterruptedException e) {
@@ -59,7 +58,6 @@ public class AccessControlSensor implements Sensor {
 
     @Override
     public boolean requiresAlert(Double value) {
-        // value = 0: acceso exitoso, value > 0: intentos fallidos
         return value >= maxFailedAttempts;
     }
 
@@ -70,12 +68,29 @@ public class AccessControlSensor implements Sensor {
 
     @Override
     public SensorEvent simulateEvent() {
-        // 80% accesos exitosos, 20% fallidos
-        int failedAttempts = random.nextDouble() < 0.8 ? 0 : random.nextInt(5);
+        if (!attackBurstActive && random.nextDouble() < 0.012) {
+            attackBurstActive = true;
+            burstTicksRemaining = 2 + random.nextInt(4);
+        }
+
+        int failedAttempts;
+        if (attackBurstActive) {
+            failedAttempts = 2 + random.nextInt(5);
+            burstTicksRemaining--;
+            if (burstTicksRemaining <= 0 || random.nextDouble() < 0.2) {
+                attackBurstActive = false;
+            }
+        } else {
+            if (random.nextDouble() < 0.90) {
+                failedAttempts = 0;
+            } else {
+                failedAttempts = 1 + random.nextInt(2);
+            }
+        }
 
         String description = failedAttempts == 0
             ? "Acceso autorizado - Credenciales válidas"
-            : "Acceso denegado - Credenciales inválidas (Intento " + failedAttempts + ")";
+            : "Acceso denegado - Credenciales inválidas (Intentos: " + failedAttempts + ")";
 
         return SensorEvent.builder()
                 .sensorType(SensorType.ACCESS)

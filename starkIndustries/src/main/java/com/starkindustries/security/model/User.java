@@ -12,8 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Entidad de usuario que implementa UserDetails de Spring Security
- * Gestiona autenticación, autorización y control de acceso
+ * Usuario (implementa UserDetails)
  */
 @Entity
 @Table(name = "users")
@@ -86,4 +85,3 @@ public class User implements UserDetails {
         return enabled;
     }
 }
-

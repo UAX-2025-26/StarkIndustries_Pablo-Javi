@@ -13,9 +13,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/**
- * Servicio de gestión de usuarios implementando UserDetailsService
- */
+// Gestión básica de usuarios e integración con UserDetailsService
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -24,7 +22,7 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
 
     private static final int MAX_FAILED_ATTEMPTS = 3;
-    private static final long LOCK_TIME_DURATION = 5 * 60 * 1000; // 5 minutos
+    private static final long LOCK_TIME_DURATION = 5 * 60 * 1000;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -42,9 +40,6 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    /**
-     * Crea un usuario. La contraseña debe venir ya codificada.
-     */
     public User createUser(String username, String encodedPassword, String email, String fullName, List<String> roles) {
         if (userRepository.existsByUsername(username)) {
             throw new RuntimeException("El usuario ya existe");
@@ -52,7 +47,7 @@ public class UserService implements UserDetailsService {
 
         User user = User.builder()
                 .username(username)
-                .password(encodedPassword) // se espera contraseña ENCODED
+                .password(encodedPassword)
                 .email(email)
                 .fullName(fullName)
                 .roles(roles)
@@ -63,7 +58,7 @@ public class UserService implements UserDetailsService {
                 .build();
 
         user = userRepository.save(user);
-        log.info("Usuario creado exitosamente: {}", username);
+        log.info("Usuario creado: {}", username);
         return user;
     }
 
