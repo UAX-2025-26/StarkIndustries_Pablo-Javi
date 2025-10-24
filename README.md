@@ -1,5 +1,7 @@
 # Sistema de Seguridad Concurrente — Stark Industries
 
+Repositorio de Github: https://github.com/UAX-2025-26/StarkIndustries_Pablo-Javi.git
+
 Resumen del proyecto, cómo ejecutarlo, quiénes son los autores y cómo está organizada la solución para cumplir el enunciado.
 
 - Nombre del caso: Implementación de un Sistema de Seguridad Concurrente en Stark Industries
