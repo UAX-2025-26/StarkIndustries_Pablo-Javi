@@ -1,7 +1,5 @@
 # Sistema de Seguridad Concurrente — Stark Industries
 
-Repositorio de Github: https://github.com/UAX-2025-26/StarkIndustries_Pablo-Javi.git
-
 Resumen del proyecto, cómo ejecutarlo, quiénes son los autores y cómo está organizada la solución para cumplir el enunciado.
 
 - Nombre del caso: Implementación de un Sistema de Seguridad Concurrente en Stark Industries
@@ -84,15 +82,4 @@ Pruebas rápidas (manuales):
 - Forzar simulación (si hay endpoints) y verificar alertas en /topic/alerts.
 - Revisar H2 Console para eventos/alertas persistidos.
 
-Empaquetado para entrega:
-- Comprimir el directorio del proyecto en un .zip e incluir este README y docs/arquitectura-clases.md.
-
-Adecuación al enunciado:
-- Gestión de Sensores (IoC): Cumplido. Tres sensores como @Component.
-- Procesamiento Concurrente: Cumplido. Uso de @Async, ThreadPoolTaskExecutor y lotes.
-- Control de Acceso: Cumplido. Spring Security + JWT, roles y rutas restringidas.
-- Notificaciones en tiempo real: Cumplido. WebSocket/STOMP y emails (requiere credenciales SMTP reales para envío). PUSH simulado en logs.
-- Monitorización y Logs: Cumplido. Actuator, métricas y logging estructurado.
-- Escalabilidad/modularidad: Cumplido. Separación por capas, configuraciones dedicadas, métricas y pool de hilos.
 Notas: Email requiere configuración real de SMTP para envío externo; la BD es H2 en memoria para demo; broker WS simple.
-
