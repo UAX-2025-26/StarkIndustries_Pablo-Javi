@@ -10,10 +10,7 @@ import java.time.LocalDateTime;
 import java.util.Random;
 import java.util.UUID;
 
-/**
- * Bean gestionado por Spring para control de acceso
- * Gestiona intentos de acceso mediante tarjetas, biometría o códigos
- */
+// Control de acceso
 @Component("accessSensor")
 @Slf4j
 public class AccessControlSensor implements Sensor {
@@ -27,7 +24,6 @@ public class AccessControlSensor implements Sensor {
         "Reactor Arc - Acceso Restringido", "Sala de Control Central", "Armería"
     };
 
-    // Estado de simulación para ráfagas de ataques
     private boolean attackBurstActive = false;
     private int burstTicksRemaining = 0;
 
@@ -37,7 +33,6 @@ public class AccessControlSensor implements Sensor {
 
         log.debug("Procesando intento de acceso en: {}", event.getLocation());
 
-        // Simular procesamiento (validación biométrica, verificación de credenciales)
         try {
             Thread.sleep(random.nextInt(120) + 60);
         } catch (InterruptedException e) {
@@ -63,7 +58,6 @@ public class AccessControlSensor implements Sensor {
 
     @Override
     public boolean requiresAlert(Double value) {
-        // value = 0: acceso exitoso, value > 0: intentos fallidos
         return value >= maxFailedAttempts;
     }
 
@@ -74,26 +68,23 @@ public class AccessControlSensor implements Sensor {
 
     @Override
     public SensorEvent simulateEvent() {
-        // Activar ráfaga rara vez (p ~ 0.5%) si no está activa
-        if (!attackBurstActive && random.nextDouble() < 0.005) {
+        if (!attackBurstActive && random.nextDouble() < 0.012) {
             attackBurstActive = true;
-            burstTicksRemaining = 2 + random.nextInt(4); // dura 2..5 ticks
+            burstTicksRemaining = 2 + random.nextInt(4);
         }
 
         int failedAttempts;
         if (attackBurstActive) {
-            // Durante la ráfaga: 2..6 intentos fallidos, decreciendo suavemente
-            failedAttempts = 2 + random.nextInt(5); // 2..6
+            failedAttempts = 2 + random.nextInt(5);
             burstTicksRemaining--;
             if (burstTicksRemaining <= 0 || random.nextDouble() < 0.2) {
-                attackBurstActive = false; // terminar ráfaga
+                attackBurstActive = false;
             }
         } else {
-            // Fuera de ráfaga: 95% éxito, 5% fallos leves (1..2)
-            if (random.nextDouble() < 0.95) {
+            if (random.nextDouble() < 0.90) {
                 failedAttempts = 0;
             } else {
-                failedAttempts = 1 + random.nextInt(2); // 1..2
+                failedAttempts = 1 + random.nextInt(2);
             }
         }
 

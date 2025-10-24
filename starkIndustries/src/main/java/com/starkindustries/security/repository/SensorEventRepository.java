@@ -9,9 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/**
- * Repositorio para gestionar eventos de sensores
- */
+// Repositorio de eventos de sensores
 @Repository
 public interface SensorEventRepository extends JpaRepository<SensorEvent, Long> {
 
@@ -32,4 +30,3 @@ public interface SensorEventRepository extends JpaRepository<SensorEvent, Long> 
     @Query("SELECT AVG(se.processingTimeMs) FROM SensorEvent se WHERE se.sensorType = :type")
     Double getAverageProcessingTime(SensorType type);
 }
-

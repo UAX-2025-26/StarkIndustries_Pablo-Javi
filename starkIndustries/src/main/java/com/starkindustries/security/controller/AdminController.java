@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Controlador administrativo - Solo accesible para ADMIN
- */
+// Admin: gestión de usuarios y sistema
 @RestController
 @RequestMapping("/api/admin")
 @PreAuthorize("hasRole('ADMIN')")
@@ -26,9 +24,6 @@ public class AdminController {
     private final SensorSimulationService simulationService;
     private final PasswordEncoder passwordEncoder;
 
-    /**
-     * Crea un nuevo usuario
-     */
     @PostMapping("/users")
     public ResponseEntity<com.starkindustries.security.model.User> createUser(@RequestBody CreateUserRequest request) {
         String encoded = passwordEncoder.encode(request.password());
@@ -42,33 +37,21 @@ public class AdminController {
         return ResponseEntity.ok(user);
     }
 
-    /**
-     * Obtiene todos los usuarios
-     */
     @GetMapping("/users")
     public ResponseEntity<List<com.starkindustries.security.model.User>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
-    /**
-     * Obtiene intentos de acceso fallidos
-     */
     @GetMapping("/access-logs/failed")
     public ResponseEntity<?> getFailedAttempts() {
         return ResponseEntity.ok(accessLogService.getFailedAttempts());
     }
 
-    /**
-     * Obtiene IPs sospechosas
-     */
     @GetMapping("/security/suspicious-ips")
     public ResponseEntity<?> getSuspiciousIps(@RequestParam(defaultValue = "5") int threshold) {
         return ResponseEntity.ok(accessLogService.getSuspiciousIpAddresses(threshold));
     }
 
-    /**
-     * Controla la simulación de sensores
-     */
     @PostMapping("/simulation/enable")
     public ResponseEntity<String> enableSimulation() {
         simulationService.enableSimulation();
@@ -81,9 +64,6 @@ public class AdminController {
         return ResponseEntity.ok("Simulación deshabilitada");
     }
 
-    /**
-     * Obtiene información del sistema
-     */
     @GetMapping("/system/info")
     public ResponseEntity<Map<String, Object>> getSystemInfo() {
         return ResponseEntity.ok(Map.of(

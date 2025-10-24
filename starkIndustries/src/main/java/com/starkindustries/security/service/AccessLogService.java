@@ -9,9 +9,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/**
- * Servicio para gestionar logs de acceso y auditoría
- */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -57,4 +54,3 @@ public class AccessLogService {
         return accessLogRepository.findSuspiciousIpAddresses(threshold);
     }
 }
-

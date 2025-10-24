@@ -15,10 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-/**
- * Servicio de simulación de eventos de sensores
- * Genera eventos concurrentes para demostrar la capacidad del sistema
- */
+// Simula eventos de sensores
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -43,9 +40,7 @@ public class SensorSimulationService {
     @Value("${stark.sensors.simulation.high-load.batch-size:15}")
     private int highLoadBatchSize;
 
-    /**
-     * Genera eventos de sensores cada 5 segundos
-     */
+    // Genera eventos periódicos
     @Scheduled(fixedRate = 5000)
     public void simulateSensorEvents() {
         if (!simulationEnabled) {
@@ -69,16 +64,14 @@ public class SensorSimulationService {
         sensorProcessingService.processBatchAsync(events);
     }
 
-    /**
-     * Simula una ráfaga de eventos para probar alta concurrencia
-     */
+    // Ráfagas de alta carga
     @Scheduled(fixedRate = 30000) // Cada 30 segundos
     public void simulateHighLoad() {
         if (!simulationEnabled || !highLoadEnabled) {
             return;
         }
 
-        log.info("🔥 Simulando alta carga - Generando {} eventos concurrentes", highLoadBatchSize);
+        log.info("Simulando alta carga - Generando {} eventos concurrentes", highLoadBatchSize);
 
         List<SensorEvent> events = new ArrayList<>();
         for (int i = 0; i < highLoadBatchSize; i++) {
@@ -91,7 +84,7 @@ public class SensorSimulationService {
 
     @EventListener(ApplicationReadyEvent.class)
     public void onApplicationReady() {
-        log.info("✅ Sistema de simulación de sensores iniciado (enabled={})", simulationEnabled);
+        log.info("Sistema de simulación de sensores iniciado (enabled={})", simulationEnabled);
         if (simulationEnabled) {
             log.info("   - Eventos normales: cada 5 segundos ({}-{} eventos por ciclo)", minEvents, maxEvents);
             log.info("   - Ráfagas de alta carga: {} (batch: {})",

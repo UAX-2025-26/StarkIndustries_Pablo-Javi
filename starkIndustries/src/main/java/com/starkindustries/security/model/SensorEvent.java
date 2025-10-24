@@ -4,10 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
 
-/**
- * Entidad que representa un evento capturado por un sensor
- * Almacena información sobre detecciones de movimiento, temperatura o acceso
- */
+// Evento de sensor
 @Entity
 @Table(name = "sensor_events")
 @Data

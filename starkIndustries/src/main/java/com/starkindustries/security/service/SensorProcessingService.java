@@ -21,9 +21,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
-/**
- * Servicio principal para procesamiento concurrente de eventos de sensores
- */
+// Procesamiento concurrente de eventos de sensores
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -40,29 +38,20 @@ public class SensorProcessingService {
     private final Map<SensorType, AtomicLong> eventCounters = new ConcurrentHashMap<>();
     private final Map<SensorType, AtomicLong> criticalCounters = new ConcurrentHashMap<>();
 
-    /**
-     * Construye un snapshot consistente con claves String y todos los tipos presentes (faltantes en 0).
-     */
+    // Snapshot con claves String y valores por tipo presentes
     public Map<String, Object> buildStatsSnapshot() {
-        // Inicializar todos los tipos con 0
         Map<String, Long> total = new HashMap<>();
-        for (SensorType st : SensorType.values()) {
-            total.put(st.name(), 0L);
-        }
-        // Rellenar valores reales
+        for (SensorType st : SensorType.values()) total.put(st.name(), 0L);
         getEventStatistics().forEach((k, v) -> total.put(k.name(), v));
 
         Map<String, Long> critical = new HashMap<>();
-        for (SensorType st : SensorType.values()) {
-            critical.put(st.name(), 0L);
-        }
+        for (SensorType st : SensorType.values()) critical.put(st.name(), 0L);
         getCriticalEventStatistics().forEach((k, v) -> critical.put(k.name(), v));
 
         Map<String, Object> snapshot = new HashMap<>();
         snapshot.put("totalEvents", total);
         snapshot.put("criticalEvents", critical);
 
-        // Añadir métricas de hilos para que el frontend siempre las reciba
         try {
             Map<String, Object> threadPool = new HashMap<>();
             threadPool.put("active", sensorExecutor.getActiveCount());
@@ -91,12 +80,10 @@ public class SensorProcessingService {
             processedEvent = sensorEventRepository.save(processedEvent);
             updateMetrics(processedEvent);
 
-            // Enviar estadísticas actualizadas por WebSocket con snapshot consistente
             Map<String, Object> snapshot = buildStatsSnapshot();
             messagingTemplate.convertAndSend("/topic/stats", snapshot);
             log.debug("Evento enviado a WebSocket: /topic/stats -> {}", snapshot);
 
-            // Publicar el evento individual para gráficos en tiempo real (temperatura, movimiento, accesos)
             broadcastEvent(processedEvent);
 
             if (processedEvent.getCritical()) {
@@ -107,7 +94,7 @@ public class SensorProcessingService {
                     .tag("type", event.getSensorType().name())
                     .register(meterRegistry));
 
-            log.info("Evento procesado exitosamente: ID={}, Tipo={}, Crítico={}",
+            log.info("Evento procesado: ID={}, Tipo={}, Crítico={}",
                      processedEvent.getId(), processedEvent.getSensorType(), processedEvent.getCritical());
 
             return CompletableFuture.completedFuture(processedEvent);
@@ -166,19 +153,6 @@ public class SensorProcessingService {
                 .increment();
     }
 
-    // Convierte Map<SensorType, Long> a Map<String, Long> para serialización correcta
-    private Map<String, Long> toStringKeyMap(Map<SensorType, Long> source) {
-        Map<String, Long> out = new HashMap<>();
-        source.forEach((k, v) -> out.put(k.name(), v));
-        return out;
-    }
-
-    private Map<String, Long> toSnapshot(Map<SensorType, AtomicLong> source) {
-        Map<String, Long> out = new HashMap<>();
-        source.forEach((k, v) -> out.put(k.name(), v.get())) ;
-        return out;
-    }
-
     public Map<SensorType, Long> getEventStatistics() {
         Map<SensorType, Long> stats = new ConcurrentHashMap<>();
         eventCounters.forEach((type, counter) -> stats.put(type, counter.get()));
@@ -191,10 +165,7 @@ public class SensorProcessingService {
         return stats;
     }
 
-    // --- Nuevos métodos auxiliares ---
-    /**
-     * Publica el evento procesado en tópicos WebSocket específicos y genérico.
-     */
+    // Publica el evento procesado en tópicos WebSocket
     private void broadcastEvent(SensorEvent processedEvent) {
         try {
             Map<String, Object> payload = new HashMap<>();
@@ -206,11 +177,8 @@ public class SensorProcessingService {
             payload.put("critical", processedEvent.getCritical());
             payload.put("timestamp", processedEvent.getTimestamp());
 
-            // Tópico específico por tipo: /topic/sensors/temperature | motion | access
             String typeTopic = "/topic/sensors/" + processedEvent.getSensorType().name().toLowerCase();
             messagingTemplate.convertAndSend(typeTopic, payload);
-
-            // Tópico agregado para quien quiera todos los eventos
             messagingTemplate.convertAndSend("/topic/sensors/events", payload);
         } catch (Exception ex) {
             log.debug("No se pudo publicar evento individual por WS: {}", ex.getMessage());

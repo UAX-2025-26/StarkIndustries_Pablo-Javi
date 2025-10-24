@@ -14,7 +14,7 @@
         (function registerStreaming(){
             try {
                 if (!window.Chart) {
-                    console.warn('⚠️ Chart.js no está disponible aún, no se registra el plugin');
+                    console.warn('Chart.js no está disponible aún, no se registra el plugin');
                     return;
                 }
                 const candidates = [
@@ -23,7 +23,6 @@
                     window.ChartStreaming,
                     window.ChartStreamingPlugin,
                 ].filter(Boolean);
-
                 let registered = false;
                 for (const mod of candidates) {
                     const scale = mod.RealTimeScale || mod.realtimeScale || window.RealTimeScale;
@@ -31,21 +30,20 @@
                     try {
                         if (scale) window.Chart.register(scale);
                         if (plugin) window.Chart.register(plugin);
-                        console.log('✅ chartjs-plugin-streaming registrado');
+                        console.log('chartjs-plugin-streaming registrado');
                         registered = true;
                         break;
                     } catch (e) {
-                        console.warn('⚠️ Falló el registro del plugin/escala de streaming:', e);
+                        console.warn('Falló el registro del plugin/escala de streaming:', e);
                     }
                 }
                 if (!registered) {
-                    // Intento de respaldo: si la escala ya existe, no avisar como error
                     const hasRealtime = !!(window.Chart.registry && window.Chart.registry.getScale && window.Chart.registry.getScale('realtime'));
-                    if (!hasRealtime) console.warn('⚠️ No se pudo registrar chartjs-plugin-streaming');
-                    else console.log('ℹ️ Escala realtime ya estaba registrada');
+                    if (!hasRealtime) console.warn('No se pudo registrar chartjs-plugin-streaming');
+                    else console.log('Escala realtime ya estaba registrada');
                 }
             } catch (e) {
-                console.warn('⚠️ Excepción registrando chartjs-plugin-streaming:', e);
+                console.warn('Excepción registrando chartjs-plugin-streaming:', e);
             }
         })();
     </script>

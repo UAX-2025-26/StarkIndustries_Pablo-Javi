@@ -10,10 +10,7 @@ import java.time.LocalDateTime;
 import java.util.Random;
 import java.util.UUID;
 
-/**
- * Bean gestionado por Spring para sensor de temperatura
- * Monitorea condiciones térmicas críticas (incendios, fallos de refrigeración)
- */
+// Sensor de temperatura
 @Component("temperatureSensor")
 @Slf4j
 public class TemperatureSensor implements Sensor {
@@ -30,7 +27,6 @@ public class TemperatureSensor implements Sensor {
         "Almacén", "Centro de Datos", "Sala de Control"
     };
 
-    // Estado para simulación realista
     private boolean initialized = false;
     private double currentTemp;
     private double baseline;
@@ -44,7 +40,6 @@ public class TemperatureSensor implements Sensor {
 
         log.debug("Procesando evento de temperatura en: {}", event.getLocation());
 
-        // Simular procesamiento (cálculo de tendencias, predicción, etc.)
         try {
             Thread.sleep(random.nextInt(80) + 40);
         } catch (InterruptedException e) {
@@ -78,48 +73,36 @@ public class TemperatureSensor implements Sensor {
 
     @Override
     public SensorEvent simulateEvent() {
-        // Inicialización perezosa del baseline y valor actual
         if (!initialized) {
-            // Baseline centrado dentro del rango normal ligeramente hacia el centro
-            baseline = (minTemp + maxTemp) / 2.0; // ~22.5 por defecto
-            // Dispersión inicial pequeña
+            baseline = (minTemp + maxTemp) / 2.0;
             currentTemp = baseline + boundedGaussian(0, 0.8, -1.5, 1.5);
             initialized = true;
         }
 
-        // Activar anomalía rara vez (p ~ 0.3%) si no hay una activa
-        if (!anomalyActive && random.nextDouble() < 0.003) {
+        if (!anomalyActive && random.nextDouble() < 0.01) {
             anomalyActive = true;
             boolean high = random.nextBoolean();
-            // Objetivo fuera de rango, pero alcanzado gradualmente
             anomalyTarget = high ? (maxTemp + 15 + random.nextDouble() * 8) : (minTemp - 10 - random.nextDouble() * 6);
-            // Paso pequeño por tick (~0.6-1.2°C)
             anomalyStep = (anomalyTarget > currentTemp ? 1 : -1) * (0.6 + random.nextDouble() * 0.6);
         }
 
-        // Actualizar currentTemp: random walk con leve re-versión al baseline
         if (anomalyActive) {
             double next = currentTemp + anomalyStep;
-            // Si sobrepasamos objetivo, mantenernos cerca y luego desactivar lentamente
             if ((anomalyStep > 0 && next >= anomalyTarget) || (anomalyStep < 0 && next <= anomalyTarget)) {
                 currentTemp = anomalyTarget;
-                // Empieza a volver gradualmente al baseline tras un breve plateau
-                if (random.nextDouble() < 0.2) { // 20% de prob por tick de finalizar anomalía
+                if (random.nextDouble() < 0.2) {
                     anomalyActive = false;
                 }
             } else {
                 currentTemp = next;
             }
         } else {
-            // Paso normal pequeño (-0.3..0.3) + ligera fuerza hacia el baseline
             double step = boundedGaussian(0, 0.18, -0.35, 0.35);
-            double pull = (baseline - currentTemp) * 0.05; // 5% hacia baseline
+            double pull = (baseline - currentTemp) * 0.05;
             currentTemp += step + pull;
         }
 
-        // Redondeo a 0.1°C y clamp razonable
         double temp = Math.round(currentTemp * 10.0) / 10.0;
-        // Limitar a un rango físico amplio para evitar valores absurdos
         temp = Math.max(-20, Math.min(80, temp));
         currentTemp = temp;
 

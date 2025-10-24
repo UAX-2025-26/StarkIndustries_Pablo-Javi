@@ -8,9 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/**
- * Repositorio para gestionar logs de acceso
- */
+// Repositorio de logs de acceso
 @Repository
 public interface AccessLogRepository extends JpaRepository<AccessLog, Long> {
 

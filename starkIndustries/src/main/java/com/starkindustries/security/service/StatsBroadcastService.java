@@ -11,10 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Servicio que publica periódicamente un snapshot de estadísticas por WebSocket.
- * Sirve como "marcapasos" para el dashboard, garantizando actualizaciones regulares.
- */
+// Publica un snapshot de estadísticas por WebSocket
 @Service
 @Slf4j
 public class StatsBroadcastService {
@@ -34,7 +31,6 @@ public class StatsBroadcastService {
         this.sensorExecutor = sensorExecutor;
     }
 
-    // Publica cada 5 segundos
     @Scheduled(fixedRate = 5000, initialDelay = 5000)
     public void broadcastStats() {
         try {
@@ -46,7 +42,6 @@ public class StatsBroadcastService {
             snapshot.put("totalEvents", total);
             snapshot.put("criticalEvents", critical);
 
-            // Métricas de hilo/ejecutor
             try {
                 Map<String, Object> threadPool = new HashMap<>();
                 threadPool.put("active", sensorExecutor.getActiveCount());

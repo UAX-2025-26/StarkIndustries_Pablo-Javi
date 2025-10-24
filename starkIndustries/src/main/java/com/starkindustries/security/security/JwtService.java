@@ -17,16 +17,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-/**
- * Servicio para gestión de tokens JWT (JJWT 0.12.x)
- */
+// JWT (generación y validación)
 @Service
 public class JwtService {
 
     @Value("${security.jwt.secret}")
     private String secretKeyProperty;
 
-    @Value("${security.jwt.expiration:86400000}") // 24h por defecto
+    @Value("${security.jwt.expiration:86400000}")
     private long jwtExpiration;
 
     private SecretKey secretKey;
@@ -87,16 +85,12 @@ public class JwtService {
     }
 
     private static SecretKey buildSecretKey(String rawSecret) {
-        // Intentar Base64, si falla usar SHA-256 para obtener 32 bytes y construir la clave
         try {
             byte[] maybeB64 = Decoders.BASE64.decode(rawSecret);
             if (maybeB64 != null && maybeB64.length >= 32) {
                 return Keys.hmacShaKeyFor(maybeB64);
             }
-        } catch (IllegalArgumentException ignored) {
-            // No era Base64, continuamos
-        }
-        // Derivar clave de 256 bits desde el secreto textual (robusto ante secretos cortos)
+        } catch (IllegalArgumentException ignored) {}
         byte[] keyBytes = sha256(rawSecret);
         return Keys.hmacShaKeyFor(keyBytes);
     }
@@ -106,7 +100,6 @@ public class JwtService {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             return digest.digest(input.getBytes(StandardCharsets.UTF_8));
         } catch (NoSuchAlgorithmException e) {
-            // Fallback improbable, pero garantizamos longitud mínima
             byte[] bytes = input.getBytes(StandardCharsets.UTF_8);
             if (bytes.length >= 32) return bytes;
             byte[] padded = new byte[32];
@@ -115,4 +108,3 @@ public class JwtService {
         }
     }
 }
-

@@ -97,7 +97,7 @@ security:
       lockout-duration: 300000 # 5 minutos
 
   alerts:
-    cooldown-ms: 180000 # 3 minutos de enfriamiento por tipo+ubicación
+    cooldown-ms: 60000
 
 # Configuración del sistema de sensores
 stark:
@@ -105,8 +105,8 @@ stark:
     simulation:
       enabled: true   # activada por defecto para ver la gráfica moverse
       events:
-        min: 1
-        max: 3
+        min: 2
+        max: 4
       high-load:
         enabled: false
         batch-size: 15

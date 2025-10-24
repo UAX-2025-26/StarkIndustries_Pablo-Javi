@@ -4,9 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
 
-/**
- * Entidad que representa una alerta de seguridad crítica
- */
+// Alerta de seguridad
 @Entity
 @Table(name = "security_alerts")
 @Data
@@ -50,4 +48,3 @@ public class SecurityAlert {
         LOW, MEDIUM, HIGH, CRITICAL
     }
 }
-

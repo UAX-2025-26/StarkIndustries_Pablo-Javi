@@ -7,9 +7,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.concurrent.Executor;
 
-/**
- * Configuración de procesamiento asíncrono y concurrente
- */
+// Ejecutores para tareas asíncronas
 @Configuration
 public class AsyncConfiguration implements AsyncConfigurer {
 

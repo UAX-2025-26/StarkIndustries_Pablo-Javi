@@ -15,10 +15,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * Servicio para gestión de alertas de seguridad
- * Procesa eventos críticos y dispara notificaciones
- */
+// Alertas y notificaciones
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -27,15 +24,11 @@ public class AlertService {
     private final SecurityAlertRepository alertRepository;
     private final NotificationService notificationService;
 
-    // Rate limiting por clave (tipo@ubicación)
     private final Map<String, Long> lastAlertByKey = new ConcurrentHashMap<>();
 
     @Value("${security.alerts.cooldown-ms:120000}")
-    private long alertsCooldownMs; // por defecto 2 minutos
+    private long alertsCooldownMs;
 
-    /**
-     * Crea una alerta a partir de un evento crítico de sensor
-     */
     @Async("alertExecutor")
     public CompletableFuture<SecurityAlert> createAlertFromEvent(SensorEvent event) {
         String key = event.getSensorType().name() + "@" + String.valueOf(event.getLocation());
@@ -65,10 +58,9 @@ public class AlertService {
 
         alert = alertRepository.save(alert);
 
-        // Enviar notificaciones
         notificationService.sendAlertNotifications(alert);
 
-        log.info("Alerta creada exitosamente: ID={}, Nivel={}", alert.getId(), alert.getLevel());
+        log.info("Alerta creada: ID={}, Nivel={}", alert.getId(), alert.getLevel());
 
         return CompletableFuture.completedFuture(alert);
     }
@@ -121,9 +113,9 @@ public class AlertService {
 
     private String generateAlertTitle(SensorEvent event) {
         return switch (event.getSensorType()) {
-            case ACCESS -> "⚠️ INTRUSIÓN DETECTADA";
-            case TEMPERATURE -> "🔥 TEMPERATURA CRÍTICA";
-            case MOTION -> "👤 MOVIMIENTO SOSPECHOSO";
+            case ACCESS -> "INTRUSIÓN DETECTADA";
+            case TEMPERATURE -> "TEMPERATURA CRÍTICA";
+            case MOTION -> "MOVIMIENTO SOSPECHOSO";
         };
     }
 

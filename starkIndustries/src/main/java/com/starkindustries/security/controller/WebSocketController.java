@@ -13,9 +13,7 @@ import org.springframework.stereotype.Controller;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Controlador WebSocket para comunicación bidireccional en tiempo real
- */
+// WS para mensajes en tiempo real
 @Controller
 @Slf4j
 public class WebSocketController {
@@ -50,7 +48,6 @@ public class WebSocketController {
     public void statsRequest(String payload) {
         try {
             Map<String, Object> snapshot = new HashMap<>();
-            // Asegurar claves String en el payload para el frontend
             Map<String, Long> total = new HashMap<>();
             sensorProcessingService.getEventStatistics().forEach((k, v) -> total.put(k.name(), v));
             Map<String, Long> critical = new HashMap<>();
@@ -58,7 +55,6 @@ public class WebSocketController {
             snapshot.put("totalEvents", total);
             snapshot.put("criticalEvents", critical);
 
-            // Métricas de hilos
             try {
                 Map<String, Object> threadPool = new HashMap<>();
                 threadPool.put("active", sensorExecutor.getActiveCount());

@@ -4,10 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
 
-/**
- * Entidad que registra todos los intentos de acceso al sistema
- * Incluye accesos exitosos y fallidos para auditoría
- */
+// Registro de accesos
 @Entity
 @Table(name = "access_logs")
 @Data

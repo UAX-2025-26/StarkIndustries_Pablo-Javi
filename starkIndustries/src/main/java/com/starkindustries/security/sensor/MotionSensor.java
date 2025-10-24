@@ -10,10 +10,7 @@ import java.time.LocalDateTime;
 import java.util.Random;
 import java.util.UUID;
 
-/**
- * Bean gestionado por Spring para sensor de movimiento
- * Detecta presencia y movimiento en áreas monitoreadas
- */
+// Sensor de movimiento
 @Component("motionSensor")
 @Slf4j
 public class MotionSensor implements Sensor {
@@ -30,13 +27,11 @@ public class MotionSensor implements Sensor {
         "Sala de Servidores", "Oficina Ejecutiva", "Pasillo Norte"
     };
 
-    // Estado de simulación: tasa de detecciones por minuto
-    private double currentRate = 1.8; // baseline un poco más alto
+    private double currentRate = 1.8;
     private boolean spikeActive = false;
     private double spikeTarget = 0;
     private double spikeStep = 0;
 
-    // Histeresis para alertas: contar excedencias consecutivas
     private int consecutiveHigh = 0;
 
     @Override
@@ -64,13 +59,11 @@ public class MotionSensor implements Sensor {
 
     @Override
     public boolean requiresAlert(Double value) {
-        // Incrementar contador si supera el umbral estándar
         if (value >= threshold) {
             consecutiveHigh++;
         } else if (consecutiveHigh > 0) {
             consecutiveHigh--;
         }
-        // Alertar si supera el umbral alto o si sostiene sobre el umbral estándar por 3 ticks
         return value >= highThreshold || consecutiveHigh >= 3;
     }
 
@@ -81,20 +74,16 @@ public class MotionSensor implements Sensor {
 
     @Override
     public SensorEvent simulateEvent() {
-        // Iniciar pico un poco más a menudo
-        if (!spikeActive && random.nextDouble() < 0.02) { // 2% de prob.
+        if (!spikeActive && random.nextDouble() < 0.04) {
             spikeActive = true;
-            // pico objetivo más alto
-            spikeTarget = 8 + random.nextDouble() * 6; // 8..14
-            // paso gradual más rápido
-            spikeStep = 0.8 + random.nextDouble() * 0.6; // 0.8..1.4 por tick
+            spikeTarget = 8 + random.nextDouble() * 6;
+            spikeStep = 0.8 + random.nextDouble() * 0.6;
         }
 
         if (spikeActive) {
             double next = currentRate + spikeStep;
             if (next >= spikeTarget) {
                 currentRate = spikeTarget;
-                // chance de finalizar pico y empezar a decaer
                 if (random.nextDouble() < 0.25) {
                     spikeActive = false;
                 }
@@ -102,20 +91,17 @@ public class MotionSensor implements Sensor {
                 currentRate = next;
             }
         } else {
-            // random walk suave hacia valores algo más altos (objetivo ~2.0)
-            double drift = (2.0 - currentRate) * 0.12; // tendencia a ~2.0
-            double noise = (random.nextGaussian()) * 0.20; // ruido moderado
+            double drift = (2.0 - currentRate) * 0.12;
+            double noise = (random.nextGaussian()) * 0.20;
             currentRate += drift + noise;
         }
 
-        // Decaimiento suave si venimos de pico y no está activo
         if (!spikeActive && currentRate > 2.0) {
-            currentRate -= 0.2 + random.nextDouble() * 0.2; // decae menos para mantener valores algo altos
+            currentRate -= 0.2 + random.nextDouble() * 0.2;
         }
 
-        // Clamp y discretización ligera
         currentRate = Math.max(0, Math.min(14, currentRate));
-        double value = Math.round(currentRate); // entero natural
+        double value = Math.round(currentRate);
 
         return SensorEvent.builder()
                 .sensorType(SensorType.MOTION)

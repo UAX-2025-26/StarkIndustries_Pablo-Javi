@@ -24,18 +24,11 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
-/**
- * Configuración de Spring Security
- * Implementa autenticación JWT, autorización basada en roles y protección de endpoints
- */
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfiguration {
 
-    /**
-     * Configuración principal de la cadena de filtros de seguridad
-     */
     @Bean
     public SecurityFilterChain securityFilterChain(
             HttpSecurity http,
@@ -46,20 +39,13 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> {})
                 .authorizeHttpRequests(auth -> auth
-                        // Recursos estáticos y raíz (sin restricción de método HTTP)
                         .requestMatchers("/", "/index.html", "/favicon.ico",
                                 "/static/**", "/assets/**", "/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
-                        // Endpoints públicos
                         .requestMatchers("/api/auth/**", "/ws/**", "/h2-console/**").permitAll()
-                        // Actuator público básico
                         .requestMatchers(HttpMethod.GET, "/actuator", "/actuator/health", "/actuator/info").permitAll()
-                        // Endpoints de administración - Solo ADMIN
                         .requestMatchers("/api/admin/**", "/actuator/**").hasRole("ADMIN")
-                        // Endpoints de sensores - ADMIN y AUTHORIZED_USER
                         .requestMatchers("/api/sensors/**").hasAnyRole("ADMIN", "AUTHORIZED_USER")
-                        // Endpoints de alertas - ADMIN y AUTHORIZED_USER
                         .requestMatchers("/api/alerts/**").hasAnyRole("ADMIN", "AUTHORIZED_USER")
-                        // Resto de endpoints - Requieren autenticación
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
@@ -68,7 +54,7 @@ public class SecurityConfiguration {
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .headers(headers -> headers
-                        .frameOptions(frame -> frame.sameOrigin()) // Para H2 Console en Spring Security 6.1+
+                        .frameOptions(frame -> frame.sameOrigin())
                 );
 
         return http.build();
@@ -96,7 +82,6 @@ public class SecurityConfiguration {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        // En desarrollo permitir todos los orígenes; para prod, restringir explícitamente
         config.setAllowedOriginPatterns(List.of("*"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept", "X-Requested-With"));
