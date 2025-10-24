@@ -4621,3 +4621,698 @@ Caused by: java.util.concurrent.RejectedExecutionException: Task org.springframe
 2025-10-24 15:14:27 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
 2025-10-24 15:14:27 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
 2025-10-24 15:14:27 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-10-24 15:35:22 [main] INFO  c.s.s.StarkSecurityApplication - Starting StarkSecurityApplication using Java 21.0.8 with PID 11160 (C:\Users\javie_ecnbd8s\Proyectos\StarkIndustries_Pablo-Javi\starkIndustries\target\classes started by javie_ecnbd8s in C:\Users\javie_ecnbd8s\Proyectos\StarkIndustries_Pablo-Javi\starkIndustries)
+2025-10-24 15:35:22 [main] DEBUG c.s.s.StarkSecurityApplication - Running with Spring Boot v3.2.0, Spring v6.1.1
+2025-10-24 15:35:22 [main] INFO  c.s.s.StarkSecurityApplication - No active profile set, falling back to 1 default profile: "default"
+2025-10-24 15:35:23 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-10-24 15:35:23 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 50 ms. Found 4 JPA repository interfaces.
+2025-10-24 15:35:23 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-10-24 15:35:23 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-10-24 15:35:23 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.16]
+2025-10-24 15:35:24 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-10-24 15:35:24 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1798 ms
+2025-10-24 15:35:24 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-10-24 15:35:24 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:securitydb user=STARK
+2025-10-24 15:35:24 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-10-24 15:35:24 [main] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:securitydb'
+2025-10-24 15:35:24 [main] DEBUG c.s.s.s.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-10-24 15:35:24 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-10-24 15:35:24 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.3.1.Final
+2025-10-24 15:35:24 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-10-24 15:35:25 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-10-24 15:35:25 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-10-24 15:35:25 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-10-24 15:35:25 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-10-24 15:35:26 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-10-24 15:35:27 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-10-24 15:35:27 [main] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2025-10-24 15:35:28 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 6 endpoint(s) beneath base path '/actuator'
+2025-10-24 15:35:28 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@63e21ccb, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@8c41677, org.springframework.security.web.context.SecurityContextHolderFilter@6e737ae4, org.springframework.security.web.header.HeaderWriterFilter@24af46dd, org.springframework.web.filter.CorsFilter@791bdaff, org.springframework.security.web.authentication.logout.LogoutFilter@6b0fece4, com.starkindustries.security.security.JwtAuthenticationFilter@f1d1463, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5ecc530, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5c7673b8, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4bdea421, org.springframework.security.web.session.SessionManagementFilter@b9271b6, org.springframework.security.web.access.ExceptionTranslationFilter@682ec8d, org.springframework.security.web.access.intercept.AuthorizationFilter@5b3915b]
+2025-10-24 15:35:28 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2025-10-24 15:35:28 [main] INFO  o.s.m.s.b.SimpleBrokerMessageHandler - Starting...
+2025-10-24 15:35:28 [main] INFO  o.s.m.s.b.SimpleBrokerMessageHandler - BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@52f950e2]]
+2025-10-24 15:35:28 [main] INFO  o.s.m.s.b.SimpleBrokerMessageHandler - Started.
+2025-10-24 15:35:28 [main] INFO  c.s.s.StarkSecurityApplication - Started StarkSecurityApplication in 7.042 seconds (process running for 7.623)
+2025-10-24 15:35:28 [MessageBroker-1] DEBUG c.s.s.s.SensorSimulationService - Generando 4 eventos de sensores simultáneos
+2025-10-24 15:35:28 [SensorProcessor-1] INFO  c.s.s.s.SensorProcessingService - Procesando lote de 4 eventos concurrentemente
+2025-10-24 15:35:28 [SensorProcessor-1] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-1
+2025-10-24 15:35:28 [SensorProcessor-1] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Armería
+2025-10-24 15:35:28 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-10-24 15:35:28 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-10-24 15:35:28 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-10-24 15:35:28 [http-nio-8080-exec-1] WARN  o.s.w.s.h.HandlerMappingIntrospector - Cache miss for REQUEST dispatch to '/' (previous null). Performing MatchableHandlerMapping lookup. This is logged once only at WARN level, and every time at TRACE.
+2025-10-24 15:35:28 [SensorProcessor-1] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Armería
+2025-10-24 15:35:29 [SensorProcessor-1] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=0, TEMPERATURE=0, ACCESS=1}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=1, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:35:29 [SensorProcessor-1] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=1, Tipo=ACCESS, Crítico=false
+2025-10-24 15:35:29 [SensorProcessor-1] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-1
+2025-10-24 15:35:29 [SensorProcessor-1] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Reactor Arc - Acceso Restringido
+2025-10-24 15:35:29 [main] INFO  c.s.security.service.UserService - Usuario creado: admin
+2025-10-24 15:35:29 [main] INFO  c.s.security.config.DataInitializer - Usuario admin creado por defecto (admin/admin123)
+2025-10-24 15:35:29 [main] INFO  c.s.security.service.UserService - Usuario creado: jarvis
+2025-10-24 15:35:29 [main] INFO  c.s.security.config.DataInitializer - Usuario jarvis creado por defecto (jarvis/jarvis123)
+2025-10-24 15:35:29 [main] INFO  c.s.s.s.SensorSimulationService - Sistema de simulación de sensores iniciado (enabled=true)
+2025-10-24 15:35:29 [main] INFO  c.s.s.s.SensorSimulationService -    - Eventos normales: cada 5 segundos (2-4 eventos por ciclo)
+2025-10-24 15:35:29 [main] INFO  c.s.s.s.SensorSimulationService -    - Ráfagas de alta carga: deshabilitadas (batch: 15)
+2025-10-24 15:35:29 [SensorProcessor-1] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Reactor Arc - Acceso Restringido
+2025-10-24 15:35:29 [SensorProcessor-1] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=0, TEMPERATURE=0, ACCESS=2}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=1, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:35:29 [SensorProcessor-1] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=2, Tipo=ACCESS, Crítico=false
+2025-10-24 15:35:29 [SensorProcessor-1] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: TEMPERATURE - Thread: SensorProcessor-1
+2025-10-24 15:35:29 [SensorProcessor-1] DEBUG c.s.s.sensor.TemperatureSensor - Procesando evento de temperatura en: Laboratorio Químico
+2025-10-24 15:35:29 [SensorProcessor-1] INFO  c.s.s.sensor.TemperatureSensor - Temperatura normal: 21.1°C en Laboratorio Químico
+2025-10-24 15:35:29 [SensorProcessor-1] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=0, TEMPERATURE=1, ACCESS=2}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=1, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:35:29 [SensorProcessor-1] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=3, Tipo=TEMPERATURE, Crítico=false
+2025-10-24 15:35:29 [SensorProcessor-1] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-1
+2025-10-24 15:35:29 [SensorProcessor-1] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Armería
+2025-10-24 15:35:29 [SensorProcessor-1] WARN  c.s.s.sensor.AccessControlSensor - Intento de acceso fallido en: Armería
+2025-10-24 15:35:29 [SensorProcessor-1] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=0, TEMPERATURE=1, ACCESS=3}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=1, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:35:29 [SensorProcessor-1] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=4, Tipo=ACCESS, Crítico=false
+2025-10-24 15:35:33 [MessageBroker-2] DEBUG c.s.s.s.SensorSimulationService - Generando 2 eventos de sensores simultáneos
+2025-10-24 15:35:33 [SensorProcessor-2] INFO  c.s.s.s.SensorProcessingService - Procesando lote de 2 eventos concurrentemente
+2025-10-24 15:35:33 [SensorProcessor-2] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: MOTION - Thread: SensorProcessor-2
+2025-10-24 15:35:33 [SensorProcessor-2] DEBUG c.s.security.sensor.MotionSensor - Procesando evento de movimiento en: Bóveda
+2025-10-24 15:35:33 [SensorProcessor-2] INFO  c.s.security.sensor.MotionSensor - Evento procesado - Movimiento detectado: 2.0 unidades en Bóveda
+2025-10-24 15:35:33 [SensorProcessor-2] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=1, TEMPERATURE=1, ACCESS=3}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=2, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:35:33 [SensorProcessor-2] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=5, Tipo=MOTION, Crítico=false
+2025-10-24 15:35:33 [SensorProcessor-2] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-2
+2025-10-24 15:35:33 [SensorProcessor-2] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Reactor Arc - Acceso Restringido
+2025-10-24 15:35:33 [SensorProcessor-2] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Reactor Arc - Acceso Restringido
+2025-10-24 15:35:34 [SensorProcessor-2] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=1, TEMPERATURE=1, ACCESS=4}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=2, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:35:34 [SensorProcessor-2] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=6, Tipo=ACCESS, Crítico=false
+2025-10-24 15:35:38 [MessageBroker-6] DEBUG c.s.s.s.SensorSimulationService - Generando 4 eventos de sensores simultáneos
+2025-10-24 15:35:38 [SensorProcessor-3] INFO  c.s.s.s.SensorProcessingService - Procesando lote de 4 eventos concurrentemente
+2025-10-24 15:35:38 [SensorProcessor-3] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: MOTION - Thread: SensorProcessor-3
+2025-10-24 15:35:38 [SensorProcessor-3] DEBUG c.s.security.sensor.MotionSensor - Procesando evento de movimiento en: Laboratorio
+2025-10-24 15:35:38 [SensorProcessor-3] INFO  c.s.security.sensor.MotionSensor - Evento procesado - Movimiento detectado: 2.0 unidades en Laboratorio
+2025-10-24 15:35:38 [SensorProcessor-3] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=2, TEMPERATURE=1, ACCESS=4}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=3, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:35:38 [SensorProcessor-3] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=7, Tipo=MOTION, Crítico=false
+2025-10-24 15:35:38 [SensorProcessor-3] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-3
+2025-10-24 15:35:38 [SensorProcessor-3] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Puerta Principal
+2025-10-24 15:35:39 [SensorProcessor-3] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Puerta Principal
+2025-10-24 15:35:39 [SensorProcessor-3] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=2, TEMPERATURE=1, ACCESS=5}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=3, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:35:39 [SensorProcessor-3] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=8, Tipo=ACCESS, Crítico=false
+2025-10-24 15:35:39 [SensorProcessor-3] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: MOTION - Thread: SensorProcessor-3
+2025-10-24 15:35:39 [SensorProcessor-3] DEBUG c.s.security.sensor.MotionSensor - Procesando evento de movimiento en: Oficina Ejecutiva
+2025-10-24 15:35:39 [SensorProcessor-3] INFO  c.s.security.sensor.MotionSensor - Evento procesado - Movimiento detectado: 2.0 unidades en Oficina Ejecutiva
+2025-10-24 15:35:39 [SensorProcessor-3] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=3, TEMPERATURE=1, ACCESS=5}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=3, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:35:39 [SensorProcessor-3] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=9, Tipo=MOTION, Crítico=false
+2025-10-24 15:35:39 [SensorProcessor-3] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: MOTION - Thread: SensorProcessor-3
+2025-10-24 15:35:39 [SensorProcessor-3] DEBUG c.s.security.sensor.MotionSensor - Procesando evento de movimiento en: Bóveda
+2025-10-24 15:35:39 [SensorProcessor-3] INFO  c.s.security.sensor.MotionSensor - Evento procesado - Movimiento detectado: 2.0 unidades en Bóveda
+2025-10-24 15:35:39 [SensorProcessor-3] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=4, TEMPERATURE=1, ACCESS=5}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=3, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:35:39 [SensorProcessor-3] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=10, Tipo=MOTION, Crítico=false
+2025-10-24 15:35:43 [MessageBroker-7] DEBUG c.s.s.s.SensorSimulationService - Generando 2 eventos de sensores simultáneos
+2025-10-24 15:35:43 [SensorProcessor-4] INFO  c.s.s.s.SensorProcessingService - Procesando lote de 2 eventos concurrentemente
+2025-10-24 15:35:43 [SensorProcessor-4] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: TEMPERATURE - Thread: SensorProcessor-4
+2025-10-24 15:35:43 [SensorProcessor-4] DEBUG c.s.s.sensor.TemperatureSensor - Procesando evento de temperatura en: Sala de Control
+2025-10-24 15:35:43 [SensorProcessor-4] INFO  c.s.s.sensor.TemperatureSensor - Temperatura normal: 21.4°C en Sala de Control
+2025-10-24 15:35:43 [SensorProcessor-4] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=4, TEMPERATURE=2, ACCESS=5}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=4, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:35:43 [SensorProcessor-4] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=11, Tipo=TEMPERATURE, Crítico=false
+2025-10-24 15:35:43 [SensorProcessor-4] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: MOTION - Thread: SensorProcessor-4
+2025-10-24 15:35:43 [SensorProcessor-4] DEBUG c.s.security.sensor.MotionSensor - Procesando evento de movimiento en: Entrada Principal
+2025-10-24 15:35:43 [SensorProcessor-4] INFO  c.s.security.sensor.MotionSensor - Evento procesado - Movimiento detectado: 2.0 unidades en Entrada Principal
+2025-10-24 15:35:43 [SensorProcessor-4] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=5, TEMPERATURE=2, ACCESS=5}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=4, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:35:43 [SensorProcessor-4] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=12, Tipo=MOTION, Crítico=false
+2025-10-24 15:35:48 [MessageBroker-4] DEBUG c.s.s.s.SensorSimulationService - Generando 3 eventos de sensores simultáneos
+2025-10-24 15:35:48 [SensorProcessor-5] INFO  c.s.s.s.SensorProcessingService - Procesando lote de 3 eventos concurrentemente
+2025-10-24 15:35:48 [SensorProcessor-5] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-5
+2025-10-24 15:35:48 [SensorProcessor-5] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Armería
+2025-10-24 15:35:49 [SensorProcessor-5] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Armería
+2025-10-24 15:35:49 [SensorProcessor-5] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=5, TEMPERATURE=2, ACCESS=6}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=5, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:35:49 [SensorProcessor-5] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=13, Tipo=ACCESS, Crítico=false
+2025-10-24 15:35:49 [SensorProcessor-5] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: MOTION - Thread: SensorProcessor-5
+2025-10-24 15:35:49 [SensorProcessor-5] DEBUG c.s.security.sensor.MotionSensor - Procesando evento de movimiento en: Oficina Ejecutiva
+2025-10-24 15:35:49 [SensorProcessor-5] INFO  c.s.security.sensor.MotionSensor - Evento procesado - Movimiento detectado: 2.0 unidades en Oficina Ejecutiva
+2025-10-24 15:35:49 [SensorProcessor-5] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=6, TEMPERATURE=2, ACCESS=6}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=5, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:35:49 [SensorProcessor-5] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=14, Tipo=MOTION, Crítico=false
+2025-10-24 15:35:49 [SensorProcessor-5] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: TEMPERATURE - Thread: SensorProcessor-5
+2025-10-24 15:35:49 [SensorProcessor-5] DEBUG c.s.s.sensor.TemperatureSensor - Procesando evento de temperatura en: Almacén
+2025-10-24 15:35:49 [SensorProcessor-5] INFO  c.s.s.sensor.TemperatureSensor - Temperatura normal: 21.5°C en Almacén
+2025-10-24 15:35:49 [SensorProcessor-5] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=6, TEMPERATURE=3, ACCESS=6}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=5, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:35:49 [SensorProcessor-5] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=15, Tipo=TEMPERATURE, Crítico=false
+2025-10-24 15:35:50 [RMI TCP Connection(3)-10.151.22.47] WARN  o.s.b.a.mail.MailHealthIndicator - Mail health check failed
+org.eclipse.angus.mail.util.MailConnectException: Couldn't connect to host, port: smtp.gmail.com, 587; timeout -1
+	at org.eclipse.angus.mail.smtp.SMTPTransport.openServer(SMTPTransport.java:2243)
+	at org.eclipse.angus.mail.smtp.SMTPTransport.protocolConnect(SMTPTransport.java:729)
+	at jakarta.mail.Service.connect(Service.java:345)
+	at org.springframework.mail.javamail.JavaMailSenderImpl.connectTransport(JavaMailSenderImpl.java:480)
+	at org.springframework.mail.javamail.JavaMailSenderImpl.testConnection(JavaMailSenderImpl.java:360)
+	at org.springframework.boot.actuate.mail.MailHealthIndicator.doHealthCheck(MailHealthIndicator.java:52)
+	at org.springframework.boot.actuate.health.AbstractHealthIndicator.health(AbstractHealthIndicator.java:82)
+	at org.springframework.boot.actuate.health.HealthIndicator.getHealth(HealthIndicator.java:37)
+	at org.springframework.boot.actuate.health.HealthEndpoint.getHealth(HealthEndpoint.java:82)
+	at org.springframework.boot.actuate.health.HealthEndpoint.getHealth(HealthEndpoint.java:41)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getLoggedHealth(HealthEndpointSupport.java:172)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getContribution(HealthEndpointSupport.java:145)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getAggregateContribution(HealthEndpointSupport.java:156)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getContribution(HealthEndpointSupport.java:141)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getHealth(HealthEndpointSupport.java:110)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getHealth(HealthEndpointSupport.java:81)
+	at org.springframework.boot.actuate.health.HealthEndpoint.health(HealthEndpoint.java:76)
+	at org.springframework.boot.actuate.health.HealthEndpoint.health(HealthEndpoint.java:66)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:281)
+	at org.springframework.boot.actuate.endpoint.invoke.reflect.ReflectiveOperationInvoker.invoke(ReflectiveOperationInvoker.java:74)
+	at org.springframework.boot.actuate.endpoint.annotation.AbstractDiscoveredOperation.invoke(AbstractDiscoveredOperation.java:60)
+	at org.springframework.boot.actuate.endpoint.jmx.EndpointMBean.invoke(EndpointMBean.java:124)
+	at org.springframework.boot.actuate.endpoint.jmx.EndpointMBean.invoke(EndpointMBean.java:97)
+	at java.management/com.sun.jmx.interceptor.DefaultMBeanServerInterceptor.invoke(DefaultMBeanServerInterceptor.java:803)
+	at java.management/com.sun.jmx.mbeanserver.JmxMBeanServer.invoke(JmxMBeanServer.java:802)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl.doOperation(RMIConnectionImpl.java:1472)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl$PrivilegedOperation.run(RMIConnectionImpl.java:1310)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl.doPrivilegedOperation(RMIConnectionImpl.java:1405)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl.invoke(RMIConnectionImpl.java:829)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.rmi/sun.rmi.server.UnicastServerRef.dispatch(UnicastServerRef.java:360)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:200)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:197)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:714)
+	at java.rmi/sun.rmi.transport.Transport.serviceCall(Transport.java:196)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport.handleMessages(TCPTransport.java:598)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run0(TCPTransport.java:844)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.lambda$run$0(TCPTransport.java:721)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run(TCPTransport.java:720)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: java.net.ConnectException: Connection timed out: connect
+	at java.base/sun.nio.ch.Net.connect0(Native Method)
+	at java.base/sun.nio.ch.Net.connect(Net.java:589)
+	at java.base/sun.nio.ch.Net.connect(Net.java:578)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:583)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
+	at java.base/java.net.Socket.connect(Socket.java:751)
+	at java.base/java.net.Socket.connect(Socket.java:686)
+	at org.eclipse.angus.mail.util.SocketFetcher.createSocket(SocketFetcher.java:360)
+	at org.eclipse.angus.mail.util.SocketFetcher.getSocket(SocketFetcher.java:235)
+	at org.eclipse.angus.mail.smtp.SMTPTransport.openServer(SMTPTransport.java:2193)
+	... 45 common frames omitted
+2025-10-24 15:35:50 [RMI TCP Connection(3)-10.151.22.47] WARN  o.s.b.a.health.HealthEndpointSupport - Health contributor org.springframework.boot.actuate.mail.MailHealthIndicator (mail) took 21144ms to respond
+2025-10-24 15:35:53 [MessageBroker-6] DEBUG c.s.s.s.SensorSimulationService - Generando 3 eventos de sensores simultáneos
+2025-10-24 15:35:53 [SensorProcessor-6] INFO  c.s.s.s.SensorProcessingService - Procesando lote de 3 eventos concurrentemente
+2025-10-24 15:35:53 [SensorProcessor-6] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: TEMPERATURE - Thread: SensorProcessor-6
+2025-10-24 15:35:53 [SensorProcessor-6] DEBUG c.s.s.sensor.TemperatureSensor - Procesando evento de temperatura en: Sala de Control
+2025-10-24 15:35:53 [SensorProcessor-6] INFO  c.s.s.sensor.TemperatureSensor - Temperatura normal: 21.6°C en Sala de Control
+2025-10-24 15:35:53 [SensorProcessor-6] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=6, TEMPERATURE=4, ACCESS=6}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=6, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:35:53 [SensorProcessor-6] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=16, Tipo=TEMPERATURE, Crítico=false
+2025-10-24 15:35:53 [SensorProcessor-6] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: MOTION - Thread: SensorProcessor-6
+2025-10-24 15:35:53 [SensorProcessor-6] DEBUG c.s.security.sensor.MotionSensor - Procesando evento de movimiento en: Sala de Servidores
+2025-10-24 15:35:54 [SensorProcessor-6] INFO  c.s.security.sensor.MotionSensor - Evento procesado - Movimiento detectado: 2.0 unidades en Sala de Servidores
+2025-10-24 15:35:54 [SensorProcessor-6] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=7, TEMPERATURE=4, ACCESS=6}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=6, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:35:54 [SensorProcessor-6] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=17, Tipo=MOTION, Crítico=false
+2025-10-24 15:35:54 [SensorProcessor-6] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-6
+2025-10-24 15:35:54 [SensorProcessor-6] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Reactor Arc - Acceso Restringido
+2025-10-24 15:35:54 [SensorProcessor-6] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Reactor Arc - Acceso Restringido
+2025-10-24 15:35:54 [SensorProcessor-6] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=7, TEMPERATURE=4, ACCESS=7}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=6, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:35:54 [SensorProcessor-6] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=18, Tipo=ACCESS, Crítico=false
+2025-10-24 15:35:58 [MessageBroker-7] DEBUG c.s.s.s.SensorSimulationService - Generando 2 eventos de sensores simultáneos
+2025-10-24 15:35:58 [SensorProcessor-7] INFO  c.s.s.s.SensorProcessingService - Procesando lote de 2 eventos concurrentemente
+2025-10-24 15:35:58 [SensorProcessor-7] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: TEMPERATURE - Thread: SensorProcessor-7
+2025-10-24 15:35:58 [SensorProcessor-7] DEBUG c.s.s.sensor.TemperatureSensor - Procesando evento de temperatura en: Sala de Servidores
+2025-10-24 15:35:58 [SensorProcessor-7] INFO  c.s.s.sensor.TemperatureSensor - Temperatura normal: 21.5°C en Sala de Servidores
+2025-10-24 15:35:58 [SensorProcessor-7] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=7, TEMPERATURE=5, ACCESS=7}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=7, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:35:58 [SensorProcessor-7] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=19, Tipo=TEMPERATURE, Crítico=false
+2025-10-24 15:35:58 [SensorProcessor-7] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-7
+2025-10-24 15:35:58 [SensorProcessor-7] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Reactor Arc - Acceso Restringido
+2025-10-24 15:35:59 [SensorProcessor-7] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Reactor Arc - Acceso Restringido
+2025-10-24 15:35:59 [SensorProcessor-7] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=7, TEMPERATURE=5, ACCESS=8}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=7, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:35:59 [SensorProcessor-7] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=20, Tipo=ACCESS, Crítico=false
+2025-10-24 15:36:03 [MessageBroker-3] DEBUG c.s.s.s.SensorSimulationService - Generando 3 eventos de sensores simultáneos
+2025-10-24 15:36:03 [SensorProcessor-8] INFO  c.s.s.s.SensorProcessingService - Procesando lote de 3 eventos concurrentemente
+2025-10-24 15:36:03 [SensorProcessor-8] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-8
+2025-10-24 15:36:03 [SensorProcessor-8] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Reactor Arc - Acceso Restringido
+2025-10-24 15:36:03 [SensorProcessor-8] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Reactor Arc - Acceso Restringido
+2025-10-24 15:36:03 [SensorProcessor-8] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=7, TEMPERATURE=5, ACCESS=9}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=8, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:36:03 [SensorProcessor-8] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=21, Tipo=ACCESS, Crítico=false
+2025-10-24 15:36:03 [SensorProcessor-8] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: MOTION - Thread: SensorProcessor-8
+2025-10-24 15:36:03 [SensorProcessor-8] DEBUG c.s.security.sensor.MotionSensor - Procesando evento de movimiento en: Sala de Servidores
+2025-10-24 15:36:04 [SensorProcessor-8] INFO  c.s.security.sensor.MotionSensor - Evento procesado - Movimiento detectado: 2.0 unidades en Sala de Servidores
+2025-10-24 15:36:04 [SensorProcessor-8] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=8, TEMPERATURE=5, ACCESS=9}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=8, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:36:04 [SensorProcessor-8] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=22, Tipo=MOTION, Crítico=false
+2025-10-24 15:36:04 [SensorProcessor-8] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-8
+2025-10-24 15:36:04 [SensorProcessor-8] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Bóveda Segura
+2025-10-24 15:36:04 [SensorProcessor-8] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Bóveda Segura
+2025-10-24 15:36:04 [SensorProcessor-8] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=8, TEMPERATURE=5, ACCESS=10}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=8, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:36:04 [SensorProcessor-8] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=23, Tipo=ACCESS, Crítico=false
+2025-10-24 15:36:08 [MessageBroker-1] DEBUG c.s.s.s.SensorSimulationService - Generando 3 eventos de sensores simultáneos
+2025-10-24 15:36:08 [SensorProcessor-9] INFO  c.s.s.s.SensorProcessingService - Procesando lote de 3 eventos concurrentemente
+2025-10-24 15:36:08 [SensorProcessor-9] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-9
+2025-10-24 15:36:08 [SensorProcessor-9] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Laboratorio Nivel 5
+2025-10-24 15:36:08 [SensorProcessor-9] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Laboratorio Nivel 5
+2025-10-24 15:36:08 [SensorProcessor-9] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=8, TEMPERATURE=5, ACCESS=11}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=9, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:36:08 [SensorProcessor-9] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=24, Tipo=ACCESS, Crítico=false
+2025-10-24 15:36:08 [SensorProcessor-9] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: TEMPERATURE - Thread: SensorProcessor-9
+2025-10-24 15:36:08 [SensorProcessor-9] DEBUG c.s.s.sensor.TemperatureSensor - Procesando evento de temperatura en: Centro de Datos
+2025-10-24 15:36:09 [SensorProcessor-9] INFO  c.s.s.sensor.TemperatureSensor - Temperatura normal: 21.5°C en Centro de Datos
+2025-10-24 15:36:09 [SensorProcessor-9] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=8, TEMPERATURE=6, ACCESS=11}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=9, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:36:09 [SensorProcessor-9] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=25, Tipo=TEMPERATURE, Crítico=false
+2025-10-24 15:36:09 [SensorProcessor-9] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: TEMPERATURE - Thread: SensorProcessor-9
+2025-10-24 15:36:09 [SensorProcessor-9] DEBUG c.s.s.sensor.TemperatureSensor - Procesando evento de temperatura en: Almacén
+2025-10-24 15:36:09 [SensorProcessor-9] INFO  c.s.s.sensor.TemperatureSensor - Temperatura normal: 21.7°C en Almacén
+2025-10-24 15:36:09 [SensorProcessor-9] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=8, TEMPERATURE=7, ACCESS=11}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=9, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:36:09 [SensorProcessor-9] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=26, Tipo=TEMPERATURE, Crítico=false
+2025-10-24 15:36:13 [MessageBroker-7] DEBUG c.s.s.s.SensorSimulationService - Generando 2 eventos de sensores simultáneos
+2025-10-24 15:36:13 [SensorProcessor-10] INFO  c.s.s.s.SensorProcessingService - Procesando lote de 2 eventos concurrentemente
+2025-10-24 15:36:13 [SensorProcessor-10] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: MOTION - Thread: SensorProcessor-10
+2025-10-24 15:36:13 [SensorProcessor-10] DEBUG c.s.security.sensor.MotionSensor - Procesando evento de movimiento en: Laboratorio
+2025-10-24 15:36:13 [SensorProcessor-10] INFO  c.s.security.sensor.MotionSensor - Evento procesado - Movimiento detectado: 2.0 unidades en Laboratorio
+2025-10-24 15:36:13 [SensorProcessor-10] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=9, TEMPERATURE=7, ACCESS=11}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=10, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:36:13 [SensorProcessor-10] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=27, Tipo=MOTION, Crítico=false
+2025-10-24 15:36:13 [SensorProcessor-10] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-10
+2025-10-24 15:36:13 [SensorProcessor-10] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Bóveda Segura
+2025-10-24 15:36:14 [SensorProcessor-10] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Bóveda Segura
+2025-10-24 15:36:14 [SensorProcessor-10] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=9, TEMPERATURE=7, ACCESS=12}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=10, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:36:14 [SensorProcessor-10] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=28, Tipo=ACCESS, Crítico=false
+2025-10-24 15:36:18 [MessageBroker-3] DEBUG c.s.s.s.SensorSimulationService - Generando 3 eventos de sensores simultáneos
+2025-10-24 15:36:18 [SensorProcessor-11] INFO  c.s.s.s.SensorProcessingService - Procesando lote de 3 eventos concurrentemente
+2025-10-24 15:36:18 [SensorProcessor-11] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: TEMPERATURE - Thread: SensorProcessor-11
+2025-10-24 15:36:18 [SensorProcessor-11] DEBUG c.s.s.sensor.TemperatureSensor - Procesando evento de temperatura en: Sala de Servidores
+2025-10-24 15:36:18 [SensorProcessor-11] INFO  c.s.s.sensor.TemperatureSensor - Temperatura normal: 21.6°C en Sala de Servidores
+2025-10-24 15:36:18 [SensorProcessor-11] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=9, TEMPERATURE=8, ACCESS=12}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=11, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:36:18 [SensorProcessor-11] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=29, Tipo=TEMPERATURE, Crítico=false
+2025-10-24 15:36:18 [SensorProcessor-11] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: MOTION - Thread: SensorProcessor-11
+2025-10-24 15:36:18 [SensorProcessor-11] DEBUG c.s.security.sensor.MotionSensor - Procesando evento de movimiento en: Bóveda
+2025-10-24 15:36:19 [SensorProcessor-11] INFO  c.s.security.sensor.MotionSensor - Evento procesado - Movimiento detectado: 2.0 unidades en Bóveda
+2025-10-24 15:36:19 [SensorProcessor-11] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=10, TEMPERATURE=8, ACCESS=12}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=11, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:36:19 [SensorProcessor-11] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=30, Tipo=MOTION, Crítico=false
+2025-10-24 15:36:19 [SensorProcessor-11] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-11
+2025-10-24 15:36:19 [SensorProcessor-11] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Sala de Control Central
+2025-10-24 15:36:19 [SensorProcessor-11] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Sala de Control Central
+2025-10-24 15:36:19 [SensorProcessor-11] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=10, TEMPERATURE=8, ACCESS=13}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=11, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:36:19 [SensorProcessor-11] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=31, Tipo=ACCESS, Crítico=false
+2025-10-24 15:36:23 [MessageBroker-1] DEBUG c.s.s.s.SensorSimulationService - Generando 3 eventos de sensores simultáneos
+2025-10-24 15:36:23 [SensorProcessor-12] INFO  c.s.s.s.SensorProcessingService - Procesando lote de 3 eventos concurrentemente
+2025-10-24 15:36:23 [SensorProcessor-12] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: TEMPERATURE - Thread: SensorProcessor-12
+2025-10-24 15:36:23 [SensorProcessor-12] DEBUG c.s.s.sensor.TemperatureSensor - Procesando evento de temperatura en: Almacén
+2025-10-24 15:36:23 [SensorProcessor-12] INFO  c.s.s.sensor.TemperatureSensor - Temperatura normal: 21.7°C en Almacén
+2025-10-24 15:36:23 [SensorProcessor-12] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=10, TEMPERATURE=9, ACCESS=13}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=12, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:36:23 [SensorProcessor-12] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=32, Tipo=TEMPERATURE, Crítico=false
+2025-10-24 15:36:23 [SensorProcessor-12] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-12
+2025-10-24 15:36:23 [SensorProcessor-12] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Laboratorio Nivel 5
+2025-10-24 15:36:24 [SensorProcessor-12] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Laboratorio Nivel 5
+2025-10-24 15:36:24 [SensorProcessor-12] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=10, TEMPERATURE=9, ACCESS=14}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=12, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:36:24 [SensorProcessor-12] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=33, Tipo=ACCESS, Crítico=false
+2025-10-24 15:36:24 [SensorProcessor-12] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: MOTION - Thread: SensorProcessor-12
+2025-10-24 15:36:24 [SensorProcessor-12] DEBUG c.s.security.sensor.MotionSensor - Procesando evento de movimiento en: Bóveda
+2025-10-24 15:36:24 [SensorProcessor-12] INFO  c.s.security.sensor.MotionSensor - Evento procesado - Movimiento detectado: 2.0 unidades en Bóveda
+2025-10-24 15:36:24 [SensorProcessor-12] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=11, TEMPERATURE=9, ACCESS=14}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=12, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:36:24 [SensorProcessor-12] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=34, Tipo=MOTION, Crítico=false
+2025-10-24 15:36:28 [MessageBroker-7] INFO  o.s.w.s.c.WebSocketMessageBrokerStats - WebSocketSession[1 current WS(1)-HttpStream(0)-HttpPoll(0), 1 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(1)-CONNECTED(1)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 16, active threads = 0, queued tasks = 0, completed tasks = 18], outboundChannel[pool size = 16, active threads = 0, queued tasks = 0, completed tasks = 72], sockJsScheduler[pool size = 8, active threads = 1, queued tasks = 5, completed tasks = 37]
+2025-10-24 15:36:28 [MessageBroker-8] DEBUG c.s.s.s.SensorSimulationService - Generando 4 eventos de sensores simultáneos
+2025-10-24 15:36:28 [SensorProcessor-13] INFO  c.s.s.s.SensorProcessingService - Procesando lote de 4 eventos concurrentemente
+2025-10-24 15:36:28 [SensorProcessor-13] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: TEMPERATURE - Thread: SensorProcessor-13
+2025-10-24 15:36:28 [SensorProcessor-13] DEBUG c.s.s.sensor.TemperatureSensor - Procesando evento de temperatura en: Sala de Servidores
+2025-10-24 15:36:28 [SensorProcessor-13] INFO  c.s.s.sensor.TemperatureSensor - Temperatura normal: 21.6°C en Sala de Servidores
+2025-10-24 15:36:28 [SensorProcessor-13] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=11, TEMPERATURE=10, ACCESS=14}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=13, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:36:28 [SensorProcessor-13] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=35, Tipo=TEMPERATURE, Crítico=false
+2025-10-24 15:36:28 [SensorProcessor-13] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-13
+2025-10-24 15:36:28 [SensorProcessor-13] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Reactor Arc - Acceso Restringido
+2025-10-24 15:36:29 [SensorProcessor-13] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Reactor Arc - Acceso Restringido
+2025-10-24 15:36:29 [SensorProcessor-13] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=11, TEMPERATURE=10, ACCESS=15}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=13, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:36:29 [SensorProcessor-13] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=36, Tipo=ACCESS, Crítico=false
+2025-10-24 15:36:29 [SensorProcessor-13] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: MOTION - Thread: SensorProcessor-13
+2025-10-24 15:36:29 [SensorProcessor-13] DEBUG c.s.security.sensor.MotionSensor - Procesando evento de movimiento en: Bóveda
+2025-10-24 15:36:29 [SensorProcessor-13] INFO  c.s.security.sensor.MotionSensor - Evento procesado - Movimiento detectado: 2.0 unidades en Bóveda
+2025-10-24 15:36:29 [SensorProcessor-13] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=12, TEMPERATURE=10, ACCESS=15}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=13, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:36:29 [SensorProcessor-13] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=37, Tipo=MOTION, Crítico=false
+2025-10-24 15:36:29 [SensorProcessor-13] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: MOTION - Thread: SensorProcessor-13
+2025-10-24 15:36:29 [SensorProcessor-13] DEBUG c.s.security.sensor.MotionSensor - Procesando evento de movimiento en: Pasillo Norte
+2025-10-24 15:36:29 [SensorProcessor-13] INFO  c.s.security.sensor.MotionSensor - Evento procesado - Movimiento detectado: 2.0 unidades en Pasillo Norte
+2025-10-24 15:36:29 [SensorProcessor-13] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=13, TEMPERATURE=10, ACCESS=15}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=13, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:36:29 [SensorProcessor-13] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=38, Tipo=MOTION, Crítico=false
+2025-10-24 15:36:33 [MessageBroker-1] DEBUG c.s.s.s.SensorSimulationService - Generando 2 eventos de sensores simultáneos
+2025-10-24 15:36:33 [SensorProcessor-14] INFO  c.s.s.s.SensorProcessingService - Procesando lote de 2 eventos concurrentemente
+2025-10-24 15:36:33 [SensorProcessor-14] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-14
+2025-10-24 15:36:33 [SensorProcessor-14] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Laboratorio Nivel 5
+2025-10-24 15:36:34 [SensorProcessor-14] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Laboratorio Nivel 5
+2025-10-24 15:36:34 [SensorProcessor-14] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=13, TEMPERATURE=10, ACCESS=16}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=14, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:36:34 [SensorProcessor-14] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=39, Tipo=ACCESS, Crítico=false
+2025-10-24 15:36:34 [SensorProcessor-14] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-14
+2025-10-24 15:36:34 [SensorProcessor-14] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Puerta Principal
+2025-10-24 15:36:34 [SensorProcessor-14] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Puerta Principal
+2025-10-24 15:36:34 [SensorProcessor-14] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=13, TEMPERATURE=10, ACCESS=17}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=14, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:36:34 [SensorProcessor-14] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=40, Tipo=ACCESS, Crítico=false
+2025-10-24 15:36:38 [MessageBroker-7] DEBUG c.s.s.s.SensorSimulationService - Generando 2 eventos de sensores simultáneos
+2025-10-24 15:36:38 [SensorProcessor-15] INFO  c.s.s.s.SensorProcessingService - Procesando lote de 2 eventos concurrentemente
+2025-10-24 15:36:38 [SensorProcessor-15] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: TEMPERATURE - Thread: SensorProcessor-15
+2025-10-24 15:36:38 [SensorProcessor-15] DEBUG c.s.s.sensor.TemperatureSensor - Procesando evento de temperatura en: Laboratorio Químico
+2025-10-24 15:36:38 [SensorProcessor-15] INFO  c.s.s.sensor.TemperatureSensor - Temperatura normal: 21.9°C en Laboratorio Químico
+2025-10-24 15:36:38 [SensorProcessor-15] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=13, TEMPERATURE=11, ACCESS=17}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=15, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:36:38 [SensorProcessor-15] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=41, Tipo=TEMPERATURE, Crítico=false
+2025-10-24 15:36:38 [SensorProcessor-15] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-15
+2025-10-24 15:36:38 [SensorProcessor-15] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Bóveda Segura
+2025-10-24 15:36:39 [SensorProcessor-15] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Bóveda Segura
+2025-10-24 15:36:39 [SensorProcessor-15] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=13, TEMPERATURE=11, ACCESS=18}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=15, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:36:39 [SensorProcessor-15] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=42, Tipo=ACCESS, Crítico=false
+2025-10-24 15:36:43 [MessageBroker-8] DEBUG c.s.s.s.SensorSimulationService - Generando 3 eventos de sensores simultáneos
+2025-10-24 15:36:43 [SensorProcessor-16] INFO  c.s.s.s.SensorProcessingService - Procesando lote de 3 eventos concurrentemente
+2025-10-24 15:36:43 [SensorProcessor-16] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-16
+2025-10-24 15:36:43 [SensorProcessor-16] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Armería
+2025-10-24 15:36:43 [SensorProcessor-16] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Armería
+2025-10-24 15:36:43 [SensorProcessor-16] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=13, TEMPERATURE=11, ACCESS=19}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=16, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:36:43 [SensorProcessor-16] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=43, Tipo=ACCESS, Crítico=false
+2025-10-24 15:36:43 [SensorProcessor-16] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: TEMPERATURE - Thread: SensorProcessor-16
+2025-10-24 15:36:43 [SensorProcessor-16] DEBUG c.s.s.sensor.TemperatureSensor - Procesando evento de temperatura en: Laboratorio Químico
+2025-10-24 15:36:44 [SensorProcessor-16] INFO  c.s.s.sensor.TemperatureSensor - Temperatura normal: 22.1°C en Laboratorio Químico
+2025-10-24 15:36:44 [SensorProcessor-16] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=13, TEMPERATURE=12, ACCESS=19}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=16, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:36:44 [SensorProcessor-16] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=44, Tipo=TEMPERATURE, Crítico=false
+2025-10-24 15:36:44 [SensorProcessor-16] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: TEMPERATURE - Thread: SensorProcessor-16
+2025-10-24 15:36:44 [SensorProcessor-16] DEBUG c.s.s.sensor.TemperatureSensor - Procesando evento de temperatura en: Laboratorio Químico
+2025-10-24 15:36:44 [SensorProcessor-16] INFO  c.s.s.sensor.TemperatureSensor - Temperatura normal: 21.9°C en Laboratorio Químico
+2025-10-24 15:36:44 [SensorProcessor-16] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=13, TEMPERATURE=13, ACCESS=19}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=16, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:36:44 [SensorProcessor-16] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=45, Tipo=TEMPERATURE, Crítico=false
+2025-10-24 15:36:48 [MessageBroker-1] DEBUG c.s.s.s.SensorSimulationService - Generando 3 eventos de sensores simultáneos
+2025-10-24 15:36:48 [SensorProcessor-17] INFO  c.s.s.s.SensorProcessingService - Procesando lote de 3 eventos concurrentemente
+2025-10-24 15:36:48 [SensorProcessor-17] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-17
+2025-10-24 15:36:48 [SensorProcessor-17] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Puerta Principal
+2025-10-24 15:36:48 [SensorProcessor-17] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Puerta Principal
+2025-10-24 15:36:48 [SensorProcessor-17] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=13, TEMPERATURE=13, ACCESS=20}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=17, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:36:48 [SensorProcessor-17] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=46, Tipo=ACCESS, Crítico=false
+2025-10-24 15:36:48 [SensorProcessor-17] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: TEMPERATURE - Thread: SensorProcessor-17
+2025-10-24 15:36:48 [SensorProcessor-17] DEBUG c.s.s.sensor.TemperatureSensor - Procesando evento de temperatura en: Laboratorio Químico
+2025-10-24 15:36:48 [SensorProcessor-17] INFO  c.s.s.sensor.TemperatureSensor - Temperatura normal: 21.7°C en Laboratorio Químico
+2025-10-24 15:36:48 [SensorProcessor-17] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=13, TEMPERATURE=14, ACCESS=20}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=17, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:36:49 [SensorProcessor-17] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=47, Tipo=TEMPERATURE, Crítico=false
+2025-10-24 15:36:49 [SensorProcessor-17] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: MOTION - Thread: SensorProcessor-17
+2025-10-24 15:36:49 [SensorProcessor-17] DEBUG c.s.security.sensor.MotionSensor - Procesando evento de movimiento en: Bóveda
+2025-10-24 15:36:49 [SensorProcessor-17] INFO  c.s.security.sensor.MotionSensor - Evento procesado - Movimiento detectado: 3.0 unidades en Bóveda
+2025-10-24 15:36:49 [SensorProcessor-17] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=14, TEMPERATURE=14, ACCESS=20}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=17, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:36:49 [SensorProcessor-17] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=48, Tipo=MOTION, Crítico=false
+2025-10-24 15:36:53 [MessageBroker-7] DEBUG c.s.s.s.SensorSimulationService - Generando 4 eventos de sensores simultáneos
+2025-10-24 15:36:53 [SensorProcessor-18] INFO  c.s.s.s.SensorProcessingService - Procesando lote de 4 eventos concurrentemente
+2025-10-24 15:36:53 [SensorProcessor-18] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: TEMPERATURE - Thread: SensorProcessor-18
+2025-10-24 15:36:53 [SensorProcessor-18] DEBUG c.s.s.sensor.TemperatureSensor - Procesando evento de temperatura en: Sala de Servidores
+2025-10-24 15:36:53 [SensorProcessor-18] INFO  c.s.s.sensor.TemperatureSensor - Temperatura normal: 22.0°C en Sala de Servidores
+2025-10-24 15:36:53 [SensorProcessor-18] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=14, TEMPERATURE=15, ACCESS=20}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=18, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:36:53 [SensorProcessor-18] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=49, Tipo=TEMPERATURE, Crítico=false
+2025-10-24 15:36:53 [SensorProcessor-18] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-18
+2025-10-24 15:36:53 [SensorProcessor-18] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Laboratorio Nivel 5
+2025-10-24 15:36:54 [SensorProcessor-18] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Laboratorio Nivel 5
+2025-10-24 15:36:54 [SensorProcessor-18] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=14, TEMPERATURE=15, ACCESS=21}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=18, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:36:54 [SensorProcessor-18] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=50, Tipo=ACCESS, Crítico=false
+2025-10-24 15:36:54 [SensorProcessor-18] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: TEMPERATURE - Thread: SensorProcessor-18
+2025-10-24 15:36:54 [SensorProcessor-18] DEBUG c.s.s.sensor.TemperatureSensor - Procesando evento de temperatura en: Almacén
+2025-10-24 15:36:54 [SensorProcessor-18] INFO  c.s.s.sensor.TemperatureSensor - Temperatura normal: 21.9°C en Almacén
+2025-10-24 15:36:54 [SensorProcessor-18] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=14, TEMPERATURE=16, ACCESS=21}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=18, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:36:54 [SensorProcessor-18] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=51, Tipo=TEMPERATURE, Crítico=false
+2025-10-24 15:36:54 [SensorProcessor-18] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: MOTION - Thread: SensorProcessor-18
+2025-10-24 15:36:54 [SensorProcessor-18] DEBUG c.s.security.sensor.MotionSensor - Procesando evento de movimiento en: Pasillo Norte
+2025-10-24 15:36:54 [SensorProcessor-18] INFO  c.s.security.sensor.MotionSensor - Evento procesado - Movimiento detectado: 4.0 unidades en Pasillo Norte
+2025-10-24 15:36:54 [SensorProcessor-18] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=15, TEMPERATURE=16, ACCESS=21}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=18, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:36:54 [SensorProcessor-18] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=52, Tipo=MOTION, Crítico=false
+2025-10-24 15:36:58 [MessageBroker-2] DEBUG c.s.s.s.SensorSimulationService - Generando 2 eventos de sensores simultáneos
+2025-10-24 15:36:58 [SensorProcessor-19] INFO  c.s.s.s.SensorProcessingService - Procesando lote de 2 eventos concurrentemente
+2025-10-24 15:36:58 [SensorProcessor-19] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: MOTION - Thread: SensorProcessor-19
+2025-10-24 15:36:58 [SensorProcessor-19] DEBUG c.s.security.sensor.MotionSensor - Procesando evento de movimiento en: Pasillo Norte
+2025-10-24 15:36:58 [SensorProcessor-19] INFO  c.s.security.sensor.MotionSensor - Evento procesado - Movimiento detectado: 5.0 unidades en Pasillo Norte
+2025-10-24 15:36:58 [SensorProcessor-19] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=16, TEMPERATURE=16, ACCESS=21}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=19, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:36:58 [SensorProcessor-19] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=53, Tipo=MOTION, Crítico=false
+2025-10-24 15:36:58 [SensorProcessor-19] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: TEMPERATURE - Thread: SensorProcessor-19
+2025-10-24 15:36:58 [SensorProcessor-19] DEBUG c.s.s.sensor.TemperatureSensor - Procesando evento de temperatura en: Laboratorio Químico
+2025-10-24 15:36:59 [SensorProcessor-19] INFO  c.s.s.sensor.TemperatureSensor - Temperatura normal: 21.9°C en Laboratorio Químico
+2025-10-24 15:36:59 [SensorProcessor-19] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=16, TEMPERATURE=17, ACCESS=21}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=19, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:36:59 [SensorProcessor-19] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=54, Tipo=TEMPERATURE, Crítico=false
+2025-10-24 15:37:03 [MessageBroker-6] DEBUG c.s.s.s.SensorSimulationService - Generando 3 eventos de sensores simultáneos
+2025-10-24 15:37:03 [SensorProcessor-20] INFO  c.s.s.s.SensorProcessingService - Procesando lote de 3 eventos concurrentemente
+2025-10-24 15:37:03 [SensorProcessor-20] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-20
+2025-10-24 15:37:03 [SensorProcessor-20] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Bóveda Segura
+2025-10-24 15:37:03 [SensorProcessor-20] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Bóveda Segura
+2025-10-24 15:37:03 [SensorProcessor-20] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=16, TEMPERATURE=17, ACCESS=22}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:03 [SensorProcessor-20] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=55, Tipo=ACCESS, Crítico=false
+2025-10-24 15:37:03 [SensorProcessor-20] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-20
+2025-10-24 15:37:03 [SensorProcessor-20] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Armería
+2025-10-24 15:37:04 [SensorProcessor-20] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Armería
+2025-10-24 15:37:04 [SensorProcessor-20] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=16, TEMPERATURE=17, ACCESS=23}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:04 [SensorProcessor-20] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=56, Tipo=ACCESS, Crítico=false
+2025-10-24 15:37:04 [SensorProcessor-20] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-20
+2025-10-24 15:37:04 [SensorProcessor-20] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Armería
+2025-10-24 15:37:04 [SensorProcessor-20] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Armería
+2025-10-24 15:37:04 [SensorProcessor-20] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=16, TEMPERATURE=17, ACCESS=24}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:04 [SensorProcessor-20] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=57, Tipo=ACCESS, Crítico=false
+2025-10-24 15:37:08 [MessageBroker-8] DEBUG c.s.s.s.SensorSimulationService - Generando 4 eventos de sensores simultáneos
+2025-10-24 15:37:08 [SensorProcessor-1] INFO  c.s.s.s.SensorProcessingService - Procesando lote de 4 eventos concurrentemente
+2025-10-24 15:37:08 [SensorProcessor-1] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: TEMPERATURE - Thread: SensorProcessor-1
+2025-10-24 15:37:08 [SensorProcessor-1] DEBUG c.s.s.sensor.TemperatureSensor - Procesando evento de temperatura en: Centro de Datos
+2025-10-24 15:37:08 [SensorProcessor-1] INFO  c.s.s.sensor.TemperatureSensor - Temperatura normal: 22.1°C en Centro de Datos
+2025-10-24 15:37:08 [SensorProcessor-1] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=16, TEMPERATURE=18, ACCESS=24}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:08 [SensorProcessor-1] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=58, Tipo=TEMPERATURE, Crítico=false
+2025-10-24 15:37:08 [SensorProcessor-1] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: MOTION - Thread: SensorProcessor-1
+2025-10-24 15:37:08 [SensorProcessor-1] DEBUG c.s.security.sensor.MotionSensor - Procesando evento de movimiento en: Bóveda
+2025-10-24 15:37:08 [SensorProcessor-1] INFO  c.s.security.sensor.MotionSensor - Evento procesado - Movimiento detectado: 7.0 unidades en Bóveda
+2025-10-24 15:37:08 [SensorProcessor-1] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=17, TEMPERATURE=18, ACCESS=24}, criticalEvents={MOTION=0, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:08 [SensorProcessor-1] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=59, Tipo=MOTION, Crítico=false
+2025-10-24 15:37:08 [SensorProcessor-1] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: MOTION - Thread: SensorProcessor-1
+2025-10-24 15:37:08 [SensorProcessor-1] DEBUG c.s.security.sensor.MotionSensor - Procesando evento de movimiento en: Oficina Ejecutiva
+2025-10-24 15:37:09 [SensorProcessor-1] INFO  c.s.security.sensor.MotionSensor - Evento procesado - Movimiento detectado: 8.0 unidades en Oficina Ejecutiva
+2025-10-24 15:37:09 [SensorProcessor-1] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=18, TEMPERATURE=18, ACCESS=24}, criticalEvents={MOTION=1, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:09 [SensorProcessor-1] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=60, Tipo=MOTION, Crítico=true
+2025-10-24 15:37:09 [SensorProcessor-1] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: MOTION - Thread: SensorProcessor-1
+2025-10-24 15:37:09 [SensorProcessor-1] DEBUG c.s.security.sensor.MotionSensor - Procesando evento de movimiento en: Pasillo Norte
+2025-10-24 15:37:09 [AlertProcessor-1] WARN  c.s.security.service.AlertService - Creando alerta de seguridad para evento crítico: MOTION en Oficina Ejecutiva
+2025-10-24 15:37:09 [AlertProcessor-1] INFO  c.s.security.service.AlertService - Alerta creada: ID=1, Nivel=MEDIUM
+2025-10-24 15:37:09 [Notification-1] INFO  c.s.s.service.NotificationService - Enviando notificaciones para alerta: 1
+2025-10-24 15:37:09 [Notification-1] INFO  c.s.s.service.NotificationService - Notificación WebSocket enviada: Alerta 1
+2025-10-24 15:37:09 [Notification-1] INFO  c.s.s.service.NotificationService - Notificación PUSH simulada enviada: MOVIMIENTO SOSPECHOSO - Oficina Ejecutiva
+2025-10-24 15:37:09 [SensorProcessor-1] INFO  c.s.security.sensor.MotionSensor - Evento procesado - Movimiento detectado: 8.0 unidades en Pasillo Norte
+2025-10-24 15:37:09 [SensorProcessor-1] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=19, TEMPERATURE=18, ACCESS=24}, criticalEvents={MOTION=2, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:09 [SensorProcessor-1] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=61, Tipo=MOTION, Crítico=true
+2025-10-24 15:37:09 [AlertProcessor-2] WARN  c.s.security.service.AlertService - Creando alerta de seguridad para evento crítico: MOTION en Pasillo Norte
+2025-10-24 15:37:09 [AlertProcessor-2] INFO  c.s.security.service.AlertService - Alerta creada: ID=2, Nivel=MEDIUM
+2025-10-24 15:37:09 [Notification-2] INFO  c.s.s.service.NotificationService - Enviando notificaciones para alerta: 2
+2025-10-24 15:37:09 [Notification-2] INFO  c.s.s.service.NotificationService - Notificación WebSocket enviada: Alerta 2
+2025-10-24 15:37:09 [Notification-2] INFO  c.s.s.service.NotificationService - Notificación PUSH simulada enviada: MOVIMIENTO SOSPECHOSO - Pasillo Norte
+2025-10-24 15:37:13 [MessageBroker-2] DEBUG c.s.s.s.SensorSimulationService - Generando 4 eventos de sensores simultáneos
+2025-10-24 15:37:13 [SensorProcessor-2] INFO  c.s.s.s.SensorProcessingService - Procesando lote de 4 eventos concurrentemente
+2025-10-24 15:37:13 [SensorProcessor-2] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: MOTION - Thread: SensorProcessor-2
+2025-10-24 15:37:13 [SensorProcessor-2] DEBUG c.s.security.sensor.MotionSensor - Procesando evento de movimiento en: Laboratorio
+2025-10-24 15:37:13 [SensorProcessor-2] INFO  c.s.security.sensor.MotionSensor - Evento procesado - Movimiento detectado: 7.0 unidades en Laboratorio
+2025-10-24 15:37:13 [SensorProcessor-2] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=20, TEMPERATURE=18, ACCESS=24}, criticalEvents={MOTION=3, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:13 [SensorProcessor-2] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=62, Tipo=MOTION, Crítico=true
+2025-10-24 15:37:13 [SensorProcessor-2] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-2
+2025-10-24 15:37:13 [SensorProcessor-2] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Bóveda Segura
+2025-10-24 15:37:13 [AlertProcessor-3] WARN  c.s.security.service.AlertService - Creando alerta de seguridad para evento crítico: MOTION en Laboratorio
+2025-10-24 15:37:13 [AlertProcessor-3] INFO  c.s.security.service.AlertService - Alerta creada: ID=3, Nivel=MEDIUM
+2025-10-24 15:37:13 [Notification-3] INFO  c.s.s.service.NotificationService - Enviando notificaciones para alerta: 3
+2025-10-24 15:37:13 [Notification-3] INFO  c.s.s.service.NotificationService - Notificación WebSocket enviada: Alerta 3
+2025-10-24 15:37:13 [Notification-3] INFO  c.s.s.service.NotificationService - Notificación PUSH simulada enviada: MOVIMIENTO SOSPECHOSO - Laboratorio
+2025-10-24 15:37:14 [SensorProcessor-2] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Bóveda Segura
+2025-10-24 15:37:14 [SensorProcessor-2] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=20, TEMPERATURE=18, ACCESS=25}, criticalEvents={MOTION=3, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:14 [SensorProcessor-2] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=63, Tipo=ACCESS, Crítico=false
+2025-10-24 15:37:14 [SensorProcessor-2] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: TEMPERATURE - Thread: SensorProcessor-2
+2025-10-24 15:37:14 [SensorProcessor-2] DEBUG c.s.s.sensor.TemperatureSensor - Procesando evento de temperatura en: Almacén
+2025-10-24 15:37:14 [SensorProcessor-2] INFO  c.s.s.sensor.TemperatureSensor - Temperatura normal: 22.2°C en Almacén
+2025-10-24 15:37:14 [SensorProcessor-2] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=20, TEMPERATURE=19, ACCESS=25}, criticalEvents={MOTION=3, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:14 [SensorProcessor-2] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=64, Tipo=TEMPERATURE, Crítico=false
+2025-10-24 15:37:14 [SensorProcessor-2] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-2
+2025-10-24 15:37:14 [SensorProcessor-2] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Bóveda Segura
+2025-10-24 15:37:14 [SensorProcessor-2] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Bóveda Segura
+2025-10-24 15:37:14 [SensorProcessor-2] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=20, TEMPERATURE=19, ACCESS=26}, criticalEvents={MOTION=3, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:14 [SensorProcessor-2] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=65, Tipo=ACCESS, Crítico=false
+2025-10-24 15:37:18 [MessageBroker-6] DEBUG c.s.s.s.SensorSimulationService - Generando 4 eventos de sensores simultáneos
+2025-10-24 15:37:18 [SensorProcessor-3] INFO  c.s.s.s.SensorProcessingService - Procesando lote de 4 eventos concurrentemente
+2025-10-24 15:37:18 [SensorProcessor-3] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: TEMPERATURE - Thread: SensorProcessor-3
+2025-10-24 15:37:18 [SensorProcessor-3] DEBUG c.s.s.sensor.TemperatureSensor - Procesando evento de temperatura en: Sala de Servidores
+2025-10-24 15:37:18 [SensorProcessor-3] INFO  c.s.s.sensor.TemperatureSensor - Temperatura normal: 22.2°C en Sala de Servidores
+2025-10-24 15:37:18 [SensorProcessor-3] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=20, TEMPERATURE=20, ACCESS=26}, criticalEvents={MOTION=3, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:18 [SensorProcessor-3] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=66, Tipo=TEMPERATURE, Crítico=false
+2025-10-24 15:37:18 [SensorProcessor-3] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: MOTION - Thread: SensorProcessor-3
+2025-10-24 15:37:18 [SensorProcessor-3] DEBUG c.s.security.sensor.MotionSensor - Procesando evento de movimiento en: Bóveda
+2025-10-24 15:37:19 [SensorProcessor-3] INFO  c.s.security.sensor.MotionSensor - Evento procesado - Movimiento detectado: 6.0 unidades en Bóveda
+2025-10-24 15:37:19 [SensorProcessor-3] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=21, TEMPERATURE=20, ACCESS=26}, criticalEvents={MOTION=4, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:19 [SensorProcessor-3] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=67, Tipo=MOTION, Crítico=true
+2025-10-24 15:37:19 [SensorProcessor-3] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: MOTION - Thread: SensorProcessor-3
+2025-10-24 15:37:19 [SensorProcessor-3] DEBUG c.s.security.sensor.MotionSensor - Procesando evento de movimiento en: Oficina Ejecutiva
+2025-10-24 15:37:19 [AlertProcessor-4] WARN  c.s.security.service.AlertService - Creando alerta de seguridad para evento crítico: MOTION en Bóveda
+2025-10-24 15:37:19 [AlertProcessor-4] INFO  c.s.security.service.AlertService - Alerta creada: ID=4, Nivel=MEDIUM
+2025-10-24 15:37:19 [Notification-4] INFO  c.s.s.service.NotificationService - Enviando notificaciones para alerta: 4
+2025-10-24 15:37:19 [Notification-4] INFO  c.s.s.service.NotificationService - Notificación WebSocket enviada: Alerta 4
+2025-10-24 15:37:19 [Notification-4] INFO  c.s.s.service.NotificationService - Notificación PUSH simulada enviada: MOVIMIENTO SOSPECHOSO - Bóveda
+2025-10-24 15:37:19 [SensorProcessor-3] INFO  c.s.security.sensor.MotionSensor - Evento procesado - Movimiento detectado: 5.0 unidades en Oficina Ejecutiva
+2025-10-24 15:37:19 [SensorProcessor-3] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=22, TEMPERATURE=20, ACCESS=26}, criticalEvents={MOTION=5, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:19 [SensorProcessor-3] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=68, Tipo=MOTION, Crítico=true
+2025-10-24 15:37:19 [SensorProcessor-3] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-3
+2025-10-24 15:37:19 [SensorProcessor-3] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Bóveda Segura
+2025-10-24 15:37:19 [AlertProcessor-5] INFO  c.s.security.service.AlertService - Rate limit: omitiendo alerta repetida para MOTION@Oficina Ejecutiva (49941 ms restantes)
+2025-10-24 15:37:19 [SensorProcessor-3] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Bóveda Segura
+2025-10-24 15:37:19 [SensorProcessor-3] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=22, TEMPERATURE=20, ACCESS=27}, criticalEvents={MOTION=5, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:19 [SensorProcessor-3] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=69, Tipo=ACCESS, Crítico=false
+2025-10-24 15:37:23 [MessageBroker-8] DEBUG c.s.s.s.SensorSimulationService - Generando 4 eventos de sensores simultáneos
+2025-10-24 15:37:23 [SensorProcessor-4] INFO  c.s.s.s.SensorProcessingService - Procesando lote de 4 eventos concurrentemente
+2025-10-24 15:37:23 [SensorProcessor-4] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: MOTION - Thread: SensorProcessor-4
+2025-10-24 15:37:23 [SensorProcessor-4] DEBUG c.s.security.sensor.MotionSensor - Procesando evento de movimiento en: Laboratorio
+2025-10-24 15:37:23 [SensorProcessor-4] INFO  c.s.security.sensor.MotionSensor - Evento procesado - Movimiento detectado: 6.0 unidades en Laboratorio
+2025-10-24 15:37:23 [SensorProcessor-4] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=23, TEMPERATURE=20, ACCESS=27}, criticalEvents={MOTION=6, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:23 [SensorProcessor-4] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=70, Tipo=MOTION, Crítico=true
+2025-10-24 15:37:23 [SensorProcessor-4] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-4
+2025-10-24 15:37:23 [SensorProcessor-4] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Bóveda Segura
+2025-10-24 15:37:23 [AlertProcessor-6] INFO  c.s.security.service.AlertService - Rate limit: omitiendo alerta repetida para MOTION@Laboratorio (49971 ms restantes)
+2025-10-24 15:37:24 [SensorProcessor-4] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Bóveda Segura
+2025-10-24 15:37:24 [SensorProcessor-4] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=23, TEMPERATURE=20, ACCESS=28}, criticalEvents={MOTION=6, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:24 [SensorProcessor-4] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=71, Tipo=ACCESS, Crítico=false
+2025-10-24 15:37:24 [SensorProcessor-4] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: MOTION - Thread: SensorProcessor-4
+2025-10-24 15:37:24 [SensorProcessor-4] DEBUG c.s.security.sensor.MotionSensor - Procesando evento de movimiento en: Pasillo Norte
+2025-10-24 15:37:24 [SensorProcessor-4] INFO  c.s.security.sensor.MotionSensor - Evento procesado - Movimiento detectado: 7.0 unidades en Pasillo Norte
+2025-10-24 15:37:24 [SensorProcessor-4] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=24, TEMPERATURE=20, ACCESS=28}, criticalEvents={MOTION=7, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:24 [SensorProcessor-4] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=72, Tipo=MOTION, Crítico=true
+2025-10-24 15:37:24 [SensorProcessor-4] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: MOTION - Thread: SensorProcessor-4
+2025-10-24 15:37:24 [SensorProcessor-4] DEBUG c.s.security.sensor.MotionSensor - Procesando evento de movimiento en: Bóveda
+2025-10-24 15:37:24 [AlertProcessor-7] INFO  c.s.security.service.AlertService - Rate limit: omitiendo alerta repetida para MOTION@Pasillo Norte (45028 ms restantes)
+2025-10-24 15:37:24 [SensorProcessor-4] INFO  c.s.security.sensor.MotionSensor - Evento procesado - Movimiento detectado: 8.0 unidades en Bóveda
+2025-10-24 15:37:24 [SensorProcessor-4] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=25, TEMPERATURE=20, ACCESS=28}, criticalEvents={MOTION=8, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:24 [SensorProcessor-4] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=73, Tipo=MOTION, Crítico=true
+2025-10-24 15:37:24 [AlertProcessor-8] INFO  c.s.security.service.AlertService - Rate limit: omitiendo alerta repetida para MOTION@Bóveda (54765 ms restantes)
+2025-10-24 15:37:28 [MessageBroker-2] DEBUG c.s.s.s.SensorSimulationService - Generando 3 eventos de sensores simultáneos
+2025-10-24 15:37:28 [SensorProcessor-5] INFO  c.s.s.s.SensorProcessingService - Procesando lote de 3 eventos concurrentemente
+2025-10-24 15:37:28 [SensorProcessor-5] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: TEMPERATURE - Thread: SensorProcessor-5
+2025-10-24 15:37:28 [SensorProcessor-5] DEBUG c.s.s.sensor.TemperatureSensor - Procesando evento de temperatura en: Laboratorio Químico
+2025-10-24 15:37:28 [SensorProcessor-5] INFO  c.s.s.sensor.TemperatureSensor - Temperatura normal: 22.0°C en Laboratorio Químico
+2025-10-24 15:37:28 [SensorProcessor-5] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=25, TEMPERATURE=21, ACCESS=28}, criticalEvents={MOTION=8, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:28 [SensorProcessor-5] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=74, Tipo=TEMPERATURE, Crítico=false
+2025-10-24 15:37:28 [SensorProcessor-5] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-5
+2025-10-24 15:37:28 [SensorProcessor-5] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Sala de Control Central
+2025-10-24 15:37:29 [SensorProcessor-5] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Sala de Control Central
+2025-10-24 15:37:29 [SensorProcessor-5] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=25, TEMPERATURE=21, ACCESS=29}, criticalEvents={MOTION=8, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:29 [SensorProcessor-5] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=75, Tipo=ACCESS, Crítico=false
+2025-10-24 15:37:29 [SensorProcessor-5] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: TEMPERATURE - Thread: SensorProcessor-5
+2025-10-24 15:37:29 [SensorProcessor-5] DEBUG c.s.s.sensor.TemperatureSensor - Procesando evento de temperatura en: Centro de Datos
+2025-10-24 15:37:29 [SensorProcessor-5] INFO  c.s.s.sensor.TemperatureSensor - Temperatura normal: 22.0°C en Centro de Datos
+2025-10-24 15:37:29 [SensorProcessor-5] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=25, TEMPERATURE=22, ACCESS=29}, criticalEvents={MOTION=8, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:29 [SensorProcessor-5] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=76, Tipo=TEMPERATURE, Crítico=false
+2025-10-24 15:37:33 [MessageBroker-5] DEBUG c.s.s.s.SensorSimulationService - Generando 3 eventos de sensores simultáneos
+2025-10-24 15:37:33 [SensorProcessor-6] INFO  c.s.s.s.SensorProcessingService - Procesando lote de 3 eventos concurrentemente
+2025-10-24 15:37:33 [SensorProcessor-6] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: MOTION - Thread: SensorProcessor-6
+2025-10-24 15:37:33 [SensorProcessor-6] DEBUG c.s.security.sensor.MotionSensor - Procesando evento de movimiento en: Sala de Servidores
+2025-10-24 15:37:33 [SensorProcessor-6] INFO  c.s.security.sensor.MotionSensor - Evento procesado - Movimiento detectado: 9.0 unidades en Sala de Servidores
+2025-10-24 15:37:33 [SensorProcessor-6] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=26, TEMPERATURE=22, ACCESS=29}, criticalEvents={MOTION=9, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:33 [SensorProcessor-6] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=77, Tipo=MOTION, Crítico=true
+2025-10-24 15:37:33 [SensorProcessor-6] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-6
+2025-10-24 15:37:33 [SensorProcessor-6] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Armería
+2025-10-24 15:37:33 [AlertProcessor-9] WARN  c.s.security.service.AlertService - Creando alerta de seguridad para evento crítico: MOTION en Sala de Servidores
+2025-10-24 15:37:33 [AlertProcessor-9] INFO  c.s.security.service.AlertService - Alerta creada: ID=5, Nivel=MEDIUM
+2025-10-24 15:37:33 [Notification-5] INFO  c.s.s.service.NotificationService - Enviando notificaciones para alerta: 5
+2025-10-24 15:37:33 [Notification-5] INFO  c.s.s.service.NotificationService - Notificación WebSocket enviada: Alerta 5
+2025-10-24 15:37:33 [Notification-5] INFO  c.s.s.service.NotificationService - Notificación PUSH simulada enviada: MOVIMIENTO SOSPECHOSO - Sala de Servidores
+2025-10-24 15:37:34 [SensorProcessor-6] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Armería
+2025-10-24 15:37:34 [SensorProcessor-6] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=26, TEMPERATURE=22, ACCESS=30}, criticalEvents={MOTION=9, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:34 [SensorProcessor-6] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=78, Tipo=ACCESS, Crítico=false
+2025-10-24 15:37:34 [SensorProcessor-6] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-6
+2025-10-24 15:37:34 [SensorProcessor-6] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Laboratorio Nivel 5
+2025-10-24 15:37:34 [SensorProcessor-6] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Laboratorio Nivel 5
+2025-10-24 15:37:34 [SensorProcessor-6] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=26, TEMPERATURE=22, ACCESS=31}, criticalEvents={MOTION=9, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:34 [SensorProcessor-6] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=79, Tipo=ACCESS, Crítico=false
+2025-10-24 15:37:38 [MessageBroker-1] DEBUG c.s.s.s.SensorSimulationService - Generando 2 eventos de sensores simultáneos
+2025-10-24 15:37:38 [SensorProcessor-7] INFO  c.s.s.s.SensorProcessingService - Procesando lote de 2 eventos concurrentemente
+2025-10-24 15:37:38 [SensorProcessor-7] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-7
+2025-10-24 15:37:38 [SensorProcessor-7] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Laboratorio Nivel 5
+2025-10-24 15:37:38 [SensorProcessor-7] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Laboratorio Nivel 5
+2025-10-24 15:37:38 [SensorProcessor-7] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=26, TEMPERATURE=22, ACCESS=32}, criticalEvents={MOTION=9, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:38 [SensorProcessor-7] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=80, Tipo=ACCESS, Crítico=false
+2025-10-24 15:37:38 [SensorProcessor-7] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: MOTION - Thread: SensorProcessor-7
+2025-10-24 15:37:38 [SensorProcessor-7] DEBUG c.s.security.sensor.MotionSensor - Procesando evento de movimiento en: Pasillo Norte
+2025-10-24 15:37:38 [SensorProcessor-7] INFO  c.s.security.sensor.MotionSensor - Evento procesado - Movimiento detectado: 10.0 unidades en Pasillo Norte
+2025-10-24 15:37:38 [SensorProcessor-7] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=27, TEMPERATURE=22, ACCESS=32}, criticalEvents={MOTION=10, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:38 [SensorProcessor-7] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=81, Tipo=MOTION, Crítico=true
+2025-10-24 15:37:38 [AlertProcessor-10] INFO  c.s.security.service.AlertService - Rate limit: omitiendo alerta repetida para MOTION@Pasillo Norte (30234 ms restantes)
+2025-10-24 15:37:43 [MessageBroker-2] DEBUG c.s.s.s.SensorSimulationService - Generando 4 eventos de sensores simultáneos
+2025-10-24 15:37:43 [SensorProcessor-8] INFO  c.s.s.s.SensorProcessingService - Procesando lote de 4 eventos concurrentemente
+2025-10-24 15:37:43 [SensorProcessor-8] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: MOTION - Thread: SensorProcessor-8
+2025-10-24 15:37:43 [SensorProcessor-8] DEBUG c.s.security.sensor.MotionSensor - Procesando evento de movimiento en: Bóveda
+2025-10-24 15:37:43 [SensorProcessor-8] INFO  c.s.security.sensor.MotionSensor - Evento procesado - Movimiento detectado: 10.0 unidades en Bóveda
+2025-10-24 15:37:43 [SensorProcessor-8] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=28, TEMPERATURE=22, ACCESS=32}, criticalEvents={MOTION=11, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:43 [SensorProcessor-8] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=82, Tipo=MOTION, Crítico=true
+2025-10-24 15:37:43 [AlertProcessor-1] INFO  c.s.security.service.AlertService - Rate limit: omitiendo alerta repetida para MOTION@Bóveda (35074 ms restantes)
+2025-10-24 15:37:43 [SensorProcessor-8] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: MOTION - Thread: SensorProcessor-8
+2025-10-24 15:37:43 [SensorProcessor-8] DEBUG c.s.security.sensor.MotionSensor - Procesando evento de movimiento en: Bóveda
+2025-10-24 15:37:44 [SensorProcessor-8] INFO  c.s.security.sensor.MotionSensor - Evento procesado - Movimiento detectado: 10.0 unidades en Bóveda
+2025-10-24 15:37:44 [SensorProcessor-8] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=29, TEMPERATURE=22, ACCESS=32}, criticalEvents={MOTION=12, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:44 [SensorProcessor-8] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=83, Tipo=MOTION, Crítico=true
+2025-10-24 15:37:44 [AlertProcessor-2] INFO  c.s.security.service.AlertService - Rate limit: omitiendo alerta repetida para MOTION@Bóveda (34950 ms restantes)
+2025-10-24 15:37:44 [SensorProcessor-8] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-8
+2025-10-24 15:37:44 [SensorProcessor-8] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Armería
+2025-10-24 15:37:44 [SensorProcessor-8] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Armería
+2025-10-24 15:37:44 [SensorProcessor-8] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=29, TEMPERATURE=22, ACCESS=33}, criticalEvents={MOTION=12, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:44 [SensorProcessor-8] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=84, Tipo=ACCESS, Crítico=false
+2025-10-24 15:37:44 [SensorProcessor-8] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-8
+2025-10-24 15:37:44 [SensorProcessor-8] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Puerta Principal
+2025-10-24 15:37:44 [SensorProcessor-8] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Puerta Principal
+2025-10-24 15:37:44 [SensorProcessor-8] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=29, TEMPERATURE=22, ACCESS=34}, criticalEvents={MOTION=12, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:44 [SensorProcessor-8] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=85, Tipo=ACCESS, Crítico=false
+2025-10-24 15:37:48 [MessageBroker-4] DEBUG c.s.s.s.SensorSimulationService - Generando 4 eventos de sensores simultáneos
+2025-10-24 15:37:48 [SensorProcessor-9] INFO  c.s.s.s.SensorProcessingService - Procesando lote de 4 eventos concurrentemente
+2025-10-24 15:37:48 [SensorProcessor-9] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-9
+2025-10-24 15:37:48 [SensorProcessor-9] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Laboratorio Nivel 5
+2025-10-24 15:37:48 [SensorProcessor-9] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Laboratorio Nivel 5
+2025-10-24 15:37:48 [SensorProcessor-9] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=29, TEMPERATURE=22, ACCESS=35}, criticalEvents={MOTION=12, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:48 [SensorProcessor-9] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=86, Tipo=ACCESS, Crítico=false
+2025-10-24 15:37:48 [SensorProcessor-9] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: MOTION - Thread: SensorProcessor-9
+2025-10-24 15:37:48 [SensorProcessor-9] DEBUG c.s.security.sensor.MotionSensor - Procesando evento de movimiento en: Laboratorio
+2025-10-24 15:37:49 [SensorProcessor-9] INFO  c.s.security.sensor.MotionSensor - Evento procesado - Movimiento detectado: 9.0 unidades en Laboratorio
+2025-10-24 15:37:49 [SensorProcessor-9] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=30, TEMPERATURE=22, ACCESS=35}, criticalEvents={MOTION=13, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:49 [SensorProcessor-9] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=87, Tipo=MOTION, Crítico=true
+2025-10-24 15:37:49 [AlertProcessor-3] INFO  c.s.security.service.AlertService - Rate limit: omitiendo alerta repetida para MOTION@Laboratorio (24877 ms restantes)
+2025-10-24 15:37:49 [SensorProcessor-9] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: MOTION - Thread: SensorProcessor-9
+2025-10-24 15:37:49 [SensorProcessor-9] DEBUG c.s.security.sensor.MotionSensor - Procesando evento de movimiento en: Bóveda
+2025-10-24 15:37:49 [SensorProcessor-9] INFO  c.s.security.sensor.MotionSensor - Evento procesado - Movimiento detectado: 8.0 unidades en Bóveda
+2025-10-24 15:37:49 [SensorProcessor-9] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=31, TEMPERATURE=22, ACCESS=35}, criticalEvents={MOTION=14, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:49 [SensorProcessor-9] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=88, Tipo=MOTION, Crítico=true
+2025-10-24 15:37:49 [SensorProcessor-9] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: MOTION - Thread: SensorProcessor-9
+2025-10-24 15:37:49 [AlertProcessor-4] INFO  c.s.security.service.AlertService - Rate limit: omitiendo alerta repetida para MOTION@Bóveda (29860 ms restantes)
+2025-10-24 15:37:49 [SensorProcessor-9] DEBUG c.s.security.sensor.MotionSensor - Procesando evento de movimiento en: Entrada Principal
+2025-10-24 15:37:49 [SensorProcessor-9] INFO  c.s.security.sensor.MotionSensor - Evento procesado - Movimiento detectado: 7.0 unidades en Entrada Principal
+2025-10-24 15:37:49 [SensorProcessor-9] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=32, TEMPERATURE=22, ACCESS=35}, criticalEvents={MOTION=15, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:49 [SensorProcessor-9] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=89, Tipo=MOTION, Crítico=true
+2025-10-24 15:37:49 [AlertProcessor-5] WARN  c.s.security.service.AlertService - Creando alerta de seguridad para evento crítico: MOTION en Entrada Principal
+2025-10-24 15:37:49 [AlertProcessor-5] INFO  c.s.security.service.AlertService - Alerta creada: ID=6, Nivel=MEDIUM
+2025-10-24 15:37:49 [Notification-1] INFO  c.s.s.service.NotificationService - Enviando notificaciones para alerta: 6
+2025-10-24 15:37:49 [Notification-1] INFO  c.s.s.service.NotificationService - Notificación WebSocket enviada: Alerta 6
+2025-10-24 15:37:49 [Notification-1] INFO  c.s.s.service.NotificationService - Notificación PUSH simulada enviada: MOVIMIENTO SOSPECHOSO - Entrada Principal
+2025-10-24 15:37:53 [MessageBroker-1] DEBUG c.s.s.s.SensorSimulationService - Generando 3 eventos de sensores simultáneos
+2025-10-24 15:37:53 [SensorProcessor-10] INFO  c.s.s.s.SensorProcessingService - Procesando lote de 3 eventos concurrentemente
+2025-10-24 15:37:53 [SensorProcessor-10] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-10
+2025-10-24 15:37:53 [SensorProcessor-10] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Puerta Principal
+2025-10-24 15:37:53 [SensorProcessor-10] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Puerta Principal
+2025-10-24 15:37:53 [SensorProcessor-10] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=32, TEMPERATURE=22, ACCESS=36}, criticalEvents={MOTION=15, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:53 [SensorProcessor-10] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=90, Tipo=ACCESS, Crítico=false
+2025-10-24 15:37:53 [SensorProcessor-10] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-10
+2025-10-24 15:37:53 [SensorProcessor-10] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Laboratorio Nivel 5
+2025-10-24 15:37:54 [SensorProcessor-10] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Laboratorio Nivel 5
+2025-10-24 15:37:54 [SensorProcessor-10] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=32, TEMPERATURE=22, ACCESS=37}, criticalEvents={MOTION=15, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:54 [SensorProcessor-10] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=91, Tipo=ACCESS, Crítico=false
+2025-10-24 15:37:54 [SensorProcessor-10] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: MOTION - Thread: SensorProcessor-10
+2025-10-24 15:37:54 [SensorProcessor-10] DEBUG c.s.security.sensor.MotionSensor - Procesando evento de movimiento en: Bóveda
+2025-10-24 15:37:54 [SensorProcessor-10] INFO  c.s.security.sensor.MotionSensor - Evento procesado - Movimiento detectado: 6.0 unidades en Bóveda
+2025-10-24 15:37:54 [SensorProcessor-10] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=33, TEMPERATURE=22, ACCESS=37}, criticalEvents={MOTION=16, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:54 [SensorProcessor-10] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=92, Tipo=MOTION, Crítico=true
+2025-10-24 15:37:54 [AlertProcessor-6] INFO  c.s.security.service.AlertService - Rate limit: omitiendo alerta repetida para MOTION@Bóveda (24883 ms restantes)
+2025-10-24 15:37:58 [MessageBroker-2] DEBUG c.s.s.s.SensorSimulationService - Generando 2 eventos de sensores simultáneos
+2025-10-24 15:37:58 [SensorProcessor-11] INFO  c.s.s.s.SensorProcessingService - Procesando lote de 2 eventos concurrentemente
+2025-10-24 15:37:58 [SensorProcessor-11] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-11
+2025-10-24 15:37:58 [SensorProcessor-11] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Laboratorio Nivel 5
+2025-10-24 15:37:58 [SensorProcessor-11] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Laboratorio Nivel 5
+2025-10-24 15:37:58 [SensorProcessor-11] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=33, TEMPERATURE=22, ACCESS=38}, criticalEvents={MOTION=16, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:58 [SensorProcessor-11] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=93, Tipo=ACCESS, Crítico=false
+2025-10-24 15:37:58 [SensorProcessor-11] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-11
+2025-10-24 15:37:58 [SensorProcessor-11] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Reactor Arc - Acceso Restringido
+2025-10-24 15:37:59 [SensorProcessor-11] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Reactor Arc - Acceso Restringido
+2025-10-24 15:37:59 [SensorProcessor-11] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=33, TEMPERATURE=22, ACCESS=39}, criticalEvents={MOTION=16, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:37:59 [SensorProcessor-11] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=94, Tipo=ACCESS, Crítico=false
+2025-10-24 15:38:03 [MessageBroker-3] DEBUG c.s.s.s.SensorSimulationService - Generando 2 eventos de sensores simultáneos
+2025-10-24 15:38:03 [SensorProcessor-12] INFO  c.s.s.s.SensorProcessingService - Procesando lote de 2 eventos concurrentemente
+2025-10-24 15:38:03 [SensorProcessor-12] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: TEMPERATURE - Thread: SensorProcessor-12
+2025-10-24 15:38:03 [SensorProcessor-12] DEBUG c.s.s.sensor.TemperatureSensor - Procesando evento de temperatura en: Laboratorio Químico
+2025-10-24 15:38:03 [SpringApplicationShutdownHook] INFO  o.s.m.s.b.SimpleBrokerMessageHandler - Stopping...
+2025-10-24 15:38:03 [SpringApplicationShutdownHook] INFO  o.s.m.s.b.SimpleBrokerMessageHandler - BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@52f950e2]]
+2025-10-24 15:38:03 [SpringApplicationShutdownHook] INFO  o.s.m.s.b.SimpleBrokerMessageHandler - Stopped.
+2025-10-24 15:38:03 [SensorProcessor-12] INFO  c.s.s.sensor.TemperatureSensor - Temperatura normal: 22.1°C en Laboratorio Químico
+2025-10-24 15:38:03 [SensorProcessor-12] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=33, TEMPERATURE=23, ACCESS=39}, criticalEvents={MOTION=16, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=20, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:38:03 [SensorProcessor-12] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=95, Tipo=TEMPERATURE, Crítico=false
+2025-10-24 15:38:03 [SensorProcessor-12] DEBUG c.s.s.s.SensorProcessingService - Iniciando procesamiento asíncrono de evento: ACCESS - Thread: SensorProcessor-12
+2025-10-24 15:38:03 [SensorProcessor-12] DEBUG c.s.s.sensor.AccessControlSensor - Procesando intento de acceso en: Puerta Principal
+2025-10-24 15:38:04 [SensorProcessor-12] INFO  c.s.s.sensor.AccessControlSensor - Acceso concedido en: Puerta Principal
+2025-10-24 15:38:04 [SensorProcessor-12] DEBUG c.s.s.s.SensorProcessingService - Evento enviado a WebSocket: /topic/stats -> {activeThreads=1, totalEvents={MOTION=33, TEMPERATURE=23, ACCESS=40}, criticalEvents={MOTION=16, TEMPERATURE=0, ACCESS=0}, threadPool={poolSize=1, active=1, corePoolSize=20, maxPoolSize=50}}
+2025-10-24 15:38:04 [SensorProcessor-12] INFO  c.s.s.s.SensorProcessingService - Evento procesado: ID=96, Tipo=ACCESS, Crítico=false
+2025-10-24 15:38:04 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-10-24 15:38:04 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-10-24 15:38:04 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
