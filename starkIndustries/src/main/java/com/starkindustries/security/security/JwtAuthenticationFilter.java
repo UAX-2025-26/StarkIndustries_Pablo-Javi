@@ -16,11 +16,12 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-// Filtro JWT por petición
+// Filtro que se ejecuta una vez por request y extrae/valida el JWT de la cabecera Authorization
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
+    // Se usa ObjectProvider para obtener el UserDetailsService perezosamente
     private final ObjectProvider<UserDetailsService> userDetailsServiceProvider;
 
     public JwtAuthenticationFilter(JwtService jwtService,
@@ -39,18 +40,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String jwt;
         final String username;
 
+        // Si no hay cabecera Authorization o no es Bearer, se sigue la cadena sin autenticar
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
+        // Extrae el token quitando el prefijo "Bearer "
         jwt = authHeader.substring(7);
+        // Obtiene el username (subject) del token
         username = jwtService.extractUsername(jwt);
 
+        // Sólo continúa si no hay autenticación previa en el contexto
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetailsService userDetailsService = userDetailsServiceProvider.getObject();
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
+            // Si el token es válido, se crea un Authentication y se guarda en el SecurityContext
             if (jwtService.isTokenValid(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
@@ -63,6 +69,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }
+        // Continúa con el resto de filtros de la cadena
         filterChain.doFilter(request, response);
     }
 }

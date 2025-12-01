@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 
+// Inicializa datos básicos al arrancar la aplicación (usuarios por defecto)
 @Configuration
 @Slf4j
 @RequiredArgsConstructor
@@ -18,10 +19,11 @@ public class DataInitializer {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
+    // CommandLineRunner se ejecuta automáticamente al iniciar el contexto de Spring
     @Bean
     CommandLineRunner initDefaultAdmin() {
         return args -> {
-            // Admin
+            // Crear usuario admin si no existe
             try {
                 userService.getUserByUsername("admin");
                 log.info("Usuario admin ya existe");
@@ -37,7 +39,7 @@ public class DataInitializer {
                 log.info("Usuario admin creado por defecto (admin/admin123)");
             }
 
-            // Jarvis (usuario autorizado)
+            // Crear usuario jarvis (usuario autorizado) si no existe
             try {
                 userService.getUserByUsername("jarvis");
                 log.info("Usuario jarvis ya existe");

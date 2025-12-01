@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-// Endpoints de alertas
+// Controlador REST para consultar y gestionar alertas de seguridad
 @RestController
 @RequestMapping("/api/alerts")
 @RequiredArgsConstructor
@@ -22,18 +22,21 @@ public class AlertController {
     private final AlertService alertService;
     private final SecurityAlertRepository alertRepository;
 
+    // Devuelve todas las alertas activas (no resueltas)
     @GetMapping("/active")
     @PreAuthorize("hasAnyRole('ADMIN', 'AUTHORIZED_USER')")
     public ResponseEntity<List<SecurityAlert>> getActiveAlerts() {
         return ResponseEntity.ok(alertService.getActiveAlerts());
     }
 
+    // Devuelve las alertas activas ordenadas por prioridad (nivel y fecha)
     @GetMapping("/prioritized")
     @PreAuthorize("hasAnyRole('ADMIN', 'AUTHORIZED_USER')")
     public ResponseEntity<List<SecurityAlert>> getAlertsPrioritized() {
         return ResponseEntity.ok(alertService.getAlertsPrioritized());
     }
 
+    // Filtra las alertas activas por nivel (LOW, MEDIUM, HIGH, CRITICAL)
     @GetMapping("/level/{level}")
     @PreAuthorize("hasAnyRole('ADMIN', 'AUTHORIZED_USER')")
     public ResponseEntity<List<SecurityAlert>> getAlertsByLevel(
@@ -44,6 +47,7 @@ public class AlertController {
                 .toList());
     }
 
+    // Marca una alerta como reconocida por el usuario autenticado
     @PutMapping("/{id}/acknowledge")
     @PreAuthorize("hasAnyRole('ADMIN', 'AUTHORIZED_USER')")
     public ResponseEntity<SecurityAlert> acknowledgeAlert(
@@ -55,6 +59,7 @@ public class AlertController {
         );
     }
 
+    // Marca una alerta como resuelta (y la reconoce si aún no lo estaba)
     @PutMapping("/{id}/resolve")
     @PreAuthorize("hasAnyRole('ADMIN', 'AUTHORIZED_USER')")
     public ResponseEntity<SecurityAlert> resolveAlert(
@@ -66,7 +71,7 @@ public class AlertController {
         );
     }
 
-    // Diagnóstico rápido del estado de alertas
+    // Endpoint de diagnóstico rápido con información agregada sobre alertas
     @GetMapping("/diagnostics")
     @PreAuthorize("hasAnyRole('ADMIN', 'AUTHORIZED_USER')")
     public ResponseEntity<Map<String, Object>> getDiagnostics() {

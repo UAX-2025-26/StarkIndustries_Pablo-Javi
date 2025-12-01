@@ -10,11 +10,12 @@ import java.time.LocalDateTime;
 import java.util.Random;
 import java.util.UUID;
 
-// Sensor de temperatura
+// Implementación de un sensor de temperatura simulado
 @Component("temperatureSensor")
 @Slf4j
 public class TemperatureSensor implements Sensor {
 
+    // Umbrales configurables desde application.yml
     @Value("${security.sensor.temperature.min:15.0}")
     private double minTemp;
 
@@ -22,11 +23,13 @@ public class TemperatureSensor implements Sensor {
     private double maxTemp;
 
     private final Random random = new Random();
+    // Posibles ubicaciones del sensor
     private final String[] locations = {
         "Sala de Servidores", "Laboratorio Químico", "Reactor Arc",
         "Almacén", "Centro de Datos", "Sala de Control"
     };
 
+    // Estado interno para simular una serie de tiempo realista
     private boolean initialized = false;
     private double currentTemp;
     private double baseline;
@@ -40,15 +43,18 @@ public class TemperatureSensor implements Sensor {
 
         log.debug("Procesando evento de temperatura en: {}", event.getLocation());
 
+        // Simula un pequeño retardo de procesamiento
         try {
             Thread.sleep(random.nextInt(80) + 40);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
 
+        // Rellena metadatos de procesamiento
         event.setProcessedAt(LocalDateTime.now());
         event.setProcessedBy(Thread.currentThread().getName());
         event.setProcessingTimeMs(System.currentTimeMillis() - startTime);
+        // Marca si el valor actual está fuera de los umbrales permitidos
         event.setCritical(requiresAlert(event.getValue()));
 
         if (event.getCritical()) {
@@ -61,6 +67,7 @@ public class TemperatureSensor implements Sensor {
         return event;
     }
 
+    // Regla simple: alerta si está por debajo de min o por encima de max
     @Override
     public boolean requiresAlert(Double value) {
         return value < minTemp || value > maxTemp;
@@ -71,14 +78,17 @@ public class TemperatureSensor implements Sensor {
         return SensorType.TEMPERATURE.name();
     }
 
+    // Genera un nuevo evento simulado de temperatura
     @Override
     public SensorEvent simulateEvent() {
+        // Inicialización perezosa de valores base
         if (!initialized) {
             baseline = (minTemp + maxTemp) / 2.0;
             currentTemp = baseline + boundedGaussian(0, 0.8, -1.5, 1.5);
             initialized = true;
         }
 
+        // Ocasionalmente inicia una anomalía (subida/bajada brusca)
         if (!anomalyActive && random.nextDouble() < 0.01) {
             anomalyActive = true;
             boolean high = random.nextBoolean();
@@ -86,10 +96,12 @@ public class TemperatureSensor implements Sensor {
             anomalyStep = (anomalyTarget > currentTemp ? 1 : -1) * (0.6 + random.nextDouble() * 0.6);
         }
 
+        // Si hay anomalía activa, avanza hacia el valor objetivo
         if (anomalyActive) {
             double next = currentTemp + anomalyStep;
             if ((anomalyStep > 0 && next >= anomalyTarget) || (anomalyStep < 0 && next <= anomalyTarget)) {
                 currentTemp = anomalyTarget;
+                // Probabilidad de que la anomalía termine
                 if (random.nextDouble() < 0.2) {
                     anomalyActive = false;
                 }
@@ -97,15 +109,18 @@ public class TemperatureSensor implements Sensor {
                 currentTemp = next;
             }
         } else {
+            // Sin anomalía: fluctuaciones suaves alrededor de la línea base
             double step = boundedGaussian(0, 0.18, -0.35, 0.35);
             double pull = (baseline - currentTemp) * 0.05;
             currentTemp += step + pull;
         }
 
+        // Redondeo y límites razonables de temperatura
         double temp = Math.round(currentTemp * 10.0) / 10.0;
         temp = Math.max(-20, Math.min(80, temp));
         currentTemp = temp;
 
+        // Construye el evento de sensor con los datos generados
         return SensorEvent.builder()
                 .sensorType(SensorType.TEMPERATURE)
                 .sensorId("TEMP-" + UUID.randomUUID().toString().substring(0, 8))
@@ -118,6 +133,7 @@ public class TemperatureSensor implements Sensor {
                 .build();
     }
 
+    // Genera un valor aleatorio con distribución gaussiana pero acotado a un rango
     private double boundedGaussian(double mean, double stdDev, double min, double max) {
         double val = mean + random.nextGaussian() * stdDev;
         if (val < min) val = min + (min - val) * 0.1;

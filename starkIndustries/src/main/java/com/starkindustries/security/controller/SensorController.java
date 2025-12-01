@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
-// API de sensores y eventos
+// API REST relacionada con sensores: envío de eventos y consulta de estadísticas
 @RestController
 @RequestMapping("/api/sensors")
 public class SensorController {
@@ -36,6 +36,7 @@ public class SensorController {
         this.sensorExecutor = sensorExecutor;
     }
 
+    // Procesa un único evento de sensor (ejecución asíncrona en el backend)
     @PostMapping("/events")
     @PreAuthorize("hasAnyRole('ADMIN', 'AUTHORIZED_USER')")
     public ResponseEntity<com.starkindustries.security.model.SensorEvent> processEvent(
@@ -46,12 +47,14 @@ public class SensorController {
         return ResponseEntity.ok(processed);
     }
 
+    // Devuelve todos los eventos registrados en la base de datos
     @GetMapping("/events")
     @PreAuthorize("hasAnyRole('ADMIN', 'AUTHORIZED_USER')")
     public ResponseEntity<List<com.starkindustries.security.model.SensorEvent>> getAllEvents() {
         return ResponseEntity.ok(sensorEventRepository.findAll());
     }
 
+    // Devuelve los eventos filtrados por tipo de sensor
     @GetMapping("/events/type/{type}")
     @PreAuthorize("hasAnyRole('ADMIN', 'AUTHORIZED_USER')")
     public ResponseEntity<List<com.starkindustries.security.model.SensorEvent>> getEventsByType(
@@ -59,12 +62,14 @@ public class SensorController {
         return ResponseEntity.ok(sensorEventRepository.findBySensorType(type));
     }
 
+    // Devuelve solo los eventos marcados como críticos
     @GetMapping("/events/critical")
     @PreAuthorize("hasAnyRole('ADMIN', 'AUTHORIZED_USER')")
     public ResponseEntity<List<com.starkindustries.security.model.SensorEvent>> getCriticalEvents() {
         return ResponseEntity.ok(sensorEventRepository.findByCriticalTrue());
     }
 
+    // Devuelve eventos dentro de un rango de fechas
     @GetMapping("/events/range")
     @PreAuthorize("hasAnyRole('ADMIN', 'AUTHORIZED_USER')")
     public ResponseEntity<List<com.starkindustries.security.model.SensorEvent>> getEventsByDateRange(
@@ -74,6 +79,7 @@ public class SensorController {
         return ResponseEntity.ok(sensorEventRepository.findByTimestampBetween(start, end));
     }
 
+    // Estadísticas agregadas: totales, críticos, conteo por tipo y estado del pool de hilos
     @GetMapping("/statistics")
     @PreAuthorize("hasAnyRole('ADMIN', 'AUTHORIZED_USER')")
     public ResponseEntity<Map<String, Object>> getStatistics() {
@@ -105,6 +111,7 @@ public class SensorController {
         ));
     }
 
+    // Tiempo medio de procesamiento (ms) para un tipo de sensor concreto
     @GetMapping("/statistics/processing-time/{type}")
     @PreAuthorize("hasAnyRole('ADMIN', 'AUTHORIZED_USER')")
     public ResponseEntity<Double> getAverageProcessingTime(
@@ -113,6 +120,7 @@ public class SensorController {
         return ResponseEntity.ok(avgTime != null ? avgTime : 0.0);
     }
 
+    // Diagnóstico de consistencia entre estadísticas en memoria y datos en BD
     @GetMapping("/diagnostics")
     @PreAuthorize("hasAnyRole('ADMIN', 'AUTHORIZED_USER')")
     public ResponseEntity<Map<String, Object>> getDiagnostics() {
@@ -132,6 +140,7 @@ public class SensorController {
         return ResponseEntity.ok(diagnostics);
     }
 
+    // Devuelve eventos recientes de temperatura, con filtros de ventana temporal, límite y criticidad
     @GetMapping("/temperatures/recent")
     @PreAuthorize("hasAnyRole('ADMIN', 'AUTHORIZED_USER')")
     public ResponseEntity<List<Map<String, Object>>> getRecentTemperatures(
@@ -161,6 +170,7 @@ public class SensorController {
         return ResponseEntity.ok(payload);
     }
 
+    // Devuelve eventos recientes de movimiento
     @GetMapping("/motion/recent")
     @PreAuthorize("hasAnyRole('ADMIN', 'AUTHORIZED_USER')")
     public ResponseEntity<List<Map<String, Object>>> getRecentMotion(
@@ -189,6 +199,7 @@ public class SensorController {
         return ResponseEntity.ok(payload);
     }
 
+    // Devuelve eventos recientes de accesos
     @GetMapping("/access/recent")
     @PreAuthorize("hasAnyRole('ADMIN', 'AUTHORIZED_USER')")
     public ResponseEntity<List<Map<String, Object>>> getRecentAccess(

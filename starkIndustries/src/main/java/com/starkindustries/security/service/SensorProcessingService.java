@@ -21,20 +21,33 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
-// Procesamiento concurrente de eventos de sensores
+// Procesamiento concurrente de eventos de sensores. Esta clase es el "corazón concurrente" del sistema,
+// donde se aplican los conceptos de programación concurrente vistos en teoría:
+// - Uso de hilos gestionados por un ThreadPool (`ThreadPoolTaskExecutor`).
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class SensorProcessingService {
 
+    // Repositorio JPA: acceso concurrente seguro gestionado por Spring y la BD
     private final SensorEventRepository sensorEventRepository;
+    // Servicios delegados: aplican el principio de separación de responsabilidades
     private final AlertService alertService;
     private final NotificationService notificationService;
+    // Mapa de sensores inyectado por Spring (IoC/DI). Clave = beanName, Valor = implementación concreta
+    // Permite seleccionar en tiempo de ejecución qué estrategia de procesamiento usar para cada tipo de sensor
     private final Map<String, Sensor> sensors;
+    // Registro de métricas (Micrometer): expone contadores y tiempos a Actuator/Prometheus
     private final MeterRegistry meterRegistry;
+    // Canal WebSocket para difusión en tiempo real (no bloquea peticiones HTTP)
     private final SimpMessagingTemplate messagingTemplate;
+    // Executor específico para sensores, definido en `AsyncConfiguration`.
+    // Es un pool de hilos reutilizables: mejor uso de CPU que crear un hilo por petición.
     private final ThreadPoolTaskExecutor sensorExecutor;
 
+    // Contadores por tipo de sensor. Se usa ConcurrentHashMap + AtomicLong para:
+    // - Evitar bloqueos gruesos (no se usa `synchronized` global).
+    // - Permitir muchas actualizaciones concurrentes con baja contención.
     private final Map<SensorType, AtomicLong> eventCounters = new ConcurrentHashMap<>();
     private final Map<SensorType, AtomicLong> criticalCounters = new ConcurrentHashMap<>();
 
@@ -69,27 +82,47 @@ public class SensorProcessingService {
 
     @Async("sensorExecutor")
     public CompletableFuture<SensorEvent> processEventAsync(SensorEvent event) {
+        // Marcamos claramente que este método se ejecuta en un hilo del pool `sensorExecutor`.
+        // Desde el punto de vista del controlador HTTP, la llamada es "fire-and-forget":
+        // el hilo del servidor delega el trabajo a este pool y puede atender otras peticiones.
         log.debug("Iniciando procesamiento asíncrono de evento: {} - Thread: {}",
                   event.getSensorType(), Thread.currentThread().getName());
 
+        // Tomamos una muestra de tiempo con Micrometer para medir la latencia por tipo de sensor.
+        // Esto nos permite analizar el rendimiento bajo carga (concepto de benchmarking y profiling).
         Timer.Sample sample = Timer.start(meterRegistry);
 
         try {
+            // Seleccionamos la implementación de `Sensor` adecuada según el tipo.
+            // Este es un ejemplo de "estrategia": la lógica específica de cada sensor se encapsula en su clase.
             Sensor sensor = getSensorByType(event.getSensorType());
+
+            // Procesamos el evento (cálculos, normalización, etc.) en el hilo del pool.
             SensorEvent processedEvent = sensor.processEvent(event);
+
+            // Persistimos el evento en BD. Spring y la BD se encargan de la seguridad en concurrencia a nivel de datos.
             processedEvent = sensorEventRepository.save(processedEvent);
+
+            // Actualizamos contadores concurrentes y métricas centrales.
             updateMetrics(processedEvent);
 
+            // Construimos un snapshot consistente de estadísticas. Nótese que no se bloquea el pool:
+            // sólo se leen contadores atómicos, operación O(1) y muy rápida.
             Map<String, Object> snapshot = buildStatsSnapshot();
+            // Difundimos las estadísticas a los clientes Web vía WebSocket/SSE, desacoplando lectura y escritura.
             messagingTemplate.convertAndSend("/topic/stats", snapshot);
             log.debug("Evento enviado a WebSocket: /topic/stats -> {}", snapshot);
 
+            // Publicamos el evento concreto en canales específicos.
             broadcastEvent(processedEvent);
 
+            // Si el evento es crítico, se encadena de forma asíncrona un flujo de alertas/ notificaciones.
             if (processedEvent.getCritical()) {
+                // Aquí se aplica el principio de "reacción a eventos": el sistema actúa según el tipo de evento.
                 alertService.createAlertFromEvent(processedEvent);
             }
 
+            // Cerramos la medición de tiempo y registramos la métrica etiquetada por tipo de sensor.
             sample.stop(Timer.builder("sensor.processing.time")
                     .tag("type", event.getSensorType().name())
                     .register(meterRegistry));
@@ -97,9 +130,13 @@ public class SensorProcessingService {
             log.info("Evento procesado: ID={}, Tipo={}, Crítico={}",
                      processedEvent.getId(), processedEvent.getSensorType(), processedEvent.getCritical());
 
+            // Devolvemos un CompletableFuture ya completado con el resultado.
+            // En otros escenarios podríamos encadenar más etapas con `thenApply`, `thenCompose`, etc.
             return CompletableFuture.completedFuture(processedEvent);
 
         } catch (Exception e) {
+            // En sistemas concurrentes el manejo de errores es clave: un fallo en un hilo del pool
+            // no debe tumbar el proceso completo. Se registra una métrica de error y se encapsula la excepción.
             log.error("Error procesando evento de sensor: {}", event.getSensorType(), e);
             Counter.builder("sensor.processing.errors")
                     .tag("type", event.getSensorType().name())
@@ -119,15 +156,25 @@ public class SensorProcessingService {
 
     @Async("sensorExecutor")
     public CompletableFuture<List<SensorEvent>> processBatchAsync(List<SensorEvent> events) {
+        // Procesa un lote de eventos en paralelo reutilizando el método unitario.
+        // Cada evento se procesa en un hilo potencialmente distinto del pool, ilustrando
+        // el patrón "fork-join" simplificado con `CompletableFuture.allOf`.
         log.info("Procesando lote de {} eventos concurrentemente", events.size());
+
+        // Transformamos la lista en una lista de futuros individuales.
         List<CompletableFuture<SensorEvent>> futures = events.stream()
                 .map(this::processEventAsync)
                 .toList();
+
+        // `allOf` espera a que todos los futuros terminen (éxito o error).
+        // Es el equivalente de usar un `CountDownLatch` pero con la API de CompletableFuture.
         return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
                 .thenApply(v -> futures.stream().map(CompletableFuture::join).toList());
     }
 
     private void updateMetrics(SensorEvent event) {
+        // Se registran métricas por tipo de sensor aprovechando gauges + contadores atómicos.
+        // `computeIfAbsent` es seguro en `ConcurrentHashMap` y evita crear contadores duplicados.
         eventCounters.computeIfAbsent(event.getSensorType(), k -> {
             AtomicLong counter = new AtomicLong(0);
             meterRegistry.gauge("sensor.events.total",
@@ -146,6 +193,7 @@ public class SensorProcessingService {
             }).incrementAndGet();
         }
 
+        // Métrica adicional de eventos procesados, etiquetada por criticidad.
         Counter.builder("sensor.events.processed")
                 .tag("type", event.getSensorType().name())
                 .tag("critical", String.valueOf(event.getCritical()))
@@ -167,6 +215,9 @@ public class SensorProcessingService {
 
     // Publica el evento procesado en tópicos WebSocket
     private void broadcastEvent(SensorEvent processedEvent) {
+        // Este método encapsula la publicación de eventos individuales por WebSocket.
+        // Concepto de "event-driven": cada vez que el backend procesa algo,
+        // los clientes suscritos reciben la actualización sin hacer polling.
         try {
             Map<String, Object> payload = new HashMap<>();
             payload.put("type", processedEvent.getSensorType().name());
@@ -177,10 +228,14 @@ public class SensorProcessingService {
             payload.put("critical", processedEvent.getCritical());
             payload.put("timestamp", processedEvent.getTimestamp());
 
+            // Canal específico por tipo de sensor (permite a los clientes suscribirse sólo a lo que les interesa)
             String typeTopic = "/topic/sensors/" + processedEvent.getSensorType().name().toLowerCase();
             messagingTemplate.convertAndSend(typeTopic, payload);
+            // Canal agregado con todos los eventos de sensores
             messagingTemplate.convertAndSend("/topic/sensors/events", payload);
         } catch (Exception ex) {
+            // Los fallos al notificar por WS no deben parar el procesamiento de sensores.
+            // Se registra en log a nivel debug para diagnóstico sin saturar el log principal.
             log.debug("No se pudo publicar evento individual por WS: {}", ex.getMessage());
         }
     }

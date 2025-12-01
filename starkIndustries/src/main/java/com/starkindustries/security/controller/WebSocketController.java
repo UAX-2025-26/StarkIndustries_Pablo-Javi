@@ -13,7 +13,7 @@ import org.springframework.stereotype.Controller;
 import java.util.HashMap;
 import java.util.Map;
 
-// WS para mensajes en tiempo real
+// Controlador WebSocket/STOMP para mensajería en tiempo real con el dashboard
 @Controller
 @Slf4j
 public class WebSocketController {
@@ -31,6 +31,7 @@ public class WebSocketController {
         this.sensorExecutor = sensorExecutor;
     }
 
+    // Mensaje de suscripción genérico: simplemente confirma al cliente que está suscrito a alertas
     @MessageMapping("/subscribe")
     @SendTo("/topic/alerts")
     public String subscribe(String message) {
@@ -38,12 +39,14 @@ public class WebSocketController {
         return "Suscripción exitosa al sistema de alertas";
     }
 
+    // Ping/pong sencillo para comprobar conectividad WebSocket desde el cliente
     @MessageMapping("/ping")
     @SendTo("/topic/pong")
     public String ping(String message) {
         return "pong: " + System.currentTimeMillis();
     }
 
+    // Petición explícita de snapshot de estadísticas vía WebSocket (alternativa al push automático)
     @MessageMapping("/stats/request")
     public void statsRequest(String payload) {
         try {
@@ -55,6 +58,7 @@ public class WebSocketController {
             snapshot.put("totalEvents", total);
             snapshot.put("criticalEvents", critical);
 
+            // Adjunta información del estado del pool de hilos de sensores
             try {
                 Map<String, Object> threadPool = new HashMap<>();
                 threadPool.put("active", sensorExecutor.getActiveCount());
@@ -67,6 +71,7 @@ public class WebSocketController {
                 log.trace("No se pudieron obtener métricas de hilos: {}", e.getMessage());
             }
 
+            // Envía el snapshot al topic de estadísticas
             messagingTemplate.convertAndSend("/topic/stats", snapshot);
             log.debug("Snapshot de estadísticas enviado por petición del cliente");
         } catch (Exception e) {

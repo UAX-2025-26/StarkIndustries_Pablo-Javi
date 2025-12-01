@@ -15,36 +15,42 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-// Simula eventos de sensores
+// Servicio encargado de generar eventos de sensores simulados para pruebas y demo
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class SensorSimulationService {
 
     private final SensorProcessingService sensorProcessingService;
+    // Mapa de sensores disponibles inyectado por Spring (clave = beanName)
     private final Map<String, Sensor> sensors;
     private final Random random = new Random();
 
+    // Flag para activar/desactivar la simulación (leído de configuración)
     @Value("${stark.sensors.simulation.enabled:false}")
     private boolean simulationEnabled;
 
+    // Número mínimo de eventos por ciclo de simulación
     @Value("${stark.sensors.simulation.events.min:1}")
     private int minEvents;
 
+    // Número máximo de eventos por ciclo de simulación
     @Value("${stark.sensors.simulation.events.max:3}")
     private int maxEvents;
 
+    // Flag para activar ráfagas de alta carga
     @Value("${stark.sensors.simulation.high-load.enabled:false}")
     private boolean highLoadEnabled;
 
+    // Tamaño del lote en modo alta carga
     @Value("${stark.sensors.simulation.high-load.batch-size:15}")
     private int highLoadBatchSize;
 
-    // Genera eventos periódicos
+    // Genera eventos periódicos en base a la configuración (normal load)
     @Scheduled(fixedRate = 5000)
     public void simulateSensorEvents() {
         if (!simulationEnabled) {
-            return;
+            return; // si la simulación está desactivada, no hace nada
         }
 
         int span = Math.max(1, (maxEvents - minEvents + 1));
@@ -53,18 +59,18 @@ public class SensorSimulationService {
 
         log.debug("Generando {} eventos de sensores simultáneos", eventCount);
 
+        // Genera eventos llamando a simulateEvent() de sensores aleatorios
         for (int i = 0; i < eventCount; i++) {
-            // Seleccionar sensor aleatorio
             Sensor sensor = getRandomSensor();
             SensorEvent event = sensor.simulateEvent();
             events.add(event);
         }
 
-        // Procesar eventos concurrentemente
+        // Envía el lote para procesamiento concurrente
         sensorProcessingService.processBatchAsync(events);
     }
 
-    // Ráfagas de alta carga
+    // Simula ráfagas de alta carga cada 30 segundos
     @Scheduled(fixedRate = 30000) // Cada 30 segundos
     public void simulateHighLoad() {
         if (!simulationEnabled || !highLoadEnabled) {
@@ -82,6 +88,7 @@ public class SensorSimulationService {
         sensorProcessingService.processBatchAsync(events);
     }
 
+    // Log inicial cuando la aplicación está lista, mostrando la configuración de simulación
     @EventListener(ApplicationReadyEvent.class)
     public void onApplicationReady() {
         log.info("Sistema de simulación de sensores iniciado (enabled={})", simulationEnabled);
@@ -94,11 +101,13 @@ public class SensorSimulationService {
         }
     }
 
+    // Selecciona un sensor aleatorio del mapa de sensores
     private Sensor getRandomSensor() {
         List<Sensor> sensorList = new ArrayList<>(sensors.values());
         return sensorList.get(random.nextInt(sensorList.size()));
     }
 
+    // Métodos públicos para activar/desactivar simulación en tiempo de ejecución
     public void enableSimulation() {
         this.simulationEnabled = true;
         log.info("Simulación de sensores habilitada");

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 
+// Servicio de dominio para registrar y consultar logs de acceso
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -16,6 +17,7 @@ public class AccessLogService {
 
     private final AccessLogRepository accessLogRepository;
 
+    // Crea y persiste un nuevo registro de acceso (éxito o fallo)
     public AccessLog logAccess(
             String username,
             String ipAddress,
@@ -34,6 +36,7 @@ public class AccessLogService {
 
         accessLog = accessLogRepository.save(accessLog);
 
+        // Solo se hace log a nivel WARN cuando el acceso ha fallado
         if (!successful) {
             log.warn("Acceso fallido registrado: Usuario={}, IP={}, Razón={}",
                      username, ipAddress, failureReason);
@@ -42,14 +45,17 @@ public class AccessLogService {
         return accessLog;
     }
 
+    // Devuelve todos los accesos no exitosos
     public List<AccessLog> getFailedAttempts() {
         return accessLogRepository.findBySuccessfulFalse();
     }
 
+    // Devuelve todos los accesos asociados a un usuario concreto
     public List<AccessLog> getAccessLogsByUser(String username) {
         return accessLogRepository.findByUsername(username);
     }
 
+    // Devuelve IPs sospechosas cuyo número de fallos supera el umbral indicado
     public List<Object[]> getSuspiciousIpAddresses(int threshold) {
         return accessLogRepository.findSuspiciousIpAddresses(threshold);
     }
