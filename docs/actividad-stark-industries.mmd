@@ -1,0 +1,27 @@
+flowchart TD
+    A[Evento de sensor generado<br/>hardware o simulación] --> B[Petición HTTP<br/>SensorController]
+    B --> C[SensorController llama a<br/>processEventAsync]
+    C --> D{Async entra en pool<br/>sensorExecutor}
+    D --> E[Seleccionar implementación<br/>según SensorType]
+    E --> F[Sensor.processEvent<br/>normalización, validación]
+    F --> G[Persistir SensorEvent<br/>en BD]
+    G --> H[Actualizar contadores<br/>ConcurrentHashMap]
+    H --> I[Construir snapshot<br/>de estadísticas]
+    I --> J[Enviar por WebSocket<br/>/topic/stats]
+    G --> K{Evento critico?}
+    K -- No --> L[Fin procesamiento<br/>CompletableFuture]
+    K -- Si --> M[AlertService crea<br/>SecurityAlert]
+    M --> N[Persistir alerta<br/>en BD]
+    N --> O[NotificationService<br/>notifica por WebSocket]
+    O --> L
+
+    subgraph Simulación
+        S1[Tarea Scheduled<br/>cada 5 segundos] --> S2[Generar evento aleatorio<br/>simulateEvent]
+        S2 --> B
+    end
+
+    subgraph Broadcasting
+        B1[Tarea Scheduled<br/>cada 10 segundos] --> B2[Recopilar estadísticas<br/>de BD]
+        B2 --> B3[Enviar por WebSocket<br/>/topic/stats]
+    end
+

@@ -1,0 +1,259 @@
+classDiagram
+    %% Paquete model
+    class User {
+        +Long id
+        +String username
+        +String password
+        +String role
+    }
+
+    class SensorEvent {
+        +Long id
+        +SensorType sensorType
+        +String sensorId
+        +String location
+        +Double value
+        +String unit
+        +boolean critical
+        +Instant timestamp
+        +Instant processedAt
+        +Long processingTimeMs
+    }
+
+    class SecurityAlert {
+        +Long id
+        +SensorEvent sourceEvent
+        +String severity
+        +String message
+        +Instant createdAt
+        +boolean acknowledged
+    }
+
+    class AccessLog {
+        +Long id
+        +String username
+        +String ipAddress
+        +Instant timestamp
+        +String action
+        +boolean success
+    }
+
+    class SensorType {
+        <<enumeration>>
+        TEMPERATURE
+        MOTION
+        ACCESS_CONTROL
+    }
+
+    %% Paquete sensor
+    class Sensor {
+        <<interface>>
+        +getSensorType() String
+        +processEvent(SensorEvent) SensorEvent
+        +requiresAlert(Double) boolean
+        +simulateEvent() SensorEvent
+    }
+
+    class TemperatureSensor {
+        +getSensorType() String
+        +processEvent(SensorEvent) SensorEvent
+        +requiresAlert(Double) boolean
+        +simulateEvent() SensorEvent
+    }
+
+    class MotionSensor {
+        +getSensorType() String
+        +processEvent(SensorEvent) SensorEvent
+        +requiresAlert(Double) boolean
+        +simulateEvent() SensorEvent
+    }
+
+    class AccessControlSensor {
+        +getSensorType() String
+        +processEvent(SensorEvent) SensorEvent
+        +requiresAlert(Double) boolean
+        +simulateEvent() SensorEvent
+    }
+
+    Sensor <|.. TemperatureSensor : implementa
+    Sensor <|.. MotionSensor : implementa
+    Sensor <|.. AccessControlSensor : implementa
+
+    TemperatureSensor --> SensorType : usa
+    MotionSensor --> SensorType : usa
+    AccessControlSensor --> SensorType : usa
+
+    %% Paquete repository
+    class UserRepository {
+        <<interface>>
+        +findByUsername(String) Optional~User~
+        +save(User) User
+    }
+
+    class SensorEventRepository {
+        <<interface>>
+        +save(SensorEvent) SensorEvent
+        +findBySensorType(SensorType) List~SensorEvent~
+    }
+
+    class SecurityAlertRepository {
+        <<interface>>
+        +save(SecurityAlert) SecurityAlert
+        +findByAcknowledged(boolean) List~SecurityAlert~
+    }
+
+    class AccessLogRepository {
+        <<interface>>
+        +save(AccessLog) AccessLog
+        +findByUsername(String) List~AccessLog~
+    }
+
+    UserRepository --> User : gestiona
+    SensorEventRepository --> SensorEvent : gestiona
+    SecurityAlertRepository --> SecurityAlert : gestiona
+    AccessLogRepository --> AccessLog : gestiona
+
+    %% Paquete service
+    class SensorProcessingService {
+        -SensorEventRepository sensorEventRepository
+        -AlertService alertService
+        -SimpMessagingTemplate messagingTemplate
+        -Map~SensorType, Sensor~ sensors
+        -ConcurrentHashMap~SensorType, AtomicLong~ counters
+        +processEventAsync(SensorEvent) CompletableFuture~SensorEvent~
+        +processBatchAsync(List~SensorEvent~) CompletableFuture~List~SensorEvent~~
+    }
+
+    class SensorSimulationService {
+        -SensorProcessingService sensorProcessingService
+        -List~Sensor~ sensors
+        +simulateRandomEvent() void
+        +simulateBatch() void
+    }
+
+    class AlertService {
+        -SecurityAlertRepository securityAlertRepository
+        -NotificationService notificationService
+        +createAlertFromEvent(SensorEvent) SecurityAlert
+        +findPendingAlerts() List~SecurityAlert~
+    }
+
+    class NotificationService {
+        -SimpMessagingTemplate messagingTemplate
+        +notifyAlert(SecurityAlert) void
+        +notifyStats(Object) void
+    }
+
+    class UserService {
+        -UserRepository userRepository
+        -PasswordEncoder passwordEncoder
+        +loadByUsername(String) User
+        +createUser(User) User
+    }
+
+    class AccessLogService {
+        -AccessLogRepository accessLogRepository
+        +logSuccess(String, String) void
+        +logFailure(String, String) void
+    }
+
+    class StatsBroadcastService {
+        -SimpMessagingTemplate messagingTemplate
+        -SensorEventRepository sensorEventRepository
+        +broadcastStats() void
+    }
+
+    SensorProcessingService --> SensorEventRepository : persiste en
+    SensorProcessingService --> AlertService : crea alertas con
+    SensorProcessingService --> NotificationService : notifica con
+    SensorProcessingService --> Sensor : procesa con
+    SensorProcessingService --> SensorType : clasifica por
+
+    SensorSimulationService --> SensorProcessingService : envia eventos a
+    SensorSimulationService --> Sensor : genera datos con
+
+    AlertService --> SecurityAlertRepository : persiste en
+    AlertService --> NotificationService : notifica con
+    AlertService --> SecurityAlert : crea
+
+    NotificationService --> SecurityAlert : publica
+
+    UserService --> UserRepository : consulta
+    UserService --> User : gestiona
+
+    AccessLogService --> AccessLogRepository : registra en
+    AccessLogService --> AccessLog : crea
+
+    StatsBroadcastService --> SensorEventRepository : consulta
+
+    %% Paquete config
+    class AsyncConfiguration {
+        +sensorExecutor() ThreadPoolTaskExecutor
+        +alertExecutor() ThreadPoolTaskExecutor
+        +notificationExecutor() ThreadPoolTaskExecutor
+    }
+
+    class WebSocketConfiguration {
+        +configureMessageBroker() void
+        +registerStompEndpoints() void
+    }
+
+    class SecurityConfiguration {
+        +securityFilterChain() SecurityFilterChain
+    }
+
+    AsyncConfiguration --> SensorProcessingService : configura pool para
+    AsyncConfiguration --> AlertService : configura pool para
+    AsyncConfiguration --> NotificationService : configura pool para
+
+    WebSocketConfiguration --> NotificationService : habilita comunicacion
+    WebSocketConfiguration --> SensorProcessingService : habilita comunicacion
+
+    SecurityConfiguration --> UserService : autentica con
+    SecurityConfiguration --> AccessLogService : registra con
+
+    %% Paquete controller
+    class SensorController {
+        -SensorProcessingService sensorProcessingService
+        -SensorSimulationService sensorSimulationService
+        +submitEvent(SensorEvent) ResponseEntity
+        +simulate() ResponseEntity
+    }
+
+    class AlertController {
+        -AlertService alertService
+        +getAlerts() List~SecurityAlert~
+        +acknowledgeAlert(Long) ResponseEntity
+    }
+
+    class AuthenticationController {
+        -AuthenticationService authenticationService
+        +login() ResponseEntity
+        +refreshToken() ResponseEntity
+    }
+
+    class AdminController {
+        -UserService userService
+        -AccessLogService accessLogService
+        +createUser() ResponseEntity
+        +getAccessLogs() List~AccessLog~
+    }
+
+    class WebSocketController {
+        -SimpMessagingTemplate messagingTemplate
+        +sendTestMessage() void
+    }
+
+    SensorController --> SensorProcessingService : delega a
+    SensorController --> SensorSimulationService : simula con
+
+    AlertController --> AlertService : consulta
+
+    AuthenticationController --> UserService : autentica con
+    AuthenticationController --> AccessLogService : registra con
+
+    AdminController --> UserService : gestiona usuarios con
+    AdminController --> AccessLogService : consulta logs con
+
+    WebSocketController --> NotificationService : envia mensajes con
+

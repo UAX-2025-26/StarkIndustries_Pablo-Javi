@@ -1,0 +1,47 @@
+sequenceDiagram
+    autonumber
+    participant HW as Hardware/Simulador
+    participant SC as SensorController
+    participant SPS as SensorProcessingService
+    participant S as Sensor
+    participant SER as SensorEventRepository
+    participant AS as AlertService
+    participant SAR as SecurityAlertRepository
+    participant NS as NotificationService
+    participant WS as WebSocket Broker
+
+    HW->>SC: POST /api/sensors/event
+    SC->>SPS: processEventAsync(event)
+    activate SPS
+    note right of SPS: Async en pool sensorExecutor
+
+    SPS->>S: processEvent(event)
+    activate S
+    S-->>SPS: SensorEvent procesado
+    deactivate S
+
+    SPS->>SER: save(event)
+    SER-->>SPS: evento persistido
+
+    SPS->>SPS: actualizar contadores
+    SPS->>WS: send /topic/stats
+    SPS->>WS: send /topic/sensors/tipo
+
+    alt Evento crítico
+        SPS->>AS: createAlertFromEvent(event)
+        activate AS
+        AS->>SAR: save(alerta)
+        SAR-->>AS: alerta persistida
+        AS->>NS: notifyAlert(alerta)
+        deactivate AS
+        NS->>WS: send /topic/alerts
+    else Evento no crítico
+        note right of SPS: Solo métricas
+    end
+
+    SPS-->>SC: CompletableFuture
+    deactivate SPS
+
+    SC-->>HW: HTTP 202 Accepted
+
+    note over HW,WS: Cliente web recibe actualizaciones en tiempo real

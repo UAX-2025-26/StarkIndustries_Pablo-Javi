@@ -10,25 +10,60 @@ Equipo:
 - Pablo Lozano
 - Javier Yustres
 
-Cómo ejecutar (Windows, cmd.exe):
-1) Requisitos
-   - Java 21 en PATH (java -version)
-   - Maven 3.9+ (mvn -v)
-2) Arranque
+## Estructura del proyecto
+
 ```
+concurrencia-stark-industries/
+├── README.md (este archivo)
+├── LICENSE
+├── docs/ (documentación técnica y diagramas)
+└── starkIndustries/ (módulo de la aplicación)
+    ├── pom.xml
+    ├── run.bat (script de ejecución)
+    ├── test-login.html
+    ├── docs/
+    ├── logs/
+    └── src/
+        └── main/
+            └── java/
+                └── com/starkindustries/
+```
+
+El código de la aplicación está dentro del módulo `starkIndustries/`.
+
+## Cómo ejecutar
+
+Requisitos:
+- Java 21 en PATH (verificar con `java -version`)
+- Maven 3.9+ (verificar con `mvn -v`)
+
+### Opción 1: Usando el script run.bat
+
+```cmd
+cd starkIndustries
+run.bat
+```
+
+### Opción 2: Usando Maven directamente
+
+```cmd
+cd starkIndustries
 mvn clean spring-boot:run
 ```
-3) Acceso rápido
-   - Dashboard: http://localhost:8080
-   - API (ejemplos):
-     - Autenticación: POST /api/auth/login
-     - Sensores: GET /api/sensors/events, POST /api/sensors/simulate
-     - Alertas: GET /api/alerts/active
-   - WebSocket STOMP: ws://localhost:8080/ws (topics /topic/stats, /topic/sensors/*, /topic/alerts)
-   - Actuator: http://localhost:8080/actuator
-   - H2 Console: http://localhost:8080/h2-console (jdbc:h2:mem:securitydb)
 
-Credenciales iniciales (DataInitializer):
+## Acceso rápido
+- Dashboard: http://localhost:8080
+- API (ejemplos):
+  - Autenticación: POST /api/auth/login
+  - Sensores: GET /api/sensors/events, POST /api/sensors/simulate
+  - Alertas: GET /api/alerts/active
+- WebSocket STOMP: ws://localhost:8080/ws (topics /topic/stats, /topic/sensors/*, /topic/alerts)
+- Actuator: http://localhost:8080/actuator
+- H2 Console: http://localhost:8080/h2-console (jdbc:h2:mem:securitydb)
+
+## Credenciales iniciales
+
+Creadas automáticamente por DataInitializer:
 - admin / admin123 — ROLE_ADMIN
 - jarvis / jarvis123 — ROLE_AUTHORIZED_USER
 
