@@ -30,7 +30,7 @@ public class AsyncConfiguration implements AsyncConfigurer {
     }
 
     // Pool específico para tareas de alertas (separado del de sensores)
-    @Bean(name = "alertExecutor")
+    @Bean(name = "alertExecutor") // Registra este método como un bean de Spring con el nombre "alertExecutor" que podrá ser inyectado en otros componentes
     public ThreadPoolTaskExecutor alertExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(10);
@@ -44,7 +44,7 @@ public class AsyncConfiguration implements AsyncConfigurer {
     }
 
     // Pool para tareas de notificaciones (emails, WebSocket, etc.)
-    @Bean(name = "notificationExecutor")
+    @Bean(name = "notificationExecutor") // Registra este método como un bean de Spring con el nombre "notificationExecutor" que podrá ser inyectado en otros componentes
     public ThreadPoolTaskExecutor notificationExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(5);

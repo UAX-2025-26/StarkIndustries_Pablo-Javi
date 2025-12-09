@@ -14,17 +14,17 @@ import java.util.List;
 import java.util.Map;
 
 // Controlador REST para consultar y gestionar alertas de seguridad
-@RestController
-@RequestMapping("/api/alerts")
-@RequiredArgsConstructor
+@RestController // Combina @Controller y @ResponseBody para indicar que esta clase maneja peticiones HTTP y devuelve respuestas en formato JSON automáticamente
+@RequestMapping("/api/alerts") // Define la ruta base "/api/alerts" para todos los endpoints de este controlador
+@RequiredArgsConstructor // Anotación de Lombok que genera un constructor con todos los campos final, permitiendo inyección de dependencias por constructor
 public class AlertController {
 
     private final AlertService alertService;
     private final SecurityAlertRepository alertRepository;
 
     // Devuelve todas las alertas activas (no resueltas)
-    @GetMapping("/active")
-    @PreAuthorize("hasAnyRole('ADMIN', 'AUTHORIZED_USER')")
+    @GetMapping("/active") // Define que este método maneja peticiones HTTP GET en la ruta "/api/alerts/active"
+    @PreAuthorize("hasAnyRole('ADMIN', 'AUTHORIZED_USER')") // Define que solo usuarios con roles ADMIN o AUTHORIZED_USER pueden acceder a este endpoint
     public ResponseEntity<List<SecurityAlert>> getActiveAlerts() {
         return ResponseEntity.ok(alertService.getActiveAlerts());
     }
@@ -48,10 +48,10 @@ public class AlertController {
     }
 
     // Marca una alerta como reconocida por el usuario autenticado
-    @PutMapping("/{id}/acknowledge")
-    @PreAuthorize("hasAnyRole('ADMIN', 'AUTHORIZED_USER')")
+    @PutMapping("/{id}/acknowledge") // Define que este método maneja peticiones HTTP PUT en la ruta "/api/alerts/{id}/acknowledge"
+    @PreAuthorize("hasAnyRole('ADMIN', 'AUTHORIZED_USER')") // Define que solo usuarios con roles ADMIN o AUTHORIZED_USER pueden acceder a este endpoint
     public ResponseEntity<SecurityAlert> acknowledgeAlert(
-            @PathVariable Long id,
+            @PathVariable Long id, // @PathVariable extrae el valor del parámetro de la ruta URL (id de la alerta)
             Authentication authentication
     ) {
         return ResponseEntity.ok(
@@ -60,10 +60,10 @@ public class AlertController {
     }
 
     // Marca una alerta como resuelta (y la reconoce si aún no lo estaba)
-    @PutMapping("/{id}/resolve")
-    @PreAuthorize("hasAnyRole('ADMIN', 'AUTHORIZED_USER')")
+    @PutMapping("/{id}/resolve") // Define que este método maneja peticiones HTTP PUT en la ruta "/api/alerts/{id}/resolve"
+    @PreAuthorize("hasAnyRole('ADMIN', 'AUTHORIZED_USER')") // Define que solo usuarios con roles ADMIN o AUTHORIZED_USER pueden acceder a este endpoint
     public ResponseEntity<SecurityAlert> resolveAlert(
-            @PathVariable Long id,
+            @PathVariable Long id, // @PathVariable extrae el valor del parámetro de la ruta URL (id de la alerta)
             Authentication authentication
     ) {
         return ResponseEntity.ok(

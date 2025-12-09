@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 // Repositorio de eventos de sensores: permite consultar por tipo, rango temporal y estadísticas
-@Repository
+@Repository // Marca esta interfaz como un repositorio de Spring Data JPA, permitiendo que Spring genere automáticamente la implementación de acceso a datos
 public interface SensorEventRepository extends JpaRepository<SensorEvent, Long> {
 
     // Todos los eventos de un tipo de sensor concreto

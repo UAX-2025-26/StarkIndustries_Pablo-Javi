@@ -17,9 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 // Servicio de autenticación: valida credenciales, genera JWT y registra accesos
-@Service
-@Slf4j
-@RequiredArgsConstructor
+@Service // Marca esta clase como un componente de servicio de Spring para que sea detectado automáticamente y registrado en el contexto de Spring
+@Slf4j // Anotación de Lombok que genera automáticamente un logger (log) para esta clase
+@RequiredArgsConstructor // Anotación de Lombok que genera un constructor con todos los campos final, permitiendo inyección de dependencias por constructor
 public class AuthenticationService {
 
     // Delegado de Spring Security que ejecuta el proceso de autenticación

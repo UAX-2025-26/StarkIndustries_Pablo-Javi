@@ -18,22 +18,22 @@ import java.util.Map;
 import java.util.function.Function;
 
 // Servicio responsable de construir y validar tokens JWT
-@Service
+@Service // Marca esta clase como un componente de servicio de Spring para que sea detectado automáticamente y registrado en el contexto de Spring
 public class JwtService {
 
     // Secreto configurable via application.yml
-    @Value("${security.jwt.secret}")
+    @Value("${security.jwt.secret}") // Inyecta el valor de la propiedad de configuración "security.jwt.secret" desde application.yml
     private String secretKeyProperty;
 
     // Tiempo de vida del token en milisegundos
-    @Value("${security.jwt.expiration:86400000}")
+    @Value("${security.jwt.expiration:86400000}") // Inyecta el valor de la propiedad de configuración, con valor por defecto "86400000" (24 horas) si no está definida
     private long jwtExpiration;
 
     // Clave simétrica derivada del secreto
     private SecretKey secretKey;
 
     // Inicializa la clave una vez cargadas las propiedades de Spring
-    @PostConstruct
+    @PostConstruct // Indica que este método se ejecutará automáticamente después de que Spring inyecte todas las dependencias y propiedades
     void init() {
         this.secretKey = buildSecretKey(secretKeyProperty);
     }

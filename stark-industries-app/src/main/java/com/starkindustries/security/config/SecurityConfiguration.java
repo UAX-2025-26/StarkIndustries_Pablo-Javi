@@ -76,7 +76,7 @@ public class SecurityConfiguration {
     }
 
     // AuthenticationProvider basado en DAO, usando UserDetailsService y BCrypt
-    @Bean
+    @Bean // Registra este método como un bean de Spring que será gestionado por el contenedor
     public AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService,
                                                          PasswordEncoder passwordEncoder) {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -86,19 +86,19 @@ public class SecurityConfiguration {
     }
 
     // Expone el AuthenticationManager configurado por Spring (para AuthenticationService)
-    @Bean
+    @Bean // Registra este método como un bean de Spring que será gestionado por el contenedor
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
     // BCrypt para cifrar contraseñas de usuarios
-    @Bean
+    @Bean // Registra este método como un bean de Spring que será gestionado por el contenedor
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     // Configuración CORS permisiva para permitir llamadas desde el dashboard o herramientas externas
-    @Bean
+    @Bean // Registra este método como un bean de Spring que será gestionado por el contenedor
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOriginPatterns(List.of("*"));

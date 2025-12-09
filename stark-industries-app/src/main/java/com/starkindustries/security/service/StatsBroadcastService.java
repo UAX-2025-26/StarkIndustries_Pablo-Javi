@@ -32,7 +32,7 @@ public class StatsBroadcastService {
     }
 
     // Tarea programada: cada 5 segundos envía un snapshot de métricas al topic /topic/stats
-    @Scheduled(fixedRate = 5000, initialDelay = 5000)
+    @Scheduled(fixedRate = 5000, initialDelay = 5000) // Define que este método se ejecutará automáticamente cada 5000ms (5 segundos) con un retraso inicial de 5 segundos
     public void broadcastStats() {
         try {
             Map<String, Object> snapshot = new HashMap<>();

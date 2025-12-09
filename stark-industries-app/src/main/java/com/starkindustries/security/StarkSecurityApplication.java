@@ -9,9 +9,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 // @SpringBootApplication: activa autoconfiguración, escaneo de componentes e IoC/DI
 // @EnableAsync: permite usar métodos @Async para ejecutar tareas en hilos del pool
 // @EnableScheduling: habilita tareas programadas con @Scheduled
-@SpringBootApplication
-@EnableAsync
-@EnableScheduling
+@SpringBootApplication // Anotación combinada que habilita la autoconfiguración de Spring Boot, el escaneo de componentes y permite definir configuración adicional
+@EnableAsync // Habilita el soporte para métodos asíncronos anotados con @Async en toda la aplicación
+@EnableScheduling // Habilita el soporte para tareas programadas con @Scheduled, permitiendo ejecutar métodos de forma periódica
 public class StarkSecurityApplication {
 
     public static void main(String[] args) {

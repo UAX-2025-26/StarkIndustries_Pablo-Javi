@@ -80,7 +80,7 @@ public class SensorProcessingService {
         return snapshot;
     }
 
-    @Async("sensorExecutor")
+    @Async("sensorExecutor") // Indica que este método se ejecutará de forma asíncrona en un hilo separado usando el executor especificado ("sensorExecutor")
     public CompletableFuture<SensorEvent> processEventAsync(SensorEvent event) {
         // Marcamos claramente que este método se ejecuta en un hilo del pool `sensorExecutor`.
         // Desde el punto de vista del controlador HTTP, la llamada es "fire-and-forget":

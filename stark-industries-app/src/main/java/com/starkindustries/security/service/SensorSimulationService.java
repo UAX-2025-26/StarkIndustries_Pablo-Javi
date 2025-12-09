@@ -16,9 +16,9 @@ import java.util.Map;
 import java.util.Random;
 
 // Servicio encargado de generar eventos de sensores simulados para pruebas y demo
-@Service
-@Slf4j
-@RequiredArgsConstructor
+@Service // Marca esta clase como un componente de servicio de Spring para que sea detectado automáticamente y registrado en el contexto de Spring
+@Slf4j // Anotación de Lombok que genera automáticamente un logger (log) para esta clase
+@RequiredArgsConstructor // Anotación de Lombok que genera un constructor con todos los campos final, permitiendo inyección de dependencias por constructor
 public class SensorSimulationService {
 
     private final SensorProcessingService sensorProcessingService;
@@ -27,27 +27,27 @@ public class SensorSimulationService {
     private final Random random = new Random();
 
     // Flag para activar/desactivar la simulación (leído de configuración)
-    @Value("${stark.sensors.simulation.enabled:false}")
+    @Value("${stark.sensors.simulation.enabled:false}") // Inyecta el valor de la propiedad de configuración, con valor por defecto "false" si no está definida
     private boolean simulationEnabled;
 
     // Número mínimo de eventos por ciclo de simulación
-    @Value("${stark.sensors.simulation.events.min:1}")
+    @Value("${stark.sensors.simulation.events.min:1}") // Inyecta el valor de la propiedad de configuración, con valor por defecto "1" si no está definida
     private int minEvents;
 
     // Número máximo de eventos por ciclo de simulación
-    @Value("${stark.sensors.simulation.events.max:3}")
+    @Value("${stark.sensors.simulation.events.max:3}") // Inyecta el valor de la propiedad de configuración, con valor por defecto "3" si no está definida
     private int maxEvents;
 
     // Flag para activar ráfagas de alta carga
-    @Value("${stark.sensors.simulation.high-load.enabled:false}")
+    @Value("${stark.sensors.simulation.high-load.enabled:false}") // Inyecta el valor de la propiedad de configuración, con valor por defecto "false" si no está definida
     private boolean highLoadEnabled;
 
     // Tamaño del lote en modo alta carga
-    @Value("${stark.sensors.simulation.high-load.batch-size:15}")
+    @Value("${stark.sensors.simulation.high-load.batch-size:15}") // Inyecta el valor de la propiedad de configuración, con valor por defecto "15" si no está definida
     private int highLoadBatchSize;
 
     // Genera eventos periódicos en base a la configuración (normal load)
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = 5000) // Define que este método se ejecutará automáticamente cada 5000ms (5 segundos)
     public void simulateSensorEvents() {
         if (!simulationEnabled) {
             return; // si la simulación está desactivada, no hace nada
@@ -89,7 +89,7 @@ public class SensorSimulationService {
     }
 
     // Log inicial cuando la aplicación está lista, mostrando la configuración de simulación
-    @EventListener(ApplicationReadyEvent.class)
+    @EventListener(ApplicationReadyEvent.class) // Indica que este método se ejecutará automáticamente cuando Spring termine de inicializar la aplicación, respondiendo al evento ApplicationReadyEvent
     public void onApplicationReady() {
         log.info("Sistema de simulación de sensores iniciado (enabled={})", simulationEnabled);
         if (simulationEnabled) {

@@ -14,12 +14,12 @@ import java.util.stream.Collectors;
 /**
  * Entidad de usuario que implementa UserDetails para integrarse con Spring Security
  */
-@Entity
-@Table(name = "users")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@Entity // Marca esta clase como una entidad JPA que se mapeará a una tabla en la base de datos
+@Table(name = "users") // Especifica el nombre de la tabla en la base de datos ("users")
+@Data // Anotación de Lombok que genera automáticamente getters, setters, toString, equals y hashCode
+@NoArgsConstructor // Anotación de Lombok que genera un constructor sin argumentos
+@AllArgsConstructor // Anotación de Lombok que genera un constructor con todos los campos
+@Builder // Anotación de Lombok que implementa el patrón Builder para crear instancias de forma fluida
 public class User implements UserDetails {
 
     @Id

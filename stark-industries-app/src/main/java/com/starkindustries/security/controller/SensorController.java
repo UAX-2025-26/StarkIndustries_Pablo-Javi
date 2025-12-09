@@ -48,23 +48,23 @@ public class SensorController {
     }
 
     // Devuelve todos los eventos registrados en la base de datos
-    @GetMapping("/events")
-    @PreAuthorize("hasAnyRole('ADMIN', 'AUTHORIZED_USER')")
+    @GetMapping("/events") // Define que este método maneja peticiones HTTP GET en la ruta "/api/sensors/events"
+    @PreAuthorize("hasAnyRole('ADMIN', 'AUTHORIZED_USER')") // Define que solo usuarios con roles ADMIN o AUTHORIZED_USER pueden acceder a este endpoint
     public ResponseEntity<List<com.starkindustries.security.model.SensorEvent>> getAllEvents() {
         return ResponseEntity.ok(sensorEventRepository.findAll());
     }
 
     // Devuelve los eventos filtrados por tipo de sensor
-    @GetMapping("/events/type/{type}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'AUTHORIZED_USER')")
+    @GetMapping("/events/type/{type}") // Define que este método maneja peticiones HTTP GET en la ruta "/api/sensors/events/type/{type}"
+    @PreAuthorize("hasAnyRole('ADMIN', 'AUTHORIZED_USER')") // Define que solo usuarios con roles ADMIN o AUTHORIZED_USER pueden acceder a este endpoint
     public ResponseEntity<List<com.starkindustries.security.model.SensorEvent>> getEventsByType(
-            @PathVariable com.starkindustries.security.model.SensorType type) {
+            @PathVariable com.starkindustries.security.model.SensorType type) { // @PathVariable extrae el valor del parámetro de la ruta URL (por ejemplo: /events/type/MOTION)
         return ResponseEntity.ok(sensorEventRepository.findBySensorType(type));
     }
 
     // Devuelve solo los eventos marcados como críticos
-    @GetMapping("/events/critical")
-    @PreAuthorize("hasAnyRole('ADMIN', 'AUTHORIZED_USER')")
+    @GetMapping("/events/critical") // Define que este método maneja peticiones HTTP GET en la ruta "/api/sensors/events/critical"
+    @PreAuthorize("hasAnyRole('ADMIN', 'AUTHORIZED_USER')") // Define que solo usuarios con roles ADMIN o AUTHORIZED_USER pueden acceder a este endpoint
     public ResponseEntity<List<com.starkindustries.security.model.SensorEvent>> getCriticalEvents() {
         return ResponseEntity.ok(sensorEventRepository.findByCriticalTrue());
     }

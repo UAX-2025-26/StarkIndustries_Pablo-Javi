@@ -16,9 +16,9 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
 // Servicio encargado de crear y gestionar alertas de seguridad a partir de eventos críticos
-@Service
-@Slf4j
-@RequiredArgsConstructor
+@Service // Marca esta clase como un componente de servicio de Spring para que sea detectado automáticamente y registrado en el contexto de Spring
+@Slf4j // Anotación de Lombok que genera automáticamente un logger (log) para esta clase
+@RequiredArgsConstructor // Anotación de Lombok que genera un constructor con todos los campos final, permitiendo inyección de dependencias por constructor
 public class AlertService {
 
     private final SecurityAlertRepository alertRepository;
@@ -27,11 +27,11 @@ public class AlertService {
     // Mapa para aplicar un "cooldown" por sensor/ubicación y evitar alertas duplicadas
     private final Map<String, Long> lastAlertByKey = new ConcurrentHashMap<>();
 
-    @Value("${security.alerts.cooldown-ms:120000}")
+    @Value("${security.alerts.cooldown-ms:120000}") // Inyecta el valor de la propiedad de configuración, con valor por defecto "120000" (2 minutos) si no está definida
     private long alertsCooldownMs;
 
     // Crea una alerta asíncrona a partir de un evento de sensor crítico
-    @Async("alertExecutor")
+    @Async("alertExecutor") // Indica que este método se ejecutará de forma asíncrona en un hilo separado usando el executor especificado ("alertExecutor")
     public CompletableFuture<SecurityAlert> createAlertFromEvent(SensorEvent event) {
         String key = event.getSensorType().name() + "@" + String.valueOf(event.getLocation());
         long now = System.currentTimeMillis();

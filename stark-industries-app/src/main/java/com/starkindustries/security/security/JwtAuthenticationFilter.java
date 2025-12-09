@@ -17,7 +17,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 // Filtro que se ejecuta una vez por request y extrae/valida el JWT de la cabecera Authorization
-@Component
+@Component // Marca esta clase como un componente genérico de Spring para que sea detectado por el escaneo de componentes y pueda ser inyectado donde se necesite
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;

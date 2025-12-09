@@ -28,7 +28,7 @@ public class AuthenticationController {
     }
 
     // Endpoint de logout: solo registra el evento de cierre de sesión en los logs de acceso
-    @PostMapping("/logout")
+    @PostMapping("/logout") // Define que este método maneja peticiones HTTP POST en la ruta "/api/auth/logout"
     public ResponseEntity<Void> logout(Authentication authentication, HttpServletRequest httpRequest) {
         String ipAddress = httpRequest.getRemoteAddr();
         String username = authentication != null ? authentication.getName() : "anonymous";
@@ -37,7 +37,7 @@ public class AuthenticationController {
     }
 
     // Endpoint simple para comprobar que el módulo de autenticación está operativo
-    @GetMapping("/status")
+    @GetMapping("/status") // Define que este método maneja peticiones HTTP GET en la ruta "/api/auth/status"
     public ResponseEntity<String> status() {
         return ResponseEntity.ok("Sistema de autenticación operativo");
     }

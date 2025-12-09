@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 // Repositorio de usuarios: encapsula el acceso a la tabla users
-@Repository
+@Repository // Marca esta interfaz como un repositorio de Spring Data JPA, permitiendo que Spring genere automáticamente la implementación de acceso a datos
 public interface UserRepository extends JpaRepository<User, Long> {
 
     // Busca un usuario por su username (login)

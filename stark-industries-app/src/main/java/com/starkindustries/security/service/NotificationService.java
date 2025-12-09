@@ -13,9 +13,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 // Servicio encargado de enviar notificaciones (WebSocket, email y PUSH simulado)
-@Service
-@Slf4j
-@RequiredArgsConstructor
+@Service // Marca esta clase como un componente de servicio de Spring para que sea detectado automáticamente y registrado en el contexto de Spring
+@Slf4j // Anotación de Lombok que genera automáticamente un logger (log) para esta clase
+@RequiredArgsConstructor // Anotación de Lombok que genera un constructor con todos los campos final, permitiendo inyección de dependencias por constructor
 public class NotificationService {
 
     // Canal para enviar mensajes en tiempo real a los clientes vía STOMP/WebSocket
@@ -24,7 +24,7 @@ public class NotificationService {
     private final JavaMailSender mailSender;
 
     // Envia notificaciones asociadas a una alerta usando un pool específico de hilos
-    @Async("notificationExecutor")
+    @Async("notificationExecutor") // Indica que este método se ejecutará de forma asíncrona en un hilo separado usando el executor especificado ("notificationExecutor")
     public void sendAlertNotifications(SecurityAlert alert) {
         log.info("Enviando notificaciones para alerta: {}", alert.getId());
         // Siempre se notifica por WebSocket

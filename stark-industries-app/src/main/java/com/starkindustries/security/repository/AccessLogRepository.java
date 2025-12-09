@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 // Repositorio de logs de acceso
-@Repository
+@Repository // Marca esta interfaz como un repositorio de Spring Data JPA, permitiendo que Spring genere automáticamente la implementación de acceso a datos
 public interface AccessLogRepository extends JpaRepository<AccessLog, Long> {
 
     // Todos los logs de un usuario concreto

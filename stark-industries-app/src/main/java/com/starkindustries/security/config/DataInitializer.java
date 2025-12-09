@@ -11,16 +11,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.List;
 
 // Inicializa datos básicos al arrancar la aplicación (usuarios por defecto)
-@Configuration
-@Slf4j
-@RequiredArgsConstructor
+@Configuration // Indica que esta clase contiene definiciones de beans (@Bean) que serán gestionados por el contenedor de Spring
+@Slf4j // Anotación de Lombok que genera automáticamente un logger (log) para esta clase
+@RequiredArgsConstructor // Anotación de Lombok que genera un constructor con todos los campos final, permitiendo inyección de dependencias por constructor
 public class DataInitializer {
 
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
     // CommandLineRunner se ejecuta automáticamente al iniciar el contexto de Spring
-    @Bean
+    @Bean // Registra este método como un bean de Spring que será gestionado por el contenedor
     CommandLineRunner initDefaultAdmin() {
         return args -> {
             // Crear usuario admin si no existe

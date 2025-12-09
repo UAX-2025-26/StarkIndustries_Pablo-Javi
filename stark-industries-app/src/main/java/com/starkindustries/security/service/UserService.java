@@ -14,9 +14,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 // Gestión básica de usuarios e integración con UserDetailsService (usado por Spring Security)
-@Service
-@Slf4j
-@RequiredArgsConstructor
+@Service // Marca esta clase como un componente de servicio de Spring para que sea detectado automáticamente y registrado en el contexto de Spring
+@Slf4j // Anotación de Lombok que genera automáticamente un logger (log) para esta clase
+@RequiredArgsConstructor // Anotación de Lombok que genera un constructor con todos los campos final, permitiendo inyección de dependencias por constructor
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;

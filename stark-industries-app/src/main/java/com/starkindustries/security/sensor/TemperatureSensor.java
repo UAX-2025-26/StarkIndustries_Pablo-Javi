@@ -11,15 +11,15 @@ import java.util.Random;
 import java.util.UUID;
 
 // Implementación de un sensor de temperatura simulado
-@Component("temperatureSensor")
-@Slf4j
+@Component("temperatureSensor") // Marca esta clase como un componente de Spring con el nombre específico "temperatureSensor" para que pueda ser inyectado por nombre
+@Slf4j // Anotación de Lombok que genera automáticamente un logger (log) para esta clase
 public class TemperatureSensor implements Sensor {
 
     // Umbrales configurables desde application.yml
-    @Value("${security.sensor.temperature.min:15.0}")
+    @Value("${security.sensor.temperature.min:15.0}") // Inyecta el valor de la propiedad de configuración, con valor por defecto "15.0" si no está definida
     private double minTemp;
 
-    @Value("${security.sensor.temperature.max:30.0}")
+    @Value("${security.sensor.temperature.max:30.0}") // Inyecta el valor de la propiedad de configuración, con valor por defecto "30.0" si no está definida
     private double maxTemp;
 
     private final Random random = new Random();

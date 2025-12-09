@@ -7,8 +7,8 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
 // Configura soporte WebSocket con STOMP para mensajería en tiempo real
-@Configuration
-@EnableWebSocketMessageBroker
+@Configuration // Indica que esta clase contiene definiciones de beans (@Bean) que serán gestionados por el contenedor de Spring
+@EnableWebSocketMessageBroker // Habilita el soporte para WebSocket con un message broker STOMP, permitiendo comunicación bidireccional en tiempo real
 public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer {
 
     @Override
